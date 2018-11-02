@@ -1,0 +1,54 @@
+.admin-header{
+    border:2px solid grey;
+    text-align: center;
+    font-size:36px;
+    min-height: 100px;
+    padding-top: 30px;
+    background-color: #f8f8f8;
+}
+.categoty-admin{
+    float:left;
+    min-width: 250px;
+    border:2px solid grey;
+    font-size:36px;
+    min-height: 480px;
+    padding:15px;
+}
+.admin-content{
+    margin-left: 320px;
+    font-size:30px;
+    min-height: 480px;
+    text-align:center;
+}
+.admin-items{
+    font-size: 24px;
+}
+table.list{
+    width:85%;
+}
+.edit{
+    font-size:16px;
+}
+.description{
+    width:50%;
+    height: 100px;
+}
+button.btn.btn-warning{
+    float: right;
+    max-height: 31px;
+    padding-top: 0px;
+    margin-top: 3px;
+    margin-bottom: 2px;
+    margin-right: 3px;
+    border: 0px solid;
+}
+div.datapicker.datapicker-dropdown.dropdown-menu{
+    z-index: 12;
+}
+.forgot-box.no-border, .signup-box.no-border{
+    padding: 6px;
+    background-color: #394557;
+}
+a.line_none:hover{
+    text-decoration: none;
+}

@@ -31,7 +31,7 @@
                                 Link
                             </a>
                         </li>
-                        @if(isset($type) == 'slides')
+                        @if(isset($type) AND  $type == 'slides')
                             <li>
                                 <a data-toggle="tab" href="#picture3">
                                     <i class="fa fa-file-image-o fa-fw" aria-hidden="true"></i>
@@ -59,13 +59,22 @@
                                 {{ trans('backend.date') }}
                             </a>
                         </li>--}}
-
+                        
                         <li>
                             <a data-toggle="tab" href="#parrent13">
                                 <i class="fa fa-link fa-fw" aria-hidden="true"></i>
                                 {{ trans('backend.relation') }}
                             </a>
                         </li>
+                           
+                        @if(isset($type) AND $type == 'articles')
+                            <li>
+                                <a data-toggle="tab" href="#url14">
+                                    <i class="fa fa-link fa-fw" aria-hidden="true"></i>
+                                    URL
+                                </a>
+                            </li>
+                        @endif 
 
                     </ul>
 
@@ -239,6 +248,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="url14" class="tab-pane">
+                            <div class="control-group">
+{{--
+                                <label class="control-label" for="form-field-11">Link</label>
+--}}
+                                <div class="controls">
+                                    <input type="text" id="form-field-11" name="url" @if(isset($admin_category)) value='{{$admin_category->url}}' @endif  />
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
 

@@ -29,51 +29,10 @@ class AdminArticlesController extends Controller {
 		//$admin_articles = $admin_category->articles;
 		$admin_articles = Article::with('article_parent')->with('article_parent_price')->where('category_id', $admin_category->id)->get();
 		//dd($admin_articles);
-		$hotels = Category::where('link', "hotels")->first()->articles()->get();
+		//$hotels = Category::where('link', "hotels")->first()->articles()->get();
 		
 		//dd($hotels);
-		if ($request->ajax()){
-			/*get [] from request*/
-			$all = $request->all();
-			//dd($all);
-			$article_parent_id = $all['id'];
-			if($article_parent_id){
-				session([
-					'hotel_id' => $article_parent_id,
-				]);
-				$articles = $admin_articles->filter(function($admin_article) use ($article_parent_id){
-					//dd($admin_article);
-
-					if($admin_article->article_parent_price()->first() !== null  && $admin_article->article_parent_price()->first()->article_parent()->first()){
-						$admin_article['parent_hotel'] = $admin_article->article_parent()->first()->article_parent()->first()->title;
-						$admin_article = $admin_article->article_parent()->first()->article_parent()->first()->id == $article_parent_id;
-					}else{
-						$admin_article['parent_hotel'] = $admin_article->article_parent()->first()->title;
-						$admin_article = $admin_article->article_parent()->first()->id == $article_parent_id;
-					}
-					return $admin_article;
-				});
-
-			}else{
-				$articles = $admin_articles->map(function($admin_article){
-					if($admin_article->article_parent()->first() && $admin_article->article_parent()->first()->article_parent()->first()){
-						//dd($admin_article);
-						$admin_article['parent_hotel'] = $admin_article->article_parent()->first()->article_parent()->first()->title;
-					}
-
-					return $admin_article;
-				});
-
-				session()->flush();
-			}
-			//dd($articles);
-			
-			return response()->json([
-				"status" => 'success',
-				"articles" => $articles,
-				'type' => $type
-			]);
-		}
+		
 		return view('backend.articles.list')
 			->with(
 				compact(

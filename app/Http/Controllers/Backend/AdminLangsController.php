@@ -19,7 +19,7 @@ class AdminLangsController extends Controller {
 	 */
 	public function index()
 	{
-		$langs = Lang::all();
+		$langs = Lang::orderBy('priority','desc')->get();
 		return view('backend.langs.list')->with(compact('langs'));
 	}
 

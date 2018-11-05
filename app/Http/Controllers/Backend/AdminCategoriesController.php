@@ -86,7 +86,7 @@ class AdminCategoriesController extends Controller {
 			$this->validate($request, [
 				'title_'.$lang['lang'] => 'required|max:255',
 				'link' => "required|unique:categories",
-				'url_' . $lang['lang'] => 'required|max:255',
+				//'url_' . $lang['lang'] => 'required|max:255',
 				'img' => 'mimes:jpeg,jpg,png,bmp,gif|max:5000'
 			]);
 		}
@@ -326,7 +326,7 @@ class AdminCategoriesController extends Controller {
 		// Сreate array example (ua|ru|en)
 		foreach($langs as $lang){
 			$all['title'] +=  [ $lang['lang'] => $all["title_{$lang['lang']}"] ];
-			$all['url'] +=  [ $lang['lang'] => $all["url_{$lang['lang']}"] ];
+			//$all['url'] +=  [ $lang['lang'] => $all["url_{$lang['lang']}"] ];
 
 			$all['short_description'] +=  [ $lang['lang'] => (isset($all["short_description_{$lang['lang']}"]) ? $all["short_description_{$lang['lang']}"] : '') ];
 			$all['description'] +=  [ $lang['lang'] => (isset($all["description_{$lang['lang']}"]) ? $all["description_{$lang['lang']}"] : '') ];
@@ -344,7 +344,7 @@ class AdminCategoriesController extends Controller {
 
 			//Delete var title_ua,title_ru,title_en
 			unset($all["title_{$lang['lang']}"]);
-			unset($all["url_{$lang['lang']}"]);
+			//unset($all["url_{$lang['lang']}"]);
 			unset($all["short_description_{$lang['lang']}"]);
 			unset($all["description_{$lang['lang']}"]);
 			unset($all["meta_title_{$lang['lang']}"]);
@@ -356,7 +356,7 @@ class AdminCategoriesController extends Controller {
 	}
 	private function initValuesWithDelimiter($all){			
 		$all['title'] = '';
-		$all['url'] = '';
+		//$all['url'] = '';
 		$all['short_description'] = '';
 		$all['description'] = '';
 		$all['meta_title'] = '';
@@ -371,7 +371,7 @@ class AdminCategoriesController extends Controller {
 	}
 	private function initValuesWithArray($all){			
 		$all['title'] = [];
-		$all['url'] = [];
+		//$all['url'] = [];
 		$all['short_description'] = [];
 		$all['description'] = [];
 		$all['meta_title'] = [];
@@ -381,7 +381,7 @@ class AdminCategoriesController extends Controller {
 	}
 	private function transformToJson($all){		
 		$all['title'] = json_encode($all['title']);
-		$all['url'] = json_encode($all['url']);
+		//$all['url'] = json_encode($all['url']);
 		$all['short_description'] = json_encode($all['short_description']);
 		$all['description'] = json_encode($all['description']);
 		$all['meta_title'] = json_encode($all['meta_title']);

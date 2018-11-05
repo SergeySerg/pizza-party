@@ -80,7 +80,7 @@
 <div class="navbar hidden-print">
     <div class="navbar-inner">
         <div class="container-fluid">
-            <a href="{{ route('admin_dashboard') }}" class="brand">Велика Ведмедиця
+            <a href="{{ route('admin_dashboard') }}" class="brand"> PIzza-party
                 {{--<i class="icon-leaf"></i>--}}
                {{--<img style="display: block;position: absolute;margin-top: -3px;" width="105px" src="{{ asset('/img/backend/logo.png') }}" alt="{{$_SERVER['HTTP_HOST']}}" />--}}
                 {{--<small style="margin-left: 40px;">
@@ -91,7 +91,7 @@
             <ul class="nav ace-nav pull-right">
 
                 <li class="light-blue">
-                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                    <a data-toggle="dropdown" href="#" class="dropdown">
                         <img class="nav-user-photo" src="{{ asset('/img/backend/avatar.jpg') }}" alt="Admin" />
 								<span class="user-info">
 									<small>{{ trans('backend.welcome') }},</small>

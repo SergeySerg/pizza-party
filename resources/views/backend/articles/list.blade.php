@@ -65,35 +65,12 @@
                         </th>
                         <th class="center">{{ trans('backend.title') }}</th>
                         <th class="center">
-                            @if($type == 'marketings'                                
-                                OR $type == 'reviews'                                
-                                OR $type == 'slides'
-                                
-                            )
-                                Відображення на Brand Page                              
-                            @else
-                                <i class="icon-time bigger-110 hidden-phone"></i>
-                                {{ trans('backend.date_create') }}
-                            @endif     
-                            
+                            <i class="icon-time bigger-110 hidden-phone"></i>
+                            {{ trans('backend.date_create') }}
                         </th>
                         <th class="center">
-                            @if($type == 'marketings' 
-                                OR $type == 'rooms' 
-                                OR $type == 'contacts'
-                                OR $type == 'servicespaid'
-                                OR $type == 'servicesfree'
-                                OR $type == 'reviews'
-                                OR $type == 'discounts'
-                                OR $type == 'slides' 
-                                OR $type == 'advantages'
-                                OR $type == 'seoarticles'
-                                )
-                                Готель                               
-                            @else
-                                <i class="icon-time bigger-110 hidden-phone"></i>
-                                {{ trans('backend.date_update') }}
-                            @endif                            
+                            <i class="icon-time bigger-110 hidden-phone"></i>
+                            {{ trans('backend.date_update') }}
                         </th>
 
                        <!-- <th class="hidden-phone">
@@ -121,43 +98,8 @@
                                         <span class="label label-info arrowed-in-right arrowed">New</span>                                   
                                     @endif                                    
                                 </td>
-                                @if($type == 'marketings' 
-                                    OR $type == 'reviews'                                    
-                                    OR $type == 'slides'                                   
-                                    )                                
-                                    <td class="center">
-                                        @if($admin_article->getAttributeTranslate('show_main_page') == 1) 
-                                            <span class="badge badge-success"><i class="icon-ok bigger-120"></i></span> 
-                                        @else 
-                                            <span class="badge badge-important"><i class="icon-remove"></i></span>
-                                        @endif
-                                    </td>
-                                @else
-                                    <td  class="hidden-phone">{{ $admin_article->created_at }}</td>
-                                @endif 
-                                @if($type == 'marketings' 
-                                    OR $type == 'rooms'
-                                    OR $type == 'contacts'
-                                    OR $type == 'servicespaid'
-                                    OR $type == 'servicesfree'
-                                    OR $type == 'reviews'
-                                    OR $type == 'discounts'
-                                    OR $type == 'slides'
-                                    OR $type == 'advantages'
-                                    OR $type == 'seoarticles'
-                                    
-                                    )
-                                    <td>@if($admin_article->article_parent) {{ $admin_article->article_parent->getTranslate('title') }}@else 
-                                    @if($type == 'discounts')
-                                        На всіх сторінках
-                                    @else
-                                        Brand Page
-                                    @endif
-                                    @endif</td>
-                                @else
-                                    <td  class="hidden-phone">{{ $admin_article->updated_at }}</td>
-                                @endif                               
-
+                                <td  class="center">{{ $admin_article->created_at }}</td>
+                                <td  class="center">{{ $admin_article->updated_at }}</td>
                                 <td class="center">
                                     @if($admin_article->active)
                                         <span class="badge badge-success"><i class="icon-ok bigger-120"></i></span>
@@ -228,7 +170,7 @@
     $( document ).ready(function() {
         $(function(){
             var oTable1 = $('#sample-table-2').dataTable( {
-                "aaSorting": [[3,'asc']],
+                "aaSorting": [[5,'desc']],
                 "iDisplayLength": 25,
                 "aoColumns": [
                     { "bSortable": false },

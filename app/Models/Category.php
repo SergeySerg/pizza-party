@@ -20,7 +20,6 @@ class Category extends Translate {
 
     protected $fillable = [
         'parent_id',
-        'article_parent',
         'title',
         'link',
         'description',
@@ -29,7 +28,6 @@ class Category extends Translate {
         'imgs',
         'fields',
         'date',
-        'url',
         'active',
         'meta_title',
         'meta_description',
@@ -75,9 +73,7 @@ class Category extends Translate {
         $query->select(
             'id',
             'parent_id',
-            'article_parent',
             'title',
-            'url',
             'link',
             'description',
             'short_description',      

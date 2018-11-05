@@ -12,7 +12,7 @@
                 </div>
             </div>
             <input type="hidden" name='lang' value="{{ App::getLocale() }}"/>
-            <input type="hidden" name='type' value="Велика Ведмедиця"/>
+            <input type="hidden" name='type' value=" PIzza-party"/>
 
             <input type="hidden" name='csrf-token' value="{{csrf_token()}}"/>
 

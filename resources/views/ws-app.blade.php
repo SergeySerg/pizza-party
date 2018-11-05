@@ -9,11 +9,11 @@
 	@if($categories_data[$type]->getTranslate('meta_title'))
 		{{ $categories_data[$type]->getTranslate('meta_title') }}
 	@else
-		Велика Ведмедиця
+		 PIzza-party
 	@endif
 </title>
-<meta name="description" content="@if($categories_data[$type]->getTranslate('meta_description')){{ $categories_data[$type]->getTranslate('meta_description') }} @else МЕРЕЖА ГОТЕЛІВ 'ВЕЛИКА ВЕДМЕДИЦЯ' В ЯРЕМЧЕ ТА БУКОВЕЛІ@endif">
-<meta name="keywords" content="@if($categories_data[$type]->getTranslate('meta_keywords')){{ $categories_data[$type]->getTranslate('meta_keywords') }} @else Велика Ведмедиця @endif"> -->
+<meta name="description" content="@if($categories_data[$type]->getTranslate('meta_description')){{ $categories_data[$type]->getTranslate('meta_description') }} @else МЕРЕЖА ГОТЕЛІВ ' PIzza-party' В ЯРЕМЧЕ ТА БУКОВЕЛІ@endif">
+<meta name="keywords" content="@if($categories_data[$type]->getTranslate('meta_keywords')){{ $categories_data[$type]->getTranslate('meta_keywords') }} @else  PIzza-party @endif"> -->
 	<!-- <link rel="shortcut icon" href="{{ asset('/img/favicon/favicon.png') }}" >
 	<link rel="apple-touch-icon" href="{{ asset('/img/favicon/apple-touch-icon.png') }}">
 	<link rel="apple-touch-icon" sizes="72x72" href="{{ asset('img/favicon/apple-touch-icon-72x72.png') }}">

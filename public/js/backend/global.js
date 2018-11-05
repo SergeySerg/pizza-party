@@ -323,7 +323,6 @@ $(function(){
 /*/Save Article*/
 /*show-hide image in category*/
     $('.image-close, .image-edit').on('click', function(event){
-        //alert('тут');
         event.preventDefault();
         $('input[name=img_status]').prop('value', false);
 

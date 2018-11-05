@@ -31,14 +31,14 @@
                                 Link
                             </a>
                         </li>
-
-                       {{-- <li>
-                            <a data-toggle="tab" href="#picture3">
-                                <i class="fa fa-file-image-o fa-fw" aria-hidden="true"></i>
-                                {{ trans('backend.img_category') }}
-                            </a>
-                        </li>--}}
-
+                        @if(isset($type) == 'slides')
+                            <li>
+                                <a data-toggle="tab" href="#picture3">
+                                    <i class="fa fa-file-image-o fa-fw" aria-hidden="true"></i>
+                                    {{ trans('backend.img_category') }}
+                                </a>
+                            </li>
+                        @endif
                         <li>
                             <a data-toggle="tab" href="#active13">
                                 <i class="fa fa-check fa-fw" aria-hidden="true"></i>
@@ -81,34 +81,34 @@
                             </div>
                         </div>
 
-                        {{--<div id="picture3" class="tab-pane">
+                        <div id="picture3" class="tab-pane">
                             <div class="control-group">
                                 @if(isset($admin_category) && $admin_category->img)
---}}{{--
-                                    <label class="control-label">Картинка категорії</label>
---}}{{--
-                                    <div class="controls" id="show-image" >
+
+                                    {{--<label class="control-label">Картинка категорії</label>--}}
+
+                                    <div class="controls show-image" >
                                         <div class="row-fluid">
                                             <div class="span3">
                                                 <div class="profile-activity clearfix" style="border-bottom: none">
                                                     <div>
-                                                        <img class="pull-left" alt="{{ $admin_category->link }}" style="max-width:100px" src="{{ asset($admin_category->img) }}">
+                                                        <img class="pull-left" alt="{{ $admin_category->link }}" style="max-width:200px;border-radius:0%" src="{{ asset($admin_category->img) }}">
                                                     </div>
 
                                                     <div class="tools action-buttons">
                                                         <a href="#" class="blue">
-                                                            <i class="icon-pencil bigger-125 " id="image-edit" ></i>
+                                                            <i class="icon-pencil bigger-125 image-edit"></i>
                                                         </a>
 
                                                         <a href="#" class="red">
-                                                            <i class="icon-remove bigger-125" id="image-close"></i>
+                                                            <i class="icon-remove bigger-125 image-close"></i>
                                                         </a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="controls" id="image-upload" style="display:none">
+                                    <div class="controls image-upload" style="display:none">
                                         <div class="row-fluid">
                                             <div class="span6">
                                                 <div class="widget-box">
@@ -118,24 +118,21 @@
                                                     <a href="#" data-action="collapse">
                                                         <i class="icon-chevron-up"></i>
                                                     </a>
-                                                    --}}{{-- <a href="#" data-action="close">
+                                                    <a href="#" data-action="close">
                                                          <i class="icon-remove"></i>
-                                                     </a>--}}{{--
+                                                     </a>
                                                 </span>
                                                     </div>
                                                     <div class="widget-body">
                                                         <div class="widget-main">
-                                                            --}}{{--
-                                                             <div class="ace-file-input"><input type="file" name="img" id="id-input-file-2"><label data-title="Choose"><span data-title="No File ..."><i class="icon-upload-alt"></i></span></label><a class="remove" href="#"><i class="icon-remove"></i></a></div>
-                                                            --}}{{--
                                                             <div class="ace-file-input ace-file-multiple">
                                                                 <input name='img' type="file" id="id-input-file-3">
                                                                 <a class="remove" href="#"><i class="icon-remove"></i></a>
                                                             </div>
-                                                            --}}{{--<label>
+                                                            {{--<label>
                                                                 <input type="checkbox" name="file-format" id="id-file-format">
                                                                 <span class="lbl"> Allow only images</span>
-                                                            </label>--}}{{--
+                                                            </label>--}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -153,24 +150,22 @@
                                                     <a href="#" data-action="collapse">
                                                         <i class="icon-chevron-up"></i>
                                                     </a>
-                                                    --}}{{-- <a href="#" data-action="close">
+                                                    <a href="#" data-action="close">
                                                          <i class="icon-remove"></i>
-                                                     </a>--}}{{--
+                                                     </a>
                                                 </span>
                                                     </div>
                                                     <div class="widget-body">
                                                         <div class="widget-main">
-                                                            --}}{{--
-                                                             <div class="ace-file-input"><input type="file" name="img" id="id-input-file-2"><label data-title="Choose"><span data-title="No File ..."><i class="icon-upload-alt"></i></span></label><a class="remove" href="#"><i class="icon-remove"></i></a></div>
-                                                            --}}{{--
+                                                             
                                                             <div class="ace-file-input ace-file-multiple">
                                                                 <input name='img' type="file" id="id-input-file-3">
                                                                 <a class="remove" href="#"><i class="icon-remove"></i></a>
                                                             </div>
-                                                            --}}{{--<label>
+                                                            {{--<label>
                                                                 <input type="checkbox" name="file-format" id="id-file-format">
                                                                 <span class="lbl"> Allow only images</span>
-                                                            </label>--}}{{--
+                                                            </label>--}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -179,7 +174,7 @@
                                     </div>
                                 @endif
                             </div>
-                        </div>--}}
+                        </div>
 
                         <div id="active13" class="tab-pane">
                             <div class="control-group">
@@ -280,12 +275,12 @@
                                             <input type="text" name="title_{{$lang->lang}}" value='@if(isset($admin_category)){{ $admin_category->getTranslate('title', $lang->lang) }}@endif' id="form-field-3" placeholder="{{ trans('backend.title_category') }}" />
                                         </div>
                                     </div>
-                                    <div class="control-group">
+                                    {{--<div class="control-group">
                                         <label class="control-label" for="form-field-33">URL</label>
                                         <div class="controls">
                                             <input type="text" name="url_{{$lang->lang}}" value='@if(isset($admin_category)){{ $admin_category->getTranslate('url', $lang->lang) }}@endif' id="form-field-33" placeholder="url" />
                                         </div>
-                                    </div>
+                                    </div>--}}
 
                                     <h4 class="header blue clearfix">{{ trans('backend.short_description_category') }}</h4>
                                     <div class="control-group">

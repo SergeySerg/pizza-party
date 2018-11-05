@@ -319,8 +319,8 @@ class ArticleController extends Controller {
 			//Send item on admin email address
 			Mail::send('emails.reserved', $all, function($message){
 				$email = getSetting('config.email');
-				$message->to($email, 'Велика Ведмедиця')
-						->subject('Бронювання з сайту Велика Ведмедиця');
+				$message->to($email, ' PIzza-party')
+						->subject('Бронювання з сайту  PIzza-party');
 			});
 			return response()->json([
 				'success' => 'true'
@@ -354,7 +354,7 @@ class ArticleController extends Controller {
 			//Send item on admin email address
 			Mail::send('emails.callback', $all, function($message) use ($all){
 				$email = getSetting('config.email');
-				$message->to($email, 'Велика Ведмедиця')->subject('Зворотній зв\'язок "' . $all['type'] . '"');
+				$message->to($email, ' PIzza-party')->subject('Зворотній зв\'язок "' . $all['type'] . '"');
 			});
 			return response()->json([
 				'success' => 'true'
@@ -425,7 +425,7 @@ class ArticleController extends Controller {
 			//Send item on admin email address
 			Mail::send('emails.add_reviews', $data_to_mail, function($message){
 				$email = getSetting('config.email');
-				$message->to($email, 'Велика Ведмедиця')->subject('Новий відгук');
+				$message->to($email, ' PIzza-party')->subject('Новий відгук');
 			});
 			return response()->json([
 				'success' => 'true'

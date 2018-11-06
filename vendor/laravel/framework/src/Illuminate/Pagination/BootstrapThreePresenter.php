@@ -56,7 +56,7 @@ class BootstrapThreePresenter implements PresenterContract
     {
         if ($this->hasPages()) {
             return new HtmlString(sprintf(
-                '<ul class="pagination">%s %s %s</ul>',
+                '<div style="text-align: center" class="pagination"><ul>%s %s %s</ul></div>',
                 $this->getPreviousButton(),
                 $this->getLinks(),
                 $this->getNextButton()

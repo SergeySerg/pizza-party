@@ -1,16 +1,31 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model {
-
+class Order extends Model
+{
     protected $fillable=[
-        'type',
+        'id',
         'name',
-        'phone'
-    ];
-    public function getDateAttribute($created_at){
-        return Carbon::createFromFormat('Y-m-d H:i:s',$created_at)->toDateString();
-    }
+        'address',
+        'phone',
+        'sum',
+        'short_description',
+        'attributes',
+        'imgs',
+        'other',
+        'priority',
+        'date',
+        'status',
+        'created_at',
+        'updated_at'
+    
 
+    ];
+    public function scopegetOrders($query){
+        $query->orderBy('created_at','desc');
+                
+    }
 }

@@ -232,7 +232,12 @@
                 </ul>
 
             </li>
-
+            <li @if(Request::is('*/orders'))class="active"@endif>
+                <a href="{{ route('orders_index') }}">
+                    <i class="icon-list-alt"></i>
+                    <span class="menu-text"> Заказы </span>
+                </a>
+            </li>
 
             <li @if(Request::is('*/texts'))class="active"@endif>
                 <a href="{{ route('text_index') }}">

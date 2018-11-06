@@ -245,7 +245,7 @@ $(function(){
 /*/Delete Category/
 /*Delete Article*/
     $('.resource-delete').on('click', function(event){
-        console.log("Я тут");
+        //console.log("Я тут");
         if(confirm('Вы уверены?')){
             var $thisEl = $(this);
             $.ajax({
@@ -391,58 +391,37 @@ $(function(){
 
     })
 /* /get list articles for parent article */
-
-/* get list seassons for hotel */
-$('select[data-name=hotel_list]').on('change', function(){
-    //$('select[name=article_id_2]').empty();
-    var data = {};
-    id = $(this).val();
+/* change status article */
+$('.change-status').on('click', function(e){
+    e.preventDefault();
+    var id = $(this).parent().parent().parent().find('span.lbl').attr('data-id');
+    var status = $(this).attr('data-id');
+    var currentLocation = window.location;
+    var elem = $(this).find('span');
+    //id = $(this).val();
     var token = $('#token').text();
-    console.log('ID=====>', id );
+    console.log('ID=====>', elem);
     $.ajax({
-        url: '',
-        method: "GET",
+        url: currentLocation.pathname + '/change_status',
+        method: "POST",
         headers: {
             'X-CSRF-TOKEN': token              
         }, 
-        processData: false,
-        contentType: false,
-        data: 'id=' + id,
+        //processData: false,
+        //contentType: false,
+        data: {
+            "id": id,
+            "status": status
+        },
         dataType : "json",
         success: function(data){
             console.log('Server response: ', data);
-            if(data.status == 'success'){
-                var typePage = data.type;
-                //var articleName =  $( "select[data-name=hotel_list] option:selected" ).text();
-                console.log(data.articles);
-                $("#sample-table-2 tbody tr td").remove(); 
+            if(data.success){
+                if(status){
+                    location.reload();
+
+                }
                 
-                $.each(data.articles, function(key, article) {
-                    console.log('iter', article);
-                    article.attributes = $.parseJSON(article.attributes);
-                    article.title = $.parseJSON(article.title);
-                    if(article.article_parent) {
-                        article.article_parent.title = $.parseJSON(article.article_parent.title);
-                        article.article_parent.attributes = $.parseJSON(article.article_parent.attributes);
-                    }
-                    if(article.parent_hotel) article.parent_hotel = $.parseJSON(article.parent_hotel);
-                    if(article.article_parent_price) {
-                        article.article_parent_price.title = $.parseJSON(article.article_parent_price.title);
-                        article.article_parent_price.attributes = $.parseJSON(article.article_parent_price.attributes);
-                    }
-                    var renderTable;
-                    switch(typePage){
-                        case 'prices' : renderTable = renderPricesList(article);
-                        break;
-                        case 'seasons' : renderTable = renderSeasonsList(article);
-                        break;
-                    }
-                    console.log('attributes', article.attributes);
-                    //console.log('Удаленная строка', delete_row);
-                    $('#sample-table-2 tbody').append($(
-                        renderTable    
-                    ));
-                });
             }
 
             // if(data.redirect){
@@ -469,7 +448,8 @@ $('select[data-name=hotel_list]').on('change', function(){
     },"json");
 
 })
-/* /get list seassons for hotel */
+/* /get list articles for parent article */
+
 });
 
 function init_wysiwyg(){
@@ -496,148 +476,5 @@ function get_wysiwyg(){
 
     });
 }
-function renderSeasonsList(article){
-    var active = '';
-        if(article.active){
-            active = '<span class="badge badge-success"><i class="icon-ok bigger-120"></i></span>';
-        }
-        else{
-            active = '<span class="badge badge-important"><i class="icon-remove"></i></span>';
-        };
-        var delete_row = '';
-        if(article.attributes.base_season == 0){
-            delete_row = ' <a href=' + window.location.pathname + '/' + article.id + ' data-id='+ article.id +' class="resource-delete">' +
-            '<i class="icon-trash bigger-130"></i>' +
-            '</a>'
 
-        }
-
-    var table = '<tr>' +
-    '<td class="center">' +
-        '<label>' +
-            '<span class="lbl">'+ article.id +'</span>' +
-        '</label>' +
-    '</td>' +
-    '<td>' + 
-        article.article_parent.title.ru +    
-    '<td>' +
-        '<a href="' + window.location.pathname + '/' + article.id + '">'+ article.title.ru +'</a>' +
-    '</td>' +
-    '<td  class="center">' + article.date_start + '</td>' +
-    '<td  class="center">' + article.date_finish + '</td>' +
-    '<td  class="center">' + article.attributes.season_year + '</td>' +
-    '<td class="center">' +
-        active +  
-    '</td>' +
-    '<td class="td-actions">' +
-        '<div class="hidden-phone visible-desktop action-buttons">' +
-            '<a class="green" href="' + window.location.pathname + '/' + article.id + '">' +
-                '<i class="icon-pencil bigger-130"></i>' +
-            '</a>' +
-            delete_row + 
-        '</div>' +
-
-        '<div class="hidden-desktop visible-phone">' +
-            '<div class="inline position-relative">' +
-                '<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">' +
-                '<i class="icon-caret-down icon-only bigger-120"></i>' +
-                '</button>' +
-
-                '<ul class="dropdown-menu dropdown-icon-only dropdown-yellow pull-right dropdown-caret dropdown-close">' +
-                    '<li>' +
-                        '<a href="' + window.location.pathname + '/' + article.id + '>" class="tooltip-info" data-rel="tooltip" title="View">' +
-                    '<span class="blue">' +
-                    '<i class="icon-zoom-in bigger-120"></i>' +
-                    '</span>' +
-                    '</a>' +
-                    '</li>' +
-
-                    '<li>' +
-                        '<a href="' + window.location.pathname + '/' + article.id + '>" class="tooltip-success" data-rel="tooltip" title="Edit">' +
-                    '<span class="green">' +
-                    '<i class="icon-edit bigger-120"></i>' +
-                    '</span>' +
-                    '</a>' +
-                    '</li>' +
-                    delete_row + 
-                '</ul>' +
-            '</div>' +
-        '</div>' +
-    '</td>'+
-'</tr>'
-return table;
-
-}
-function renderPricesList(article){
-    var active = '';
-    if(article.active){
-        active = '<span class="badge badge-success"><i class="icon-ok bigger-120"></i></span>';
-    }
-    else{
-        active = '<span class="badge badge-important"><i class="icon-remove"></i></span>';
-    };
-    var delete_row = '';
-    if(article.article_parent && article.article_parent.attributes.base_season == 0){
-        delete_row = ' <a href=' + window.location.pathname + '/' + article.id + ' data-id='+ article.id +' class="resource-delete">' +
-        '<i class="icon-trash bigger-130"></i>' +
-        '</a>'
-
-    }
-    console.log(' DELETE', delete_row);
-    var roomName = (article.article_parent_price) ? article.article_parent_price.title.ru : '';
-
-    var table = '<tr>' +
-    '<td class="center">' +
-        '<label>' +
-            '<span class="lbl">'+ article.id +'</span>' +
-        '</label>' +
-    '</td>' +
-    '<td>' + article.article_parent.title.ru + '</td>' +
-    '<td>' + article.parent_hotel.ru + '</td>' +
-    '<td  class="center">' + roomName + '</td>' +
-    '<td  class="center">' + article.attributes.base_price + '</td>' +
-    '<td  class="center">' + article.attributes.surchange + '</td>' +
-    '<td class="center">' + article.attributes.surchange_children + '</td>' +
-    '<td class="center">' + article.attributes.solo_settle + '</td>' +
-    '<td class="center">' + active + '</td>' +
-
-    '<td class="td-actions">' +
-        '<div class="hidden-phone visible-desktop action-buttons">' +
-            '<a class="green" href="' + window.location.pathname + '/' + article.id + '">' +
-                '<i class="icon-pencil bigger-130"></i>' +
-            '</a>' +
-            delete_row + 
-        '</div>' +
-
-        '<div class="hidden-desktop visible-phone">' +
-            '<div class="inline position-relative">' +
-                '<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">' +
-                '<i class="icon-caret-down icon-only bigger-120"></i>' +
-                '</button>' +
-
-                '<ul class="dropdown-menu dropdown-icon-only dropdown-yellow pull-right dropdown-caret dropdown-close">' +
-                    '<li>' +
-                        '<a href="' + window.location.pathname + '/' + article.id + '>" class="tooltip-info" data-rel="tooltip" title="View">' +
-                    '<span class="blue">' +
-                    '<i class="icon-zoom-in bigger-120"></i>' +
-                    '</span>' +
-                    '</a>' +
-                    '</li>' +
-
-                    '<li>' +
-                        '<a href="' + window.location.pathname + '/' + article.id + '>" class="tooltip-success" data-rel="tooltip" title="Edit">' +
-                    '<span class="green">' +
-                    '<i class="icon-edit bigger-120"></i>' +
-                    '</span>' +
-                    '</a>' +
-                    '</li>' +
-                    delete_row + 
-                '</ul>' +
-            '</div>' +
-        '</div>' +
-    '</td>'+
-'</tr>'
-return table;
-
-}
 

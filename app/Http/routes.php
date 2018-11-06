@@ -91,9 +91,13 @@ Route::group(['prefix'=> getSetting('admin.prefix'), 'middleware' => ['auth', 'b
 	Route::get('/langs/{id}',['uses' => 'Backend\AdminLangsController@edit','as' => 'langs_edit']);//Вывод формы редакторирование элемента..
 	Route::put('/langs/{id}',['uses' =>'Backend\AdminLangsController@update','as' => 'langs_update']);//Сохранение элемента после редактирования..
 	Route::delete('/langs/{id}',['uses' => 'Backend\AdminLangsController@destroy','as' => 'langs_delete']);//Удаление элемента
-	/*//Routes for Orders (Backend)
+	//Routes for Orders (Backend)
 	Route::get('/orders', ['uses' => 'Backend\AdminOrdersController@index', 'as' => 'orders_index']);//Вывод списка заказов
-	Route::delete('/orders/{id}', ['uses' => 'Backend\AdminOrdersController@destroy', 'as' => 'orders_delete']);//Вывод списка заказов*/
+	Route::delete('/orders/{id}', ['uses' => 'Backend\AdminOrdersController@destroy', 'as' => 'order_delete']);//Удаление заказа*/
+	Route::get('/orders/{id}',['uses' => 'Backend\AdminOrdersController@edit','as' => 'order_edit']);//Вывод формы редакторирование элемента..
+	Route::put('/orders/{id}',['uses' =>'Backend\AdminOrdersController@update','as' => 'order_update']);//Сохранение элемента после редактирования..
+	Route::post('/orders/change_status', ['uses' => 'Backend\AdminOrdersController@change_status', 'as' => 'change_status']);//Вывод списка заказов
+
 
 
 

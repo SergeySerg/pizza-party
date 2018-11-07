@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'version' => '0.0.11',
+	'version' => '0.0.12',
 	'env' => env('APP_ENV'),
 	
 	/*

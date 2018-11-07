@@ -108,18 +108,11 @@ Route::group(['prefix'=> getSetting('admin.prefix'), 'middleware' => ['auth', 'b
 /*Frontend group routes*/
 //Route::get('/{lang}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@indexMain', 'as' => 'article_index']);
 //Route::group(['domain' => getSetting('domain')], function() {	
-	Route::get('/{lang?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@indexMain', 'as' => 'article_index'])->where('lang', 'ua|ru|en|pl');
-	Route::get('/{category}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@renderUrl', 'as' => 'article_category'])->where('category', 'скидки|sales|znyzhky|поиск|poshuk|search|vidhuky|reviews|отзывы');
-	Route::get('/{lang?}/{category}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@renderUrl', 'as' => 'article_category'])->where('lang', 'ua|ru|en|pl')->where('category', 'скидки|sales|znyzhky|поиск|poshuk|search|vidhuky|reviews|отзывы');
-
-	Route::get('/{seo_direction}/{url}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@showSeo', 'as' => 'article_show_seo'])->where('seo_direction', 'буковель|bukovel|яремче|yaremche|карпаты|karpaty');
-	Route::get('/{lang?}/{seo_direction}/{url}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@showSeo', 'as' => 'article_show_seo'])->where('seo_direction', 'буковель|bukovel|яремче|yaremche|карпаты|karpaty')->where('lang', 'ua|ru|en|pl');
-	Route::get('/{subtype}/{name}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@index', 'as' => 'article_index_subdomain']);
-	Route::get('/{lang?}/{subtype}/{name}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@index', 'as' => 'article_index_subdomain'])->where('lang', 'ua|ru|en|pl');
-	Route::get('/{subtype}/{name}/{url}', ['middleware' => 'frontend.init','uses' => 'Frontend\ArticleController@renderUrl', 'as' => 'article_url']);
-	Route::get('/{lang?}/{subtype}/{name}/{url}', ['middleware' => 'frontend.init','uses' => 'Frontend\ArticleController@renderUrl', 'as' => 'article_url'])->where('lang', 'ua|ru|en|pl');
-	Route::get('/{subtype}/{name}/{url}/{id}', ['middleware' => 'frontend.init','uses' => 'Frontend\ArticleController@show', 'as' => 'article_show'])->where('lang', 'ua|ru|en|pl');
-	Route::get('/{lang?}/{subtype}/{name}/{url}/{id}', ['middleware' => 'frontend.init','uses' => 'Frontend\ArticleController@show', 'as' => 'article_show'])->where('lang', 'ua|ru|en|pl')->where('id','.*');
+	Route::get('/{lang?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@index', 'as' => 'article_index'])->where('lang', 'ua|ru|en');
+	Route::get('/{type}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@render_list', 'as' => 'article_list'])->where('type', 'pizza|salad|desserts|drinks|feedback|articles');
+	Route::get('/{lang?}/{type}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@render_list', 'as' => 'article_list'])->where('type', 'pizza|salad|desserts|drinks|feedback|articles');
+	Route::get('/{type}/{url}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show', 'as' => 'article_url'])->where('type', 'articles');
+	Route::get('/{lang?}/{type}/{url}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show', 'as' => 'article_url'])->where('type', 'articles');
 
 	/*Modal routes*/
 	Route::post('/{lang}/callback', ['uses' => 'Frontend\ArticleController@callback','as' => 'callback']);//Обработчик Обратной связи при заказе товара
@@ -128,10 +121,7 @@ Route::group(['prefix'=> getSetting('admin.prefix'), 'middleware' => ['auth', 'b
 	Route::post('/get_prices', ['uses' => 'Frontend\ArticleController@get_prices','as' => 'get_prices']);//Обработчик цени номера
 
 	/*/Modal routes*/
-	/*Тимчасово*/
-	Route::get('/pumpkin', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@pumpkin', 'as' => 'pumpkin']);
 	/*Render html page */
-	Route::get('/google2ab2a5819a08aedd.html', ['uses' => 'Frontend\ArticleController@googleHtml', 'as' => 'google_html']);
 	Route::post('set_dates', function () {
 		if (Request::ajax()){
 			$dates = (Request::all());

@@ -33,7 +33,8 @@ class Category extends Translate {
         'meta_description',
         'meta_keywords',
         'priority',
-        'url'
+        'url',
+        'is_menu'
     ];
 
     /*function for checked fields in article edit file*/

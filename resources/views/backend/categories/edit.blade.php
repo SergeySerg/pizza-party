@@ -52,6 +52,12 @@
                                 {{ trans('backend.priority') }}
                             </a>
                         </li>
+                        <li>
+                            <a data-toggle="tab" href="#is_menu13">
+                                <i class="fa fa-check fa-fw" aria-hidden="true"></i>
+                                  Отображение в верхнем меню
+                            </a>
+                        </li>
 
                         {{--<li>
                             <a data-toggle="tab" href="#date13">
@@ -203,6 +209,25 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="is_menu13" class="tab-pane">
+                            <div class="control-group">
+{{--
+                                <label class="control-label">Отображение в верхнем меню</label>
+--}}
+                                <div class="controls">
+                                    <div class="row-fluid">
+                                        <div class="span3">
+                                            <label>
+                                                <input name='is_menu' type='hidden' value='0'>
+                                                <input name='is_menu' class="ace-switch ace-switch-6" type="checkbox" value=1 @if(isset($admin_category) AND $admin_category->is_menu) checked="checked" @endif />
+                                                <span class="lbl"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div id="priority13" class="tab-pane">
                             <div class="control-group">

@@ -2,12 +2,9 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Requests;
-//use App\Http\Requests\ContactRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Frontend;
-//use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
-//use Illuminate\Routing\Controller;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Lang;
@@ -16,7 +13,6 @@ use App\Models\Text;
 use App;
 use DB;
 use Illuminate\Support\Facades\Response;
-//use Illuminate\Contracts\View\View;
 use Mail;
 use Illuminate\Support\Facades\Validator;
 use Debugbar;
@@ -30,9 +26,10 @@ class ArticleController extends Controller {
 	 */
 	public function index(Request $request)
 	{	
+		
 		//dd(App::getLocale());
 		//dd($request->name);
-			$parent_hotel = Article::where('attributes->url->' . App::getLocale(), $request->name )->first();
+			//$parent_hotel = Article::where('attributes->url->' . App::getLocale(), $request->name )->first();
 			
 		//}
 		
@@ -59,11 +56,11 @@ class ArticleController extends Controller {
 		//dump($news);
 		//dd($video->category()->first()->active);
 		//return view((!$request->url) ? 'frontend.hotels' : 'frontend.' . $request->url)->with(compact('parent_hotel'));
-		return view('frontend.hotels')->with(compact('parent_hotel'));
+		return view('frontend.main');
 	}
-	public function renderUrl(Request $request)
+	public function render_list(Request $request)
 	{	
-		//dd($category);
+		dd($request->type);
 		
 			$parent_hotel = Article::where('attributes->url->' . App::getLocale(), $request->name )->first();
 			$type = Category::where('url->' . App::getLocale(), ($request->url) ? $request->url : $request->category)->first();
@@ -124,7 +121,7 @@ class ArticleController extends Controller {
 	 */
 	public function show(Request $request)
 	{
-		//dd('show');
+		dd('show');
 		//if ($request ->isMethod('post')){
 			/*get [] from request*/
 			//$value = session('key');

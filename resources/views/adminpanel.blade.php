@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Админ.панель</title>
 
-    <link rel="shortcut icon" href="{{ asset('/img/favicon/favicon.png') }}?1" type="image/x-icon">
-    <link rel="apple-touch-icon" href="{{ asset('/img/favicon/apple-touch-icon.png') }}?1">
+    <link rel="shortcut icon" href="{{ asset('/img/favicon/favicon.ico') }}?2" type="image/x-icon">
+    <!-- <link rel="apple-touch-icon" href="{{ asset('/img/favicon/apple-touch-icon.png') }}?1">
     <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('img/favicon/apple-touch-icon-72x72.png') }}?1">
-    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('/img/favicon/apple-touch-icon-114x114.png') }}?1">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('/img/favicon/apple-touch-icon-114x114.png') }}?1"> -->
 
     <!--basic styles-->
     <link href="{{ asset('/css/backend/bootstrap.min.css') }}" rel="stylesheet">
@@ -67,16 +67,6 @@
     <![endif]-->
 </head>
 <body>
-<!--<div class="admin-header">Админ панель</div>
-    <div class="categoty-admin">
-        <h3>Категории админки</h3>
-        <ul class="list-admin">
-            <li><a href="/adminorieT3/articles/rooms">Комнаты</a></li>
-            <li><a href="/adminorieT3/articles/services">Услуги</a></li>
-            <li><a href="/adminorieT3/articles/events">События</a></li>
-        </ul>
-    </div>-->
-
 <div class="navbar hidden-print">
     <div class="navbar-inner">
         <div class="container-fluid">

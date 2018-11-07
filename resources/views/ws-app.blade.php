@@ -6,173 +6,130 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>
-	@if($categories_data[$type]->getTranslate('meta_title'))
-		{{ $categories_data[$type]->getTranslate('meta_title') }}
-	@else
-		 PIzza-party
-	@endif
+    Пицца Пати (Киев)
 </title>
-<meta name="description" content="@if($categories_data[$type]->getTranslate('meta_description')){{ $categories_data[$type]->getTranslate('meta_description') }} @else МЕРЕЖА ГОТЕЛІВ ' PIzza-party' В ЯРЕМЧЕ ТА БУКОВЕЛІ@endif">
-<meta name="keywords" content="@if($categories_data[$type]->getTranslate('meta_keywords')){{ $categories_data[$type]->getTranslate('meta_keywords') }} @else  PIzza-party @endif"> -->
+{{--<meta name="description" content="@if($categories_data[$type]->getTranslate('meta_description')){{ $categories_data[$type]->getTranslate('meta_description') }} @else Пицца Пати (Киев)@endif">
+<meta name="keywords" content="@if($categories_data[$type]->getTranslate('meta_keywords')){{ $categories_data[$type]->getTranslate('meta_keywords') }} @else  Пицца Пати (Киев) @endif"> --}}
 	<!-- <link rel="shortcut icon" href="{{ asset('/img/favicon/favicon.png') }}" >
 	<link rel="apple-touch-icon" href="{{ asset('/img/favicon/apple-touch-icon.png') }}">
 	<link rel="apple-touch-icon" sizes="72x72" href="{{ asset('img/favicon/apple-touch-icon-72x72.png') }}">
 	<link rel="apple-touch-icon" sizes="114x114" href="{{ asset('/img/favicon/apple-touch-icon-114x114.png') }}"> -->
 
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:400,700&amp;subset=cyrillic-ext" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-<link rel="stylesheet" href="{{ asset('/css/frontend/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/frontend/slick.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/frontend/slick-theme.css') }}">
-    <link href="{{ asset('/css/frontend/datepicker.min.css') }}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="{{ asset('/css/frontend/style.css') }}?ver={{ $version }}">   
+    <meta name='robots' content='noindex,follow' />
+    <link rel='stylesheet' id='mdl-css-css' href="{{ asset('/css/frontend/material.min.css') }}?ver={{ $version }}" type='text/css' media='' />
+    <link rel='stylesheet' id='slick-css-css' href="{{ asset('/css/frontend/slick.css') }}?ver={{ $version }}" type='text/css' media='' />
+    <link rel='stylesheet' id='slick2-css-css' href="{{ asset('/css/frontend/slick-theme.css') }}?ver={{ $version }}" type='text/css' media='' />
+    <link rel='stylesheet' id='gallery-css-css' href="{{ asset('/css/frontend/magnific-popup.css') }}?ver={{ $version }}" type='text/css' media='' />
+    <link rel='stylesheet' id='main-css-css' href="{{ asset('/css/frontend/style.css') }}?ver={{ $version }}" type='text/css' media='' />
     <link href="{{ asset('/css/plugins/sweetalert.css') }}" rel="stylesheet">
-    <script defer src="{{ asset('/js/frontend/fontawesome-all.js') }}"></script>
-    @if(getSetting('ip'))
-        <!-- Google Tag Manager -->
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-MQCTRLS');</script>
-        <!-- End Google Tag Manager -->
-    @endif
 </head>
-<body>цйуцйу
-	<!-- .header -->
-	@include('frontend.header')
-    <!-- END .header -->
-    <!-- content -->
-    @yield('content')
-    <!-- content -->
-
-    <footer class="black-footer py-md-4 py-0" id='contactAnchor'>
-        <div class="container-fluid">
-            <div class="row justify-content-center pb-5">
-                <div class="col-md-5 pt-md-5 pt-3">
-                    <h6 class="footer-header mb-3">{{ $categories_data['contacts']->getTranslate('title') ? $categories_data['contacts']->getTranslate('title') : 'Контакти' }}</h6>
-                    <div class="row no-gutters">
-                        <div class="col-md-3 col-4">
-                            <p class="footer-text">
-                            {{trans('base.tel')}}.<br><br>
-                            @if(isset($messengers) AND count($messengers) !== 0 AND $categories_data['messengers']->active == 1)
-                                {{trans('base.write')}}<br>
-                            @endif
-                                e-mail<br>
-                                {{trans('base.address')}}
-                            </p>
-                        </div>
-                        <div class="col-md-9 col-8">
-                            <p class="text-white phones-included">
-                                <a href="tel:{{ str_replace([' ', '(', ')'], '', $texts->get('tel_1'))}}"  class="text-white">{{ $texts->get('tel_1') }}</a><br>
-                                <a href="tel:{{ str_replace([' ', '(', ')'], '', $texts->get('tel_2'))}}" class="text-white">{{ $texts->get('tel_2') }}</a><br>
-                                @if(isset($messengers) AND count($messengers) !== 0 AND $categories_data['messengers']->active == 1)
-                                    @foreach($messengers as $messenger)    
-                                        <a href="{{ $messenger->getAttributeTranslate('messenger_link') ? $messenger->getAttributeTranslate('messenger_link') : "#"}}">
-                                            {!! $messenger->getAttributeTranslate('icon_footer') ? $messenger->getAttributeTranslate('icon_footer') : " " !!}
-                                        </a>
-                                        
-                                    @endforeach
-                                @endif
-                                <br>
-                                {{ $texts->get('email') }}<br>
-                                {{ $texts->get('address') }}
-                            </p>
+<body class="home page-template-default page page-id-2">
+    <div class="layout">
+        <header>
+            <div class="reducer">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--12-col tac">
+                        <a href="/" class="logo">
+                            <em><img src="{{ asset('/img/frontend/logo.svg') }}" alt="Пицца Пати (Киев)"></em>
+                        </a>
+                    </div>
+                    <div class="mdl-cell mdl-cell--12-col header_support_cell">
+                        <div class="header_support">
+                            <div class="phone"><a href="tel:{{ $texts->get('tel_1') }}">{{ $texts->get('tel_1') }}</a></div>
+                            <div class="schedule">{{ $texts->get('get_order') }}</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-1"></div>
-                <div class="col-md-2 col-6 pt-5">
-                    <h6 class="footer-header mb-3">{{trans('base.about_us')}}</h6>
-                    @if(isset($hotels) AND count($hotels) !== 0 AND $categories_data['hotels']->active == 1)
-                        <a href="#section-hotels" class="text-white">{{ $categories_data['hotels']->getTranslate('title') ? $categories_data['hotels']->getTranslate('title') : 'готелі' }}</a><br>
-                    @endif
-                    @if(isset($reviews) AND count($reviews) !== 0 AND $categories_data['reviews']->active == 1)
-                        <a href="#section-reviews" class="text-white">{{ strstr( $categories_data['reviews']->getTranslate('title') ? $categories_data['reviews']->getTranslate('title') : 'відгуки' . ' ', ' ', true ) }}</a><br>
-                    @endif
-                    @if(isset($contacts) AND count($contacts) !== 0 AND $categories_data['contacts']->active == 1)
-                        <a class="text-white"  href="#section-footer">{{ $categories_data['contacts']->getTranslate('title') ? $categories_data['contacts']->getTranslate('title') : 'контакты' }}</a><br>
-                    @endif
-                    {{--<a href="#" class="text-white">Номери та ціни</a><br>
-                    <a href="#" class="text-white">Акції</a><br>
-                    <a href="#" class="text-white">Враження</a><br>
-                    <a href="#" class="text-white">Посилання</a><br>
-                    <a href="#" class="text-white">І так далі</a>--}}
+            </div>
+        </header>
+        <div class="reducer">
+            <div class="mdl-grid nav-grid">
+                <div class="mdl-cell mobile_menu">
+                    <button id="mobile_menu_block" class="mdl-button mdl-js-button mdl-button--icon">
+                        <i class="material-icons">{{ trans('base.menu')}}</i>
+                    </button>
+                    <div class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="mobile_menu_block">
+                        <div class="menu-main-container">
+                            <ul id="menu-main" class="mobile_menu_list">
+                                @foreach($categories_for_menu as $key => $category_for_menu)
+                                    <li id="menu-item-{{$key}}" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-{{$key}} mdl-menu__item"><a href="{{ route('article_list', [null, $category_for_menu->link]) }}">{{ $category_for_menu->getTranslate('title')}}</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                @if(isset($hotels) AND count($hotels) !== 0 AND $categories_data['hotels']->active == 1)
-                    <div class="col-md-2 col-6 pt-5">
-                        <h6 class="footer-header mb-3">
-                            {{ $categories_data['hotels']->getTranslate('title') ? $categories_data['hotels']->getTranslate('title') : 'готелі' }}
-                        </h6>
-                        @foreach($hotels as $hotel)
-                            <a target="_blank"  href="{{ $hotel->getAttributeTranslate('is_base_hotel') ? route('article_index_subdomain', [setLangToRedirect(App::getLocale()), $categories_data['hotels']->getTranslate('url'), $hotel->getAttributeTranslate('url')]) : route('article_show', [setLangToRedirect(App::getLocale()), $categories_data['hotels']->getTranslate('url'), $hotel->getAttributeTranslate('url'), $categories_data['rooms']->getTranslate('url'), $hotel->article_children->where('article_id', $hotel->id)->where('category_id', $categories_data['rooms']->id)->pluck('id')->first()])}}" class="text-white">{{ $hotel->getTranslate('title')}}</a><br>                          
-                        
+                <div class="mdl-cell nav_support">
+                    <div class="header_support">
+                        <div class="phone"><a href="tel:044-227-22-66">{{ $texts->get('tel_1') }}</a></div>
+                        <div class="schedule">{{ $texts->get('get_order') }}</div>
+                    </div>
+                </div>
+                <nav class="mdl-cell">
+                    <div class="menu-main-container">
+                        <ul id="primary-menu" class="mdl-navigation">
+                        @foreach($categories_for_menu as $key => $category_for_menu)
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-{{ $key }} mdl-navigation__link"><a href="{{ route('article_list', [null, $category_for_menu->link]) }}">{{ $category_for_menu->getTranslate('title')}}</a></li>
                         @endforeach
+                        </ul>
                     </div>
-                @endif
-                
-            </div>
-            <div class="row justify-content-center pb-3">
-            <div class="col-md-3 order-md-2 text-md-right text-center">
-                @if(isset($social) AND count($social) !== 0 AND $categories_data['social']->active == 1)
-                    @foreach($social as $social_item)
-                        <div class="footer-icon-container"><a href="{{ $social_item->getAttributeTranslate('social_link') ? $social_item->getAttributeTranslate('social_link') : "#"}}" target="_blank" class="text-white">{!! $social_item->getAttributeTranslate('icon') ? $social_item->getAttributeTranslate('icon') : " " !!}</a></div>                        
-                    @endforeach                    
-                @endif
-                {{--@if(isset($seoarticles) AND count($seoarticles)!== 0)
-                    @foreach($seoarticles as $seoarticle)
-                        <div class="footer-icon-container"><a href="{{ route('article_show_seo', [setLangToRedirect(App::getLocale()), $seoarticle->article_parent->getAttributeTranslate('url'), $seoarticle->getAttributeTranslate('url')]) }}">{{ $seoarticle->getTranslate('title')}}</a></div>
-                    @endforeach
-
-                @endif--}}
-            </div>
-            <input type="hidden" name='lang' value="{{ App::getLocale() }}"/>
-            <input type="hidden" name='csrf-token' value="{{csrf_token()}}"/>
-            <div class="col-md-7 order-md-1 mt-md-3 mt-5">
-                <p class="footer-text">
-                    All right reserved © BigBear <?php echo date("Y");?><br>
-                    <!-- Designed by <a href="http://www.crayfish.studio" class="text-white" target="_blank">Crayfish Studio</a> with <i class="fa fa-heart"></i> and <i class="fa fa-coffee"></i> -->
-                </p>
-            </div>
+                </nav>
+                <div class="mdl-cell">
+                    <a href="/cart.html" class="header_cart" id="header_top_cart">
+                        <div class="header_cart_top">
+                            {{ trans('base.backet') }}: <span id="total_cart">0</span> шт.
+                        </div>
+                        {{ trans('base.cost') }}: <span id="total_price">0</span> грн.
+                    </a>
+                </div>
             </div>
         </div>
-    </footer>  
-    <!-- modal thanks -->
-    @include('frontend.sections.thanks')
-    <!--  END modal thanks -->
-    @if(getSetting('hot_sale'))  
-        <!-- modal hot_sale -->
-        @include('frontend.sections.hot_sale')
-        <!--  END modal hot_sale --> 
-    @endif 
-    @if(getSetting('ip'))
-        <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQCTRLS"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <!-- End Google Tag Manager (noscript) -->
-    @endif
-<!-- END .footer -->
+
+        @yield('content')
+
+        <footer>
+            <div class="reducer">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--12-col">
+                        <div>© 2009—<?php echo date("Y");?> {{trans('base.pizza_network')}} <b>Pizza Party</b>™.</div>
+                        <div>{{trans('base.contact_tel')}}: +38{{ $texts->get('tel_1') }}, email <a href="mailto:{{ $texts->get('email') }}">{{ $texts->get('email') }}</a></div>
+                    </div>
+                </div>
+            </div>
+        </footer><!-- #colophon -->
+    </div><!-- #page -->
     <!-- file_translate -->
         @include('frontend.sections.i18n')
     <!--  END file_translate-->
 {{-- JS --}}
-<script defer src="{{ asset('/js/frontend/jquery-3.3.1.min.js') }}"></script>
-<script defer src="{{ asset('/js/frontend/popper.min.js') }}"></script>
-<script defer src="{{ asset('/js/frontend/bootstrap.min.js') }}"></script>
-<script defer src="{{ asset('/js/frontend/datepicker.min.js') }}"></script>
-<script defer src="{{ asset('/js/frontend/datepicker.ua.js') }}"></script>
-<!-- <script  src="{{ asset('/js/frontend/datepicker.en.js') }}"></script> -->
-<script defer src="{{ asset('/js/frontend/slick.min.js') }}"></script>
-<script defer src="{{ asset('/js/plugins/sweetalert.min.js') }}"></script>
-<script defer src="{{ asset('/js/frontend/main.js') }}?ver={{ $version }}"></script>
-<script defer src="{{ asset('/js/frontend/custom.js') }}"></script>
-<script defer src="{{ asset('/js/frontend/jquery.raty.js') }}"></script>
-<script defer src="{{ asset('/js/frontend/scroll.js') }}"></script>
-<script defer src="{{ asset('/js/frontend/countdown.js') }}"></script>
-<script defer src="{{ asset('/js/frontend/jquery.lazy.min.js') }}"></script>
-<script defer src="{{ asset('/js/frontend/wow.min.js') }}"></script>
-
-
+{{--Binotel--}}
+    <script type="text/javascript">
+        (function(d, w, s) {
+          var widgetHash = '28wtrufy5lqh1hyysds6', gcw = d.createElement(s); gcw.type = 'text/javascript'; gcw.async = true;
+          gcw.src = '//widgets.binotel.com/getcall/widgets/'+ widgetHash +'.js';
+          var sn = d.getElementsByTagName(s)[0]; sn.parentNode.insertBefore(gcw, sn);
+        })(document, window, 'script');
+      </script> 
+{{--/Binotel--}}
+<script type='text/javascript' src="{{ asset('/js/frontend/jquery.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('/js/frontend/jquery-migrate.min.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('/js/frontend/maskedinput.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('/js/frontend/slick.min.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('/js/frontend/material.min.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('/js/frontend/jquery.magnific-popup.min.js') }}?ver={{ $version }}"></script>
+    <script type='text/javascript' src="{{ asset('/js/plugins/sweetalert.min.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('/js/frontend/custom-content.js') }}?ver={{ $version }}"></script>
+    
 {{-- /JS --}}
+<div class="fade"></div>
+<div class="dt_popup">
+    <div class="dt_popup_bg">
+        <div class="dt_popup_close"></div>
+        <div class="dt_popup_content"></div>
+    </div>
+</div>
 
 </body>
 </html>

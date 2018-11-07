@@ -93,10 +93,13 @@
                                     </label>
                                 </td>
                                 <td>
-                                    <a href="{{ $url }}/articles/{{$type}}/{{$admin_article->id}}">{!! $admin_article->getTranslate('title') !!}</a>
-                                    @if(!$admin_article->active AND $type == 'reviews')
-                                        <span class="label label-info arrowed-in-right arrowed">New</span>                                   
-                                    @endif                                    
+                                @if($type == 'feedback')
+                                <a href="{{ $url }}/articles/{{$type}}/{{$admin_article->id}}">{!! str_limit($admin_article->getAttributeTranslate('review'), 50) !!}</a>
+
+                                @else
+                                <a href="{{ $url }}/articles/{{$type}}/{{$admin_article->id}}">{!! $admin_article->getTranslate('title') !!}</a>
+
+                                @endif                                     
                                 </td>
                                 <td  class="center">{{ $admin_article->created_at }}</td>
                                 <td  class="center">{{ $admin_article->updated_at }}</td>

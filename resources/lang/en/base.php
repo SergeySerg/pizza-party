@@ -21,6 +21,11 @@ return [
 	'more' => 'More',
 	'popular_pizza' => "Popular pizza",
 	'news_sales' => "News and sales",
+	'add_backet' => ' Add to backet',
+	'order' => 'Order',
+	"map_delivery" => "Delivery map",
+
+
 
 	/* Script Contact*/
 	'success_send_contact' => 'Your application was successfully sent!',

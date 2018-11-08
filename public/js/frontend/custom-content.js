@@ -382,16 +382,16 @@ jQuery(document).on('click touch', '.item .item_popup', function () {
             var price = info_json[i]['price'];
 
             if( info_json[i]['size'] ) {
-                params.push( info_json[i]['size'] + ' СЃРј' );
+                params.push( info_json[i]['size'] + ' см' );
             }
             if( info_json[i]['weigth'] ) {
-                params.push( info_json[i]['weigth'] + ' Рі' );
+                params.push( info_json[i]['weigth'] + ' г' );
             }
             if( info_json[i]['liters'] ) {
-                params.push( info_json[i]['liters'] + ' Р»' );
+                params.push( info_json[i]['liters'] + ' л' );
             }
             if( info_json[i]['persons'] ) {
-                params.push( info_json[i]['persons'] + ' С‡РµР».' );
+                params.push( info_json[i]['persons'] + ' чел.' );
             }
 
             var curr_w =  info_json[i]['liters'] ?  info_json[i]['liters'] : info_json[i]['weigth'];
@@ -400,9 +400,9 @@ jQuery(document).on('click touch', '.item .item_popup', function () {
             html += '<div class="tac item">';
             html += params_str;
             html += ' &mdash; ';
-            html += '<span>' + price + '</span> РіСЂРЅ';
+            html += '<span>' + price + '</span> грн';
             html += '<div class="item_button">';
-            html += '<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-id="' + id + '" data-price="' + price + '" data-weight="' + curr_w + '">Р—Р°РєР°Р·Р°С‚СЊ</button>';
+            html += '<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-id="' + id + '" data-price="' + price + '" data-weight="' + curr_w + '">Заказать</button>';
             html += '<div class="item_button_done"><div><a href="/cart/">Р”РѕР±Р°РІР»РµРЅРѕ РІ РєРѕСЂР·РёРЅСѓ</a></div></div>';
             html += '</div>';
             html += '</div>';

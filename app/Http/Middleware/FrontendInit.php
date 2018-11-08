@@ -38,35 +38,24 @@ class FrontendInit {
 			$type = 'main';
 		}		
 		$texts = new Text();
+		
 		//get all Category
 		$categories = Category::with('articles')->activeCategories()->get();
 			Debugbar::info($categories);
-			//dd($categories->where('link','slides')->first()->articles()->get());
-		$categories_for_menu = $categories->where('is_menu',1);
-		//dd($categories_for_menu);
-		// $categories_data = [];
-		// $child_article = [];		
-		// //dd($categories);
-		// foreach($categories as $category){
-		// 	//dd($category);			
-		// 	//create arr for categories with type
-		// 	$categories_data[$category->link] = $category;
-		// 	$category_item = $category
-		// 		->articles
-		// 		->where('active', 1)
-		// 		->sortByDesc('priority');
-		// 	view()->share($category->link, $category_item);
-		// }
-
+		$popular_pizza = $categories->where('link','pizza')->first()->articles()->where('attributes->is_popular', 1)->activeAndSortArticles();
 		
-
-
+		$categories_for_menu = $categories->where('is_menu',1);
+		//dd($popular_pizza->get());
+		
+		$request->merge(['categories' => $categories]);
+		
 		// Share to views global template variables
 		//view()->share('langs', $langs);
 		view()->share('type', $type);
 		view()->share('texts', $texts->init());
 		view()->share('categories', $categories);
 		view()->share('categories_for_menu', $categories_for_menu);
+		view()->share('popular_pizza', $popular_pizza);
 		view()->share('version', config('app.version'));
 		
 		return $next($request);

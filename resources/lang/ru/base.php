@@ -21,6 +21,9 @@ return [
 	'more' => 'Подробнее',
 	'popular_pizza' => "Популярные пиццы",
 	'news_sales' => "Новости и акции",
+	'add_backet' => 'Добавлено в корзину',
+	'order' => 'Заказать',
+	"map_delivery" => "Зона доставки",
 
 	/* Script Contact*/
 	'success_send_contact' => 'Ваша заявка успешно отправлена!',

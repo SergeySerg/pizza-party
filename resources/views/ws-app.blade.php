@@ -40,6 +40,7 @@
                         <div class="header_support">
                             <div class="phone"><a href="tel:{{ $texts->get('tel_1') }}">{{ $texts->get('tel_1') }}</a></div>
                             <div class="schedule">{{ $texts->get('get_order') }}</div>
+                            <a href="{{ route('article_map') }}">{{ trans('base.map_delivery')}}</a>
                         </div>
                     </div>
                 </div>
@@ -63,8 +64,9 @@
                 </div>
                 <div class="mdl-cell nav_support">
                     <div class="header_support">
-                        <div class="phone"><a href="tel:044-227-22-66">{{ $texts->get('tel_1') }}</a></div>
+                        <div class="phone"><a href="tel:{{ $texts->get('tel_1') }}">{{ $texts->get('tel_1') }}</a></div>
                         <div class="schedule">{{ $texts->get('get_order') }}</div>
+                        <a href="{{ route('article_map') }}">{{ trans('base.map_delivery')}}</a>
                     </div>
                 </div>
                 <nav class="mdl-cell">

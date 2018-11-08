@@ -69,8 +69,12 @@
                             {{ trans('backend.date_create') }}
                         </th>
                         <th class="center">
-                            <i class="icon-time bigger-110 hidden-phone"></i>
-                            {{ trans('backend.date_update') }}
+                            @if($type == 'pizza')
+                                Отображение в "Популярные"
+                            @else
+                                <i class="icon-time bigger-110 hidden-phone"></i>
+                                {{ trans('backend.date_update') }}
+                            @endif   
                         </th>
 
                        <!-- <th class="hidden-phone">
@@ -102,7 +106,18 @@
                                 @endif                                     
                                 </td>
                                 <td  class="center">{{ $admin_article->created_at }}</td>
-                                <td  class="center">{{ $admin_article->updated_at }}</td>
+                                <td  class="center">
+                                    @if($type == 'pizza')
+                                        @if($admin_article->getAttributeTranslate('is_popular'))
+                                            <span class="badge badge-success"><i class="icon-ok bigger-120"></i></span>
+                                        @else
+                                            <span class="badge badge-important"><i class="icon-remove"></i></span>
+                                        @endif
+
+                                    @else
+                                        {{ $admin_article->updated_at }}
+                                    @endif    
+                                </td>
                                 <td class="center">
                                     @if($admin_article->active)
                                         <span class="badge badge-success"><i class="icon-ok bigger-120"></i></span>

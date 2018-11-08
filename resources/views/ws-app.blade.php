@@ -40,7 +40,7 @@
                         <div class="header_support">
                             <div class="phone"><a href="tel:{{ $texts->get('tel_1') }}">{{ $texts->get('tel_1') }}</a></div>
                             <div class="schedule">{{ $texts->get('get_order') }}</div>
-                            <a href="{{ route('article_map') }}">{{ trans('base.map_delivery')}}</a>
+                            <a href="{{ route('article_list', [null, 'map', null]) }}">{{ trans('base.map_delivery')}}</a>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                     <div class="header_support">
                         <div class="phone"><a href="tel:{{ $texts->get('tel_1') }}">{{ $texts->get('tel_1') }}</a></div>
                         <div class="schedule">{{ $texts->get('get_order') }}</div>
-                        <a href="{{ route('article_map') }}">{{ trans('base.map_delivery')}}</a>
+                        <a href="{{ route('article_list', [null, 'map', null]) }}">{{ trans('base.map_delivery')}}</a>
                     </div>
                 </div>
                 <nav class="mdl-cell">
@@ -79,7 +79,7 @@
                     </div>
                 </nav>
                 <div class="mdl-cell">
-                    <a href="/cart.html" class="header_cart" id="header_top_cart">
+                    <a href="{{ route('article_list', [null, 'cart', null]) }}" class="header_cart" id="header_top_cart">
                         <div class="header_cart_top">
                             {{ trans('base.backet') }}: <span id="total_cart">0</span> шт.
                         </div>

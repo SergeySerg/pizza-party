@@ -31,11 +31,12 @@ class ArticleController extends Controller {
 	public function render_list(Request $request)
 	{	
 		$type = $request->type;
-		
-		$categories = $request->instance()->query('categories');
-		$category = $categories->where('link', $type)->first();
-		$articles = $category->articles()->activeAndSortArticles()->get();
-		
+		if($type != 'map' AND $type != 'cart'){
+			$categories = $request->instance()->query('categories');
+			$category = $categories->where('link', $type)->first();
+			$articles = $category->articles()->activeAndSortArticles()->get();
+	
+		}
 		return view('frontend.' . $type)->with(compact('category', 'articles'));
 	}
 
@@ -47,58 +48,12 @@ class ArticleController extends Controller {
 	 */
 	public function show(Request $request)
 	{
-		dd('show');
-		//if ($request ->isMethod('post')){
-			/*get [] from request*/
-			//$value = session('key');
-		//dd($value);
-		//}
+		$article = Article::where('attributes->url', $request->url)->first();
 		
-		$parent_hotel = Article::with('article_children')->where('attributes->url->' . App::getLocale(), $request->name )->first();
-		$article = Article::where('id', $request->id)->first();
-		$article_price = $article->getPrice($article->id, $article->article_parent->id);
-		$surchange = $article_price['surchange'];
-		$base_price = $article_price['base_price'];
-		$solo_settle = $article_price['solo_settle'];
-		$surchange_children = $article_price['surchange_children'];
-		return view('frontend.rooms')
-			->with(compact
-					(
-						'article', 
-						'parent_hotel', 
-						'surchange', 
-						'solo_settle',
-						'surchange_children',
-						'base_price'
-					)
-			);
+		if(!$article) return view('frontend.404');
+		return view('frontend.article')->with(compact('article'));
 	}
 	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show_map(Request $request)
-	{
-		return view('frontend.map');
-	}
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show_articles(Request $request)
-	{
-		$type = $request->type;
-		
-		$categories = $request->instance()->query('categories');
-		$category = $categories->where('link', $type)->first();
-		$articles = $category->articles()->activeAndSortArticles()->get();
-		
-		return view('frontend.' . $type)->with(compact('category', 'articles'));
-	}
 	/**
 	 * Display the specified resource.
 	 *

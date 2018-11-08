@@ -54,7 +54,7 @@
                                     <div class="item_price">{{ $pizza->getAttributeTranslate('price_32')}} грн</div>
                                     <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-id="{{ $pizza->id}}" data-price="{{ $pizza->getAttributeTranslate('price_40')}}" data-weight="{{ $pizza->getAttributeTranslate('weight_40')}}">{{ trans('base.order')}}</button>
                                     <div class="item_button_done">
-                                        <div><a href="/cart.html">{{ trans('base.add_backet')}}</a></div>
+                                        <div><a href="{{ route('article_list', [null, 'cart', null]) }}">{{ trans('base.add_backet')}}</a></div>
                                     </div>
                                 </div>
                             @endif
@@ -63,7 +63,7 @@
                                     <div class="item_price">{{ $pizza->getAttributeTranslate('price_40')}} грн</div>
                                     <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-id="{{ $pizza->id}}" data-price="{{ $pizza->getAttributeTranslate('price_40')}}" data-weight="{{ $pizza->getAttributeTranslate('weight_40')}}">{{ trans('base.order')}}</button>
                                     <div class="item_button_done">
-                                        <div><a href="/cart.html">{{ trans('base.add_backet')}}</a></div>
+                                        <div><a href="{{ route('article_list', [null, 'cart', null]) }}">{{ trans('base.add_backet')}}</a></div>
                                     </div>
                                 </div>
                             @endif
@@ -111,7 +111,7 @@
                         @endforeach
                     </ul>
                 <div class="tac">
-                    <a href="{{ route('article_list', [null, $categories->where('link','articles')->first()->link, 'index.htm']) }}" class="more_link">{{ trans('base.show_all')}} {{ mb_strtolower($categories->where('link','articles')->first()->getTranslate('title'))}}</a>
+                    <a href="{{ route('article_list', [null, $categories->where('link','articles')->first()->link, $categories->where('link','articles')->first()->url]) }}" class="more_link">{{ trans('base.show_all')}} {{ mb_strtolower($categories->where('link','articles')->first()->getTranslate('title'))}}</a>
                 </div>
 
                 </div>

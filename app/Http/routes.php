@@ -109,11 +109,11 @@ Route::group(['prefix'=> getSetting('admin.prefix'), 'middleware' => ['auth', 'b
 //Route::get('/{lang}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@indexMain', 'as' => 'article_index']);
 //Route::group(['domain' => getSetting('domain')], function() {	
 	Route::get('/{lang?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@index', 'as' => 'article_index'])->where('lang', 'ua|ru|en');
-	Route::get('/{type}/{url?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@render_list', 'as' => 'article_list'])->where('type', 'pizza|salad|desserts|drinks|feedback|cart|articles')->where('url', 'index.htm');
-	Route::get('/{lang?}/{type}/{url?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@render_list', 'as' => 'article_list'])->where('type', 'pizza|salad|desserts|drinks|feedback|cart|articles')->where('url', 'index.htm');
+	Route::get('/{type}/{url?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@render_list', 'as' => 'article_list'])->where('type', 'pizza|salad|desserts|drinks|feedback|cart|articles|map')->where('url', 'index.htm');
+	Route::get('/{lang?}/{type}/{url?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@render_list', 'as' => 'article_list'])->where('type', 'pizza|salad|desserts|drinks|feedback|cart|articles|map')->where('url', 'index.htm');
 	Route::get('/{type}/{url}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show', 'as' => 'article_url'])->where('type', 'articles');
 	Route::get('/{lang?}/{type}/{url}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show', 'as' => 'article_url'])->where('type', 'articles');
-	Route::get('/map', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show_map', 'as' => 'article_map']);
+	//Route::get('/map', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show_map', 'as' => 'article_map']);
 
 	/*Modal routes*/
 	Route::post('/{lang}/callback', ['uses' => 'Frontend\ArticleController@callback','as' => 'callback']);//Обработчик Обратной связи при заказе товара

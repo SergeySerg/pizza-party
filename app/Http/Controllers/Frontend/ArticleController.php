@@ -34,7 +34,11 @@ class ArticleController extends Controller {
 		if($type != 'map' AND $type != 'cart'){
 			$categories = $request->instance()->query('categories');
 			$category = $categories->where('link', $type)->first();
-			$articles = $category->articles()->activeAndSortArticles()->get();
+			if($type != 'feedback'){
+				$articles = $category->articles()->activeAndSortArticles()->get();
+			}else{
+				$articles = $category->articles()->where ('active',1)->orderBy('date','desc')->simplepaginate(10);
+			}
 	
 		}
 		return view('frontend.' . $type)->with(compact('category', 'articles'));
@@ -69,11 +73,6 @@ class ArticleController extends Controller {
 	}
 	public function show404(Request $request)
 	{
-		//dd('$lang');
-		
-		//$seo_article = Article::where('attributes->url->' . App::getLocale(), $request->url )->first();
-		
-		//dd($seo_article);
 		return view('frontend.404');
 	}
 	
@@ -256,7 +255,7 @@ class ArticleController extends Controller {
 			/*make rules for validation*/
 			$rules = [
 				'name' => 'required|max:50',
-				//'callback_phone' => 'required|max:15'				
+				'review' => 'required|max:500'				
 			];
 
 			/*validation [] according to rules*/
@@ -272,48 +271,31 @@ class ArticleController extends Controller {
 			//dd($all);
 			//$all = $this->prepareArticleData($all);
 			
-			$category = Category::where('link', 'reviews')->first();
-			
-			$article_id = $all['article_id'];
-			$all['date_create_review'] = date('Y-m-d');
-			unset($all['article_id']);
+			$category = Category::where('link', 'feedback')->first();
 			
 			$data = [
 				'category_id' => $category->id,
-				'article_id' => $article_id,
-				'title' =>  json_encode([config('app.locale') => $all['name']]),
+				'title' =>  json_encode([config('app.locale') => 'Отзыв от' . $all['name']]),
+				'date' => date('Y-m-d H:i:s'),
+				'active' => 1,
 				'attributes' => json_encode($all)
 
 			];
-			//dd($data);
-			/*Fitch for secure*/
-			// $attributes = [];
-			// $fields = json_decode($category->fields);
-			// $attributes_fields = $fields->attributes;
-			// foreach($all as $key => $value){
-			// 	foreach($attributes_fields as $k => $attr){
-			// 		if($key == $k){						
-			// 			$attributes += [$k => $value];
-			// 		}
-			// 	}
-			// }			
-			//dd(json_encode($attributes));
 			
 			$review = Article::create($data);			
 			$data_to_mail = [
 				'review_id' => $review->id 	
 			];
 			
-			//dd($article->id);
-			//dd($all);
 			
 			//Send item on admin email address
 			Mail::send('emails.add_reviews', $data_to_mail, function($message){
 				$email = getSetting('config.email');
-				$message->to($email, ' PIzza-party')->subject('Новий відгук');
+				$message->to($email, 'PIzza-party')->subject('Новый отзыв');
 			});
 			return response()->json([
-				'success' => 'true'
+				'success' => 'true',
+				'data' => $review
 			]);
 		}
 	}

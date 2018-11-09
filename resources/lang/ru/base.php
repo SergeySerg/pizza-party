@@ -24,6 +24,11 @@ return [
 	'add_backet' => 'Добавлено в корзину',
 	'order' => 'Заказать',
 	"map_delivery" => "Зона доставки",
+	"manager" => "Менеджер",
+	"add_review" => "Оставьте ваш отзыв",
+	"name" => "Имя",
+	"review" => "Отзыв",
+	"send" => "Отправить",
 
 	/* Script Contact*/
 	'success_send_contact' => 'Ваша заявка успешно отправлена!',

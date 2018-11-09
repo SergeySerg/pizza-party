@@ -1,5 +1,52 @@
 
 jQuery(document).ready(function ($) {
+     /* Custom flexweb */
+     if (localStorage && localStorage.getItem('total_cart') && localStorage.getItem('total_price')) {
+        var total_cart_my = localStorage.getItem("total_cart");
+        var total_price_my = localStorage.getItem("total_price");
+     
+     }else{
+        var total_cart_my = 0;
+        var total_price_my = 0;
+    }
+     var tc = jQuery('#total_cart').text(total_cart_my);
+     var tp = jQuery('#total_price').text(total_price_my);
+    /*Custom flexweb */
+    jQuery(document).on('click touch', '.add_to_cart', function () {
+        
+        var check_price = jQuery(this).attr('data-price');
+        var check_id = jQuery(this).attr('data-id');
+        var check_size = jQuery(this).attr('data-size');
+        var check_weight = jQuery(this).attr('data-weight');
+   
+        total_cart_my ++;
+        total_price_my = +total_price_my + +check_price;
+        console.log('total_cart', total_cart_my);
+        console.log('total_price', total_price_my);
+        jQuery('#total_cart').text(total_cart_my);
+        jQuery('#total_price').text(total_price_my);
+        console.log('Цена',check_price);
+        console.log('ID',check_id);
+        console.log('Size',check_size);
+        console.log('weight',check_weight);
+        localStorage.setItem("total_cart", total_cart_my);
+        localStorage.setItem("total_price", total_price_my);
+        
+
+
+
+        var $button_parent = jQuery(this).parents('.item_button').first();
+        $button_parent.find('.item_button_done').addClass('done');
+        setTimeout(function(){
+            $button_parent.find('.item_button_done').removeClass('done');
+        },7000);
+
+        //addToCart( jQuery(this) );
+        return false;
+    });
+/*/Custom flexweb */
+ 
+     /* /Custom flexweb */
     delete $.jMaskGlobals['translation']['0'];
     $("#cart_phone").mask("+38 099 999-99-99");
 
@@ -353,10 +400,7 @@ jQuery(document).on('click touch', '.mdl-switch__input', function () {
     }
 
 });
-jQuery(document).on('click touch', '.add_to_cart', function () {
-    addToCart( jQuery(this) );
-    return false;
-});
+
 
 jQuery(document).on('click touch', '.item .item_popup', function () {
     var $fade = jQuery('.fade');
@@ -712,33 +756,51 @@ jQuery(document).on('keyup', '#feedback_name, #feedback_msg', function () {
     return false;
 });
 
-jQuery(document).on('click touch', '#feedback_btn', function () {
+jQuery(document).on('click touch', '#feedback_btn', function (e) {
+    e.preventDefault();
     var $btn = jQuery(this);
     $btn.addClass('hidden');
     jQuery('#feedback_loader').removeClass('hidden');
+    var locationData = window.location.href.split('?');
+    var data = jQuery('form.add_review').serialize();
+
+    console.log('дата відгуку', data);
+    var lang =  jQuery("input[name='lang']").val();
+    var token = jQuery("input[name='csrf-token']").val();      
+    
+    jQuery.ajax({
+        url: '/' + lang + '/add_review',
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': token
+        },
+        data: data,
+        dataType: "json",
+        success: function (data) {
+            if (data.success) {
+            jQuery('#feedback_form_done').removeClass('hidden');
+            jQuery('#feedback_form').addClass('hidden');
+            window.location.replace(locationData[0] + '?status=success');
+
+            }
+            else {
+                swal(trans['base.error_add_review'], data.message, "error");
+            }
+        },
+        error: function (data) {
+            swal(trans['base.error']);
+        }
+
+    });  
+
+    // jQuery.post( feedback.url, data, function(response) {
+    //     var res = JSON.parse(response);
+
+    //     jQuery('.feedback_list').html(res['posts']);
+    //     jQuery('.pgn').html(res['pgn']);
 
 
-    var feedback_name = jQuery.trim(jQuery('#feedback_name').val());
-    var feedback_msg = jQuery.trim(jQuery('#feedback_msg').val());
-
-    var data = {
-        action: 'feedback',
-        nonce: feedback.nonce,
-        name: feedback_name,
-        msg: feedback_msg,
-        paged: feedback_paged,
-    };
-
-    jQuery.post( feedback.url, data, function(response) {
-        var res = JSON.parse(response);
-
-        jQuery('.feedback_list').html(res['posts']);
-        jQuery('.pgn').html(res['pgn']);
-
-        jQuery('#feedback_form_done').removeClass('hidden');
-        jQuery('#feedback_form').addClass('hidden');
-
-    });
+    // });
 
     return false;
 });

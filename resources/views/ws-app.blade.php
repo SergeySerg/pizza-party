@@ -90,8 +90,8 @@
         </div>
 
         @yield('content')
-
-        <footer>
+        <input type="hidden" name='csrf-token' value="{{csrf_token()}}"/>
+        <input type="hidden" name='lang' value="{{ App::getLocale() }}"/>        <footer>
             <div class="reducer">
                 <div class="mdl-grid">
                     <div class="mdl-cell mdl-cell--12-col">
@@ -123,6 +123,7 @@
     <script type='text/javascript' src="{{ asset('/js/frontend/jquery.magnific-popup.min.js') }}?ver={{ $version }}"></script>
     <script type='text/javascript' src="{{ asset('/js/plugins/sweetalert.min.js') }}"></script>
     <script type='text/javascript' src="{{ asset('/js/frontend/custom-content.js') }}?ver={{ $version }}"></script>
+
     
 {{-- /JS --}}
 <div class="fade"></div>

@@ -49,7 +49,7 @@
                 </h3>
 
                 <div class="table-header">
-                    {{ trans('backend.list_category') }} {{$admin_category->getTranslate('title')}}
+                    {{ trans('backend.list_category') }} {{$admin_category->getTranslate('title')}} - всего {{ $admin_articles->total()}} эл.
                     <a href="{{ $url }}/articles/{{$type}}/create" class="line_none">
                         <button class="btn btn-warning">
                             <i class="icon-plus"></i>
@@ -177,27 +177,31 @@
                          @endforeach
                     </tbody>
                 </table>
+                
+                {{ $admin_articles->links() }}
+                
             </div>
          <!--PAGE CONTENT ENDS-->
         </div><!--/.span-->
     </div><!--/.row-fluid-->
 </div>
 <div id="token" style="display: none">{{csrf_token()}}</div>
-
-<script>
-    $( document ).ready(function() {
-        $(function(){
-            var oTable1 = $('#sample-table-2').dataTable( {
-                "aaSorting": [[5,'desc']],
-                "iDisplayLength": 25,
-                "aoColumns": [
-                    { "bSortable": false },
-                    null, null,null, null,null,
-                    { "bSortable": false }
-                ] } );
-        });
-    })
-</script>
+<!-- @if(!$type == 'feedback')
+    <script>
+        $( document ).ready(function() {
+            $(function(){
+                var oTable1 = $('#sample-table-2').dataTable( {
+                    "aaSorting": [[5,'desc']],
+                    "iDisplayLength": 25,
+                    "aoColumns": [
+                        { "bSortable": false },
+                        null, null,null, null,null,
+                        { "bSortable": false }
+                    ] } );
+            });
+        })
+    </script>
+@endif  -->
 @endif
 
 

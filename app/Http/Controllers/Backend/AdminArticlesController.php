@@ -28,6 +28,11 @@ class AdminArticlesController extends Controller {
 		$admin_category_children = $admin_category->category_children()->get();
 		//$admin_articles = $admin_category->articles;
 		$admin_articles = Article::with('article_parent')->with('article_parent_price')->where('category_id', $admin_category->id)->get();
+		if($type == 'feedback'){
+			$admin_articles = Article::with('article_parent')->where('category_id', $admin_category->id)->orderBy('date','desc')->paginate(10);
+		}else{
+			$admin_articles = Article::with('article_parent')->with('article_parent_price')->where('category_id', $admin_category->id)->paginate(10);
+		}
 		//dd($admin_articles);
 		//$hotels = Category::where('link', "hotels")->first()->articles()->get();
 		
@@ -38,10 +43,7 @@ class AdminArticlesController extends Controller {
 				compact(
 				'admin_category',
 				'admin_articles',
-				'type',
-				'admin_category_children',
-				'admin_category_parent',
-				'hotels'
+				'type'
 				)
 			);
 
@@ -93,24 +95,7 @@ class AdminArticlesController extends Controller {
 
 		//list of attributes from Category
 		$attributes_fields = $fields->attributes;
-		if ($request->ajax()){
-			/*get [] from request*/
-			$all = $request->all();
-			$article_parent_id = $all['id'];
-			$category_room = Category::where('link', 'rooms')->first();
-			$admin_article = Article::where("id", $article_parent_id)->first();
-			$parent_hotel = $admin_article->article_parent;
-			$rooms_for_list_price = Article::where('article_id', $parent_hotel->id)->where('category_id', $category_room->id)->get();
-			//dd($rooms_for_list_price);
-			return response()->json([
-			"status" => 'success',
-			"articles" => $rooms_for_list_price,
-			//"redirect" => URL::to('/adminorieT3/articles/' . $type)
-		]);
-
-	
-		}
-
+		
 		return view('backend.articles.edit',[
 			'langs'=>$langs,
 			'admin_category'=>$admin_category,

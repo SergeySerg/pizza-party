@@ -1,1 +1,1 @@
-Додано новий відгук який ви можете переглянути за <a href="{{ getSetting('domain')}}/{{ getSetting('admin.prefix')}}/articles/reviews/{{ $review_id }}"> посиланням </a>. Для того щоб відгук почав відображатися на сайті змініть його статут на Активний!
+Добавлен новый отзыв который вы можете посмотреть по <a href="/{{ getSetting('admin.prefix')}}/articles/feadback/{{ $review_id }}"> ссылке </a>. 

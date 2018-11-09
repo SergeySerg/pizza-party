@@ -258,9 +258,12 @@ $(function(){
                 success: function(data){
                     console.info('Server response: ', data);
                     if(data.status == 'success'){
-                        $thisEl.parents('tr').fadeOut(3000);
+                        $thisEl.parents('tr').fadeOut(2000);
                     }
-                    alert(data.message);
+                    //alert(data.message);
+                },
+                error: function(data){
+                    alert(message);
                 }
             })
         }

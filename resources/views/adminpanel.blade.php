@@ -202,7 +202,7 @@
                 </ul> -->
                 <ul class="submenu">
                     @foreach($admin_categories_all as $admin_category)
-                        <li @if(Request::is('*/'.$admin_category->link.'') || Request::is('*/'.$admin_category->link.'/*')) class="active" @endif>
+                        <li @if(Request::is('*/'.$admin_category->link)) class="active" @endif>
                             <a href="{{ $url }}/articles/{{ $admin_category->link }}" >
                                 <i class="icon-double-angle-right"></i>
                                 {{ $admin_category->getTranslate('title') }}                                

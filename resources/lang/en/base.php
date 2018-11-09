@@ -24,6 +24,11 @@ return [
 	'add_backet' => ' Add to backet',
 	'order' => 'Order',
 	"map_delivery" => "Delivery map",
+	"manager" => "Manager",
+	"add_review" => "Add your review",
+	"name" => "Name",
+	"review" => "Review",
+	"send" => "Send",
 
 
 

@@ -52,7 +52,7 @@
                             @if($pizza->getAttributeTranslate('size_32'))
                                 <div class="item_button" data-pos="0">
                                     <div class="item_price">{{ $pizza->getAttributeTranslate('price_32')}} грн</div>
-                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-id="{{ $pizza->id}}" data-price="{{ $pizza->getAttributeTranslate('price_40')}}" data-weight="{{ $pizza->getAttributeTranslate('weight_40')}}">{{ trans('base.order')}}</button>
+                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-size="32" data-id="{{ $pizza->id}}" data-price="{{ $pizza->getAttributeTranslate('price_32')}}" data-weight="{{ $pizza->getAttributeTranslate('weight_32')}}">{{ trans('base.order')}}</button>
                                     <div class="item_button_done">
                                         <div><a href="{{ route('article_list', [null, 'cart', null]) }}">{{ trans('base.add_backet')}}</a></div>
                                     </div>
@@ -61,7 +61,7 @@
                             @if($pizza->getAttributeTranslate('size_40'))
                                 <div class="item_button hidden" data-pos="1">
                                     <div class="item_price">{{ $pizza->getAttributeTranslate('price_40')}} грн</div>
-                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-id="{{ $pizza->id}}" data-price="{{ $pizza->getAttributeTranslate('price_40')}}" data-weight="{{ $pizza->getAttributeTranslate('weight_40')}}">{{ trans('base.order')}}</button>
+                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-size="40" data-id="{{ $pizza->id}}" data-price="{{ $pizza->getAttributeTranslate('price_40')}}" data-weight="{{ $pizza->getAttributeTranslate('weight_40')}}">{{ trans('base.order')}}</button>
                                     <div class="item_button_done">
                                         <div><a href="{{ route('article_list', [null, 'cart', null]) }}">{{ trans('base.add_backet')}}</a></div>
                                     </div>

@@ -28,7 +28,7 @@ class Article extends Translate {
     ];
     //protected $dates = ['date_start', 'date_finish'];
     //protected $dateFormat = 'Y-m-d H:i:s';
-    //protected $dates = ['created_at', 'updated_at', 'deleted_at', 'date', 'date_start', 'date_finish'];
+   //protected $dates = ['created_at', 'updated_at', 'deleted_at', 'date'];
 
     // public function getAttributeTranslate($key, $current_lang = null){
         

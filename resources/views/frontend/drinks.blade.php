@@ -36,14 +36,14 @@
                 <div class="tac">
                     <div class="item_button" data-pos="0">
                         <div class="item_price">{{ $drink->getAttributeTranslate('price_pint')}} грн</div>
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-id="132" data-price="25" data-weight="0.5">Заказать</button>
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-id="{{ $drink->id}}" data-price="{{ $drink->getAttributeTranslate('price_pint')}}" data-weight="0.5">Заказать</button>
                         <div class="item_button_done">
                             <div><a href="/cart.html">{{ trans('base.add_backet')}}</a></div>
                         </div>
                     </div>
                     <div class="item_button hidden" data-pos="1">
                         <div class="item_price">{{ $drink->getAttributeTranslate('price_liter')}} грн</div>
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-id="132" data-price="50" data-weight="1">Заказать</button>
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart"  data-id="{{ $drink->id}}" data-price="{{ $drink->getAttributeTranslate('price_liter')}}" data-weight="1">Заказать</button>
                         <div class="item_button_done">
                             <div><a href="/cart.html">{{ trans('base.add_backet')}}</a></div>
                         </div>

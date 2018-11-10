@@ -11,7 +11,7 @@
             @foreach($articles as $key => $pizza)
             <div class="mdl-cell mdl-cell--3-col tac item">
                 <div class="item_popup" 
-                    data-info='[@if($pizza->getAttributeTranslate("size_32")){"id":"24","size":"32","weigth":"450","liters":null,"persons":null,"price":"119"}@endif @if($pizza->getAttributeTranslate("size_40")),{"id":24,"size":"40","weigth":"900","liters":null,"persons":null,"price":"199"}@endif]'
+                    data-info='[@if($pizza->getAttributeTranslate("size_32")){"id":"24","size":"32","weigth":"450","liters":null,"persons":null,"price":"119"}@endif @if($pizza->getAttributeTranslate("size_40")),{"id":"24","size":"40","weigth":"900","liters":null,"persons":null,"price":"199"}@endif]'
                     data-img="{{ asset($pizza->getAttributeTranslate('img'))}}" data-title='{{ $pizza->getTranslate("title")}}' data-description='{!! $pizza->getTranslate("short_description") !!}'>
                     <div class="item_img">
                         <img width="200" height="200" src="{{ asset($pizza->getAttributeTranslate('img'))}}" class="attachment-200x200 size-200x200 wp-post-image" alt="" srcset="{{ asset($pizza->getAttributeTranslate('img'))}} 300w, {{ asset($pizza->getAttributeTranslate('img'))}} 150w, {{ asset($pizza->getAttributeTranslate('img'))}} 100w, {{ asset($pizza->getAttributeTranslate('img'))}} 600w" sizes="(max-width: 200px) 100vw, 200px" />
@@ -41,18 +41,18 @@
                     @if($pizza->getAttributeTranslate('size_32'))
                         <div class="item_button" data-pos="0">
                             <div class="item_price">{{ $pizza->getAttributeTranslate('price_32')}} грн</div>
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-size="32" data-id="{{ $pizza->id}}" data-price="{{ $pizza->getAttributeTranslate('price_32')}}" data-weight="{{ $pizza->getAttributeTranslate('weight_32')}}">{{ trans('base.order')}}</button>
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart"  data-category = '{{ $type }}' data-size="32" data-id="{{ $pizza->id}}" data-price="{{ $pizza->getAttributeTranslate('price_32')}}" data-weight="{{ $pizza->getAttributeTranslate('weight_32')}}">{{ trans('base.order')}}</button>
                             <div class="item_button_done">
-                                <div><a href="/cart.html">{{ trans('base.add_backet')}}</a></div>
+                                <div class='redirect_to_cart'><a href="/cart">{{ trans('base.add_backet')}}</a></div>
                             </div>
                         </div>
                     @endif
                     @if($pizza->getAttributeTranslate('size_40'))
                         <div class="item_button hidden" data-pos="1">
                             <div class="item_price">{{ $pizza->getAttributeTranslate('price_40')}} грн</div>
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-size="40" data-id="{{ $pizza->id}}" data-price="{{ $pizza->getAttributeTranslate('price_40')}}" data-weight="{{ $pizza->getAttributeTranslate('weight_40')}}">{{ trans('base.order')}}</button>
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-category = '{{ $type }}' data-size="40" data-id="{{ $pizza->id}}" data-price="{{ $pizza->getAttributeTranslate('price_40')}}" data-weight="{{ $pizza->getAttributeTranslate('weight_40')}}">{{ trans('base.order')}}</button>
                             <div class="item_button_done">
-                                <div><a href="/cart.html">{{ trans('base.add_backet')}}</a></div>
+                                <div class='redirect_to_cart'><a href="/cart">{{ trans('base.add_backet')}}</a></div>
                             </div>
                         </div>
                     @endif
@@ -61,4 +61,5 @@
             @endforeach    
         <div class="pgn"></div>
     </div>
+    
 @endsection

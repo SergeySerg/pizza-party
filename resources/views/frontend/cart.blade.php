@@ -4,7 +4,7 @@
         <div class="reducer">
             <div class="mdl-grid">
                 <div class="mdl-cell mdl-cell--12-col tac">
-                    <h1 class="entry-title">Корзина</h1>
+                    <h1 class="entry-title">{{ trans('base.backet')}}</h1>
                 </div>
             </div>
             <div class="mdl-grid" id="order_process">
@@ -228,13 +228,15 @@
                     </div>
                 </div>
             </div>
+
             <div class="mdl-grid hidden" id="order_empty">
                 <div class="mdl-cell mdl-cell--12-col">
-                    <h1 class="entry-title">Корзина</h1>
+                    <h1 class="entry-title">{{ trans('base.backet')}}</h1>
                     <p>В корзине нет товаров.</p>
                     <p><a href="/">Вернуться к покупкам</a></p>
                 </div>
             </div>
+
             <div class="mdl-grid hidden" id="order_done">
                 <div class="mdl-cell mdl-cell--12-col">
                     <h1>Ваш заказ принят!</h1>

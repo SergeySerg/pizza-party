@@ -1,36 +1,49 @@
 
-jQuery(document).ready(function ($) {
+jQuery(function ($) {
      /* Custom flexweb */
-     if (localStorage && localStorage.getItem('total_cart') && localStorage.getItem('total_price')) {
-        var total_cart_my = localStorage.getItem("total_cart");
-        var total_price_my = localStorage.getItem("total_price");
+        var total_cart_my = localStorage.getItem("total_cart") || 0;
+        var total_price_my = localStorage.getItem("total_price") || 0;
+        var token = $("input[name='csrf-token']").val(); 
      
-     }else{
-        var total_cart_my = 0;
-        var total_price_my = 0;
-    }
      var tc = jQuery('#total_cart').text(total_cart_my);
      var tp = jQuery('#total_price').text(total_price_my);
-    /*Custom flexweb */
-    jQuery(document).on('click touch', '.add_to_cart', function () {
-        
-        var check_price = jQuery(this).attr('data-price');
-        var check_id = jQuery(this).attr('data-id');
-        var check_size = jQuery(this).attr('data-size');
-        var check_weight = jQuery(this).attr('data-weight');
-   
+     var cart_my = JSON.parse(localStorage.getItem("cart")) || [];
+    //Add product to cart and write to localStorage 
+    $('.add_to_cart').click(function(e){
+        //alert('Nen');
+        //var button_add_cart = $('.item_button_done').addClass('done')
+        var check_price = $(this).attr('data-price');
+        var check_id = $(this).attr('data-id');
+        var check_size = $(this).attr('data-size');
+        var check_weight = $(this).attr('data-weight');
+        var check_category = $(this).attr('data-category');
+        console.log('Корзина',cart_my);
         total_cart_my ++;
         total_price_my = +total_price_my + +check_price;
+        var data = {
+            id: check_id,
+            size: check_size,
+            weight: check_weight,
+            price: check_price,
+            category: check_category
+        }
+        cart_my.push(data);
+
+        console.log('Корзина',cart_my);
         console.log('total_cart', total_cart_my);
         console.log('total_price', total_price_my);
+
         jQuery('#total_cart').text(total_cart_my);
         jQuery('#total_price').text(total_price_my);
+
         console.log('Цена',check_price);
         console.log('ID',check_id);
         console.log('Size',check_size);
         console.log('weight',check_weight);
+
         localStorage.setItem("total_cart", total_cart_my);
         localStorage.setItem("total_price", total_price_my);
+        localStorage.setItem("cart", JSON.stringify(cart_my));
         
 
 
@@ -44,9 +57,47 @@ jQuery(document).ready(function ($) {
         //addToCart( jQuery(this) );
         return false;
     });
-/*/Custom flexweb */
- 
-     /* /Custom flexweb */
+    //write to localStorage cart
+    if(window.location.href.indexOf("cart") > -1) {
+        if(cart_my.length == 0){
+            $("div#order_process").hide();
+            $("div#order_empty").removeClass('hidden');
+        }
+        console.log('В корзини', cart_my);
+        var data_to_server = {
+            order: cart_my
+        }
+    
+        $.ajax({
+            url: '/get_articles',
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': token
+            },
+            data: data_to_server,
+            dataType: "json",
+            success: function (data) {
+                if (data.success) {
+                    //var pr = data.data[0].;
+                    var products = data.data[0];
+                    console.log("З бека", products);
+                    //console.log("З бека 1", pr);
+                    //swal(trans['base.success_add_review'], "", "success");
+                    //jQuery("#callback-order").trigger("reset");
+                    //$("#submit-send").attr('disabled', false);
+                }
+                else {
+                    alert('Ошибка получения продуктов');
+                }
+            },
+            error: function (data) {
+                alert('Серверная ошибка');
+            }
+
+        });  
+    }
+
+    /* /Custom flexweb */
     delete $.jMaskGlobals['translation']['0'];
     $("#cart_phone").mask("+38 099 999-99-99");
 
@@ -95,6 +146,80 @@ jQuery(document).ready(function ($) {
         if( val2 !== '' ) {
             $('#order_done_phone').html(val2);
         }
+    });
+    $('.item .item_popup').click(function(e){
+
+
+        var $fade = jQuery('.fade');
+        var $popup = jQuery('.dt_popup');
+    
+        var html = '';
+        var title = jQuery(this).attr('data-title');
+        var description = jQuery(this).attr('data-description');
+        var img = jQuery(this).attr('data-img');
+        var info = jQuery(this).attr('data-info');
+        var info_json = JSON.parse(info);
+        console.log('Info in popup', info_json);
+    
+        html += '<div class="tac"><img src="' + img + '" alt=""></div>';
+        html += '<h2 class="tac">' + title + '</h2>';
+        if( description ) {
+            html += '<p class="tac">' + description + '</p>';
+        }
+    
+        if( info_json && info_json.length > 0 ) {
+            for( var i=0; i<info_json.length; i++ ) {
+                var params = [];
+                var id = info_json[i]['id'];
+                var price = info_json[i]['price'];
+    
+                if( info_json[i]['size'] ) {
+                    params.push( info_json[i]['size'] + ' см' );
+                }
+                if( info_json[i]['weigth'] ) {
+                    params.push( info_json[i]['weigth'] + ' г' );
+                }
+                if( info_json[i]['liters'] ) {
+                    params.push( info_json[i]['liters'] + ' л' );
+                }
+                if( info_json[i]['persons'] ) {
+                    params.push( info_json[i]['persons'] + ' чел.' );
+                }
+    
+                var curr_w =  info_json[i]['liters'] ?  info_json[i]['liters'] : info_json[i]['weigth'];
+                var params_str = params.join(' / ');
+    
+                html += '<div class="tac item">';
+                html += params_str;
+                html += ' &mdash; ';
+                html += '<span>' + price + '</span> грн';
+                html += '<div class="item_button">';
+                html += '<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-id="' + id + '" data-price="' + price + '" data-weight="' + curr_w + '">Заказать</button>';
+                html += '<div class="item_button_done"><div><a href="/cart">Добавлено в корзину</a></div></div>';
+                html += '</div>';
+                html += '</div>';
+                console.log('HTML',html);
+            }
+        }
+    
+        $popup.find('.dt_popup_content').html(html);
+        $fade.show();
+        $popup.show();
+    
+        setTimeout(function () {
+            var h = $popup.outerHeight();
+            var bh = jQuery(window).height();
+    
+            var t = ( h > bh ) ? jQuery(window).scrollTop() : (bh-h)/2 + jQuery(window).scrollTop();
+            if(t < 0) {
+                t = 0;
+            }
+            $popup.css({
+                top: t
+            });
+        }, 50);
+    
+        return false;
     });
 
 });
@@ -402,76 +527,7 @@ jQuery(document).on('click touch', '.mdl-switch__input', function () {
 });
 
 
-jQuery(document).on('click touch', '.item .item_popup', function () {
-    var $fade = jQuery('.fade');
-    var $popup = jQuery('.dt_popup');
 
-    var html = '';
-    var title = jQuery(this).attr('data-title');
-    var description = jQuery(this).attr('data-description');
-    var img = jQuery(this).attr('data-img');
-    var info = jQuery(this).attr('data-info');
-    var info_json = JSON.parse(info);
-
-    html += '<div class="tac"><img src="' + img + '" alt=""></div>';
-    html += '<h2 class="tac">' + title + '</h2>';
-    if( description ) {
-        html += '<p class="tac">' + description + '</p>';
-    }
-
-    if( info_json && info_json.length > 0 ) {
-        for( var i=0; i<info_json.length; i++ ) {
-            var params = [];
-            var id = info_json[i]['id'];
-            var price = info_json[i]['price'];
-
-            if( info_json[i]['size'] ) {
-                params.push( info_json[i]['size'] + ' см' );
-            }
-            if( info_json[i]['weigth'] ) {
-                params.push( info_json[i]['weigth'] + ' г' );
-            }
-            if( info_json[i]['liters'] ) {
-                params.push( info_json[i]['liters'] + ' л' );
-            }
-            if( info_json[i]['persons'] ) {
-                params.push( info_json[i]['persons'] + ' чел.' );
-            }
-
-            var curr_w =  info_json[i]['liters'] ?  info_json[i]['liters'] : info_json[i]['weigth'];
-            var params_str = params.join(' / ');
-
-            html += '<div class="tac item">';
-            html += params_str;
-            html += ' &mdash; ';
-            html += '<span>' + price + '</span> грн';
-            html += '<div class="item_button">';
-            html += '<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-id="' + id + '" data-price="' + price + '" data-weight="' + curr_w + '">Заказать</button>';
-            html += '<div class="item_button_done"><div><a href="/cart/">Р”РѕР±Р°РІР»РµРЅРѕ РІ РєРѕСЂР·РёРЅСѓ</a></div></div>';
-            html += '</div>';
-            html += '</div>';
-        }
-    }
-
-    $popup.find('.dt_popup_content').html(html);
-    $fade.show();
-    $popup.show();
-
-    setTimeout(function () {
-        var h = $popup.outerHeight();
-        var bh = jQuery(window).height();
-
-        var t = ( h > bh ) ? jQuery(window).scrollTop() : (bh-h)/2 + jQuery(window).scrollTop();
-        if(t < 0) {
-            t = 0;
-        }
-        $popup.css({
-            top: t
-        });
-    }, 50);
-
-    return false;
-});
 jQuery(document).on('click touch', '.dt_popup_bg', function (e) {
     e.stopPropagation();
     e.preventDefault();

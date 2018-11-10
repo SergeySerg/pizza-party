@@ -58,36 +58,16 @@ class ArticleController extends Controller {
 		return view('frontend.article')->with(compact('article'));
 	}
 	/**
-	/**
+	
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function showSeo(Request $request)
-	{
-		$seo_article = Article::where('attributes->url->' . App::getLocale(), $request->url )->first();
-		
-		//dd($seo_article);
-		return view('frontend.seo')->with(compact('seo_article'));
-	}
 	public function show404(Request $request)
 	{
 		return view('frontend.404');
 	}
-	
-	public function showMainPage($type){
-		/*Select slide that check as show_main_page*/
-		$category_item = Category::with('articles')->select('id')->where('link', $type)->first();
-			Debugbar::info($category_item);
-		$main_item = $category_item->articles()->where('attributes->show_main_page', 1)->activeAndSortArticles()->get();
-			Debugbar::info($main_item);
-		return $main_item;
-		
-		 
-		
-	}
-	
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -203,8 +183,8 @@ class ArticleController extends Controller {
 			//Send item on admin email address
 			Mail::send('emails.reserved', $all, function($message){
 				$email = getSetting('config.email');
-				$message->to($email, ' PIzza-party')
-						->subject('Бронювання з сайту  PIzza-party');
+				$message->to($email, 'PIzza-party')
+						->subject('Бронювання з сайту PIzza-party');
 			});
 			return response()->json([
 				'success' => 'true'
@@ -298,5 +278,111 @@ class ArticleController extends Controller {
 				'data' => $review
 			]);
 		}
+	}
+	public function get_articles(Request $request)
+	{
+		//dd('get_articles');
+		if ($request ->isMethod('post')){
+			/*get [] from request*/
+			$all = $request->all();
+			$order = collect($all['order']);
+			
+			$products = $order->map(function ($item, $key) {
+				$category = $item['category'];
+				$size = $item['size'];
+				$params = $this->getParams($category, (isset($item['size'])) ? $item['size'] : null);
+				$article = Article::where('id', $item['id'])
+					->activeAndSortArticles();
+				$res = $article->first($params);
+				$front = [
+					'id' => $res['id'],
+					'title' => $res['title'],
+					'category_id' => $res['category_id'],
+					'short_description' => $res['short_description'],
+					'img' => $res['`attributes`->"$.img"'],
+					'number_id' => $res['`attributes`->"$.number_id"'], 
+					//'price'=> $res['`attributes`->"$.price" . (isset($item['size'])) ? $item['size'] : null"'],
+
+					'price'=> $res['`attributes`->"$.price_' . $size . '"'],
+					//'weight'=> $res['`attributes`->"$.img"'],
+					//'size'=> $res['`attributes`->"$.img"'],
+
+				];
+				//dd('`attributes`->"$.price_' . $size . '"');
+				return $front;
+
+				
+				
+
+			});
+			//$data_to_front = [];
+			dd($products);
+			foreach($products as $key => $v){
+				$data_to_front[] = [
+					'id' => $v['id'],
+					'title' => $v['title'],
+					'category_id' => $v['category_id'],
+					'short_description' => $v['short_description'],
+					'img' => $v['`attributes`->"$.img"'],
+					'number_id' => $v['`attributes`->"$.number_id'], 
+					'price'=> $v['`attributes`->"$.img"'],
+					'weight'=> $v['`attributes`->"$.img"'],
+					'size'=> $v['`attributes`->"$.img"'],
+				];
+
+				//Debugbar::info($key);	
+				Debugbar::info($p['`attributes`->"$.img"']);	
+			}
+			return response()->json([
+				'success' => 'true',
+				'data' => $products
+			]);
+		}
+	}
+	private function getParams($category, $size=null){
+		$config = [
+			'pizza' => ['id',
+				'title',
+				'category_id',
+				'short_description',
+				'attributes->img',
+				'attributes->number_id',
+				'attributes->price_' . $size,
+				'attributes->weight_' . $size,
+				'attributes->size_' . $size
+			],
+			'salad' => ['id',
+				'title',
+				'category_id',
+				'short_description',
+				'attributes->img',
+				'attributes->number_id',
+				'attributes->price',
+				'attributes->weight'
+			
+			],
+			'desserts' => ['id',
+					'title',
+					'category_id',
+					'short_description',
+					'attributes->img',
+					'attributes->number_id',
+					'attributes->price',
+					'attributes->weight'
+			
+			],
+			'drinks' => ['id',
+					'title',
+					'category_id',
+					'short_description',
+					'attributes->img',
+					'attributes->number_id',
+					'attributes->price_' . $size,
+					'attributes->size_' . $size
+			]
+		];
+		//dd($config[$category]);
+		return $config[$category];
+
 	}
 }

@@ -1,9 +1,4 @@
 <?php
-// use App\Http\Controllers\Controller;
-// use App\Http\Controllers\Frontend;
-// use App\Models\Article;
-// use App\Models\Category;
-//use App;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -98,81 +93,26 @@ Route::group(['prefix'=> getSetting('admin.prefix'), 'middleware' => ['auth', 'b
 	Route::put('/orders/{id}',['uses' =>'Backend\AdminOrdersController@update','as' => 'order_update']);//Сохранение элемента после редактирования..
 	Route::post('/orders/change_status', ['uses' => 'Backend\AdminOrdersController@change_status', 'as' => 'change_status']);//Вывод списка заказов
 
-
-
-
 });
 /*/Backend group routes*/
 
 
 /*Frontend group routes*/
-//Route::get('/{lang}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@indexMain', 'as' => 'article_index']);
-//Route::group(['domain' => getSetting('domain')], function() {	
-	Route::get('/{lang?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@index', 'as' => 'article_index'])->where('lang', 'ua|ru|en');
-	Route::get('/{type}/{url?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@render_list', 'as' => 'article_list'])->where('type', 'pizza|salad|desserts|drinks|feedback|cart|articles|map')->where('url', 'index.htm');
-	Route::get('/{lang?}/{type}/{url?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@render_list', 'as' => 'article_list'])->where('type', 'pizza|salad|desserts|drinks|feedback|cart|articles|map')->where('url', 'index.htm');
-	Route::get('/{type}/{url}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show', 'as' => 'article_url'])->where('type', 'articles');
-	Route::get('/{lang?}/{type}/{url}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show', 'as' => 'article_url'])->where('type', 'articles');
-	//Route::get('/map', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show_map', 'as' => 'article_map']);
+Route::get('/{lang?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@index', 'as' => 'article_index'])->where('lang', 'ua|ru|en');
+Route::get('/{type}/{url?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@render_list', 'as' => 'article_list'])->where('type', 'pizza|salad|desserts|drinks|feedback|cart|articles|map')->where('url', 'index.htm');
+Route::get('/{lang?}/{type}/{url?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@render_list', 'as' => 'article_list'])->where('type', 'pizza|salad|desserts|drinks|feedback|cart|articles|map')->where('url', 'index.htm');
+Route::get('/{type}/{url}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show', 'as' => 'article_url'])->where('type', 'articles');
+Route::get('/{lang?}/{type}/{url}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show', 'as' => 'article_url'])->where('type', 'articles');
+//Route::get('/map', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show_map', 'as' => 'article_map']);
 
-	/*Modal routes*/
-	Route::post('/{lang}/callback', ['uses' => 'Frontend\ArticleController@callback','as' => 'callback']);//Обработчик Обратной связи при заказе товара
-	Route::post('/{lang}/add_review', ['uses' => 'Frontend\ArticleController@add_review','as' => 'add_review']);//Обработчик добавления отзыва
-	Route::post('/{lang}/reserved', ['uses' => 'Frontend\ArticleController@reserved','as' => 'reserved']);//Обработчик Обратной связи при заказе номера
-	Route::post('/get_prices', ['uses' => 'Frontend\ArticleController@get_prices','as' => 'get_prices']);//Обработчик цени номера
+/*Modal routes*/
+Route::post('/{lang}/callback', ['uses' => 'Frontend\ArticleController@callback','as' => 'callback']);//Обработчик Обратной связи при заказе товара
+Route::post('/{lang}/add_review', ['uses' => 'Frontend\ArticleController@add_review','as' => 'add_review']);//Обработчик добавления отзыва
+Route::post('/{lang}/reserved', ['uses' => 'Frontend\ArticleController@reserved','as' => 'reserved']);//Обработчик Обратной связи при заказе номера
+Route::post('/get_articles', ['uses' => 'Frontend\ArticleController@get_articles','as' => 'get_articles']);//Обработчик товаров
 
-	/*/Modal routes*/
-	/*Render html page */
-	Route::post('set_dates', function () {
-		if (Request::ajax()){
-			$dates = (Request::all());
-			//$date_start = Input::get('dateStart');
-			session([
-				'date_start' => $dates['dateStart'],
-				'date_finish' => $dates['dateFinish']
-
-				]);
-				return response()->json([
-					"status" => 'success'
-				]);
-
-		}
-		//return true;
-	});
-	
-	
-//});
-
-
-
-
-
-
-//Route::post('/update_rate', ['uses' => 'Frontend\ArticleController@update_rate','as' => 'update_rate']);//Обновление тарифа
-//Route::get('/update_rate_debug', ['uses' => 'Frontend\ArticleController@update_rate','as' => 'update_rate']);//Обновление тарифа
-
-
-/*/Callback group route*/
-
-/*Backend group routes*/
-
-/*Frontend group routes*/
-// Route::group(['domain' => '{subdomain}' . '.' . getSetting('domain'), 'middleware' => 'frontend.init'], function(){
-// 	//dd('rtyui1');
-// 	/*Callback group route*/
-// 	Route::post('/{lang}/{type}', ['uses' => 'Frontend\ArticleController@contact','as' => 'contact']);//Обработчик Обратной связи
-// 	Route::get('/{lang?}/{type?}', ['uses' => 'Frontend\ArticleController@index', 'as' => 'article_index_subdomain'])->where('lang', 'ua|ru|en|pl');
-// 	Route::get('/{lang}/{type}/{link}/{id}', ['uses' => 'Frontend\ArticleController@show', 'as' => 'article_show'])->where('lang', 'ua|ru|en|pl');
-// 	Route::post('/{lang}/reserved', ['uses' => 'Frontend\ArticleController@reserved','as' => 'reserved']);//Обработчик Обратной связи при заказе номера
-// 	modal_handler();
-// 	//frontEndRoutes();
-// });
-
-/*Frontend group routes*/
-// function modal_handler(){
-// 	Route::post('/{lang}/callback', ['uses' => 'Frontend\ArticleController@callback','as' => 'callback']);//Обработчик Обратной связи при заказе товара
-// 	Route::post('/{lang}/add_review', ['uses' => 'Frontend\ArticleController@add_review','as' => 'add_review']);//Обработчик добавления отзыва
-// }
+/*/Modal routes*/
+/*/Frontend group routes*/
 
 
 

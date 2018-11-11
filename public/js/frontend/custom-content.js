@@ -4,7 +4,9 @@ jQuery(function ($) {
         var total_cart_my = localStorage.getItem("total_cart") || 0;
         var total_price_my = localStorage.getItem("total_price") || 0;
         var token = $("input[name='csrf-token']").val(); 
-     
+        var lang =  $("input[name='lang']").val();
+        console.log('zpsr', lang);
+
      var tc = jQuery('#total_cart').text(total_cart_my);
      var tp = jQuery('#total_price').text(total_price_my);
      var cart_my = JSON.parse(localStorage.getItem("cart")) || [];
@@ -57,17 +59,18 @@ jQuery(function ($) {
         //addToCart( jQuery(this) );
         return false;
     });
+    if(cart_my.length == 0){
+        $("div#order_process").hide();
+        $("div#order_empty").removeClass('hidden');
+    }
     //write to localStorage cart
-    if(window.location.href.indexOf("cart") > -1) {
-        if(cart_my.length == 0){
-            $("div#order_process").hide();
-            $("div#order_empty").removeClass('hidden');
-        }
+    if(window.location.href.indexOf("cart") > -1  && cart_my.length >= 1) {
+       
+
         console.log('В корзини', cart_my);
         var data_to_server = {
             order: cart_my
         }
-    
         $.ajax({
             url: '/get_articles',
             method: 'POST',
@@ -76,15 +79,74 @@ jQuery(function ($) {
             },
             data: data_to_server,
             dataType: "json",
-            success: function (data) {
-                if (data.success) {
-                    //var pr = data.data[0].;
-                    var products = data.data[0];
+            success: function (response) {
+                if (response.success) {
+                    var products = response.data;
+
+                    $.each( products, function( key, product ) {
+                    html = '<tr id="cart_row_117_400">' +
+                        '<td class="mdl-data-table__cell--non-numeric cart_img">' +
+                            '<div class="cart_img_block" style="background: url(' + JSON.parse(product.img) + ') 50% 50% no-repeat;-webkit-background-size: contain;background-size: contain;"></div>' +
+                        '</td>' +
+                        '<td class="mdl-data-table__cell--non-numeric cart_product">'+
+                            '<h3>' + JSON.parse(product.title).ru + '</h3>'+
+                            JSON.parse(product.short_description).ru +
+                        '</td>'+
+                        '<td class="cart_break"></td>';
+
+                    if(JSON.parse(product.size) && JSON.parse(product.category_id) == 1 ){
+                        html += '<td data-id=' + JSON.parse(product.id)+ ' class="mdl-data-table__cell--non-numeric cart_info_td"><span>' + JSON.parse(product.size) + ' см</span> <span>' + JSON.parse(product.weight) + ' гр</span> </td>';
+
+                    }
+                    else if(JSON.parse(product.size) && JSON.parse(product.category_id) == 4 ){
+                        switch(JSON.parse(product.size)){
+                            case ('pint'): 
+                                html += '<td data-id=' + JSON.parse(product.id)+ ' class="mdl-data-table__cell--non-numeric cart_info_td"><span> 0.5 л</span></td>';
+                            break;
+                            case ('liter'): 
+                                html += '<td data-id=' + JSON.parse(product.id)+ ' class="mdl-data-table__cell--non-numeric cart_info_td"><span> 1 л</span></td>';
+                            break;
+                        }
+                    }
+                    else{
+                        html += '<td data-id=' + JSON.parse(product.id)+ ' class="mdl-data-table__cell--non-numeric cart_info_td"><span>' + JSON.parse(product.weight) + ' гр</span> </td>';
+                    }    
+                    
+                    
+                    
+                    
+                    
+                    html += '<td class="mdl-data-table__cell--non-numeric cart_num_td">'+
+                            '<div class="cart_num" data-id=' + JSON.parse(product.id)+ ' data-weight=' + JSON.parse(product.weight)+ '>'+
+                                '<div class="cart_num_plus">'+
+                                    '<button class="mdl-button mdl-js-button mdl-button--icon cart_num_plus_btn">'+
+                                        '<i class="material-icons">add</i>'+
+                                    '</button>'+
+                                '</div>'+
+                                '<div class="cart_num_curr">1</div>'+
+                                '<div class="cart_num_minus">'+
+                                    '<button class="mdl-button mdl-js-button mdl-button--icon cart_num_minus_btn">'+
+                                        '<i class="material-icons">remove</i>'+
+                                    '</button>'+
+                                '</div>'+
+                            '</div>'+
+                        '</td>'+
+                        '<td class="mdl-data-table__cell--non-numeric cart_price_td">'+
+                            '<span>'+
+                                '<span class="price" id="cart_price_' + JSON.parse(product.id)+ '">' + JSON.parse(product.price) + '</span> грн'+
+                            '</span>'+
+                        '</td>'+
+                        '<td class="mdl-data-table__cell--non-numeric cart_delete_td">'+
+                            '<button class="mdl-button mdl-js-button mdl-button--icon cart_remove_btn" data-id=' + JSON.parse(product.id)+ ' data-weight=' + JSON.parse(product.weight)+ '>'+
+                                '<i class="material-icons">clear</i>'+
+                            '</button>'+
+                        '</td>'+
+                    '</tr>'
+                        $('tbody').append(html);
+                        console.log( JSON.parse(product.title).ru );
+                      });
+                    //we = JSON.parse(response.data[0].category_id);
                     console.log("З бека", products);
-                    //console.log("З бека 1", pr);
-                    //swal(trans['base.success_add_review'], "", "success");
-                    //jQuery("#callback-order").trigger("reset");
-                    //$("#submit-send").attr('disabled', false);
                 }
                 else {
                     alert('Ошибка получения продуктов');
@@ -246,153 +308,153 @@ function makeid(num) {
     return text;
 }
 
-jQuery(document).on('click touch', '.cart_num_plus_btn', function () {
-    var $parent = jQuery(this).parents('.cart_num').first();
+// jQuery(document).on('click touch', '.cart_num_plus_btn', function () {
+//     var $parent = jQuery(this).parents('.cart_num').first();
 
-    var data_id = ($parent.attr('data-id'));
-    var data_weight = parseFloat($parent.attr('data-weight'));
+//     var data_id = ($parent.attr('data-id'));
+//     var data_weight = parseFloat($parent.attr('data-weight'));
 
-    var cookieJson = getCookie('cart');
-    var json_obj = JSON.parse(cookieJson) ;
+//     var cookieJson = getCookie('cart');
+//     var json_obj = JSON.parse(cookieJson) ;
 
-    var num = 0;
-    var price = 0;
-    for( var i=0; i<json_obj['order'].length; i++ ) {
-        var curr_id   = (json_obj['order'][i]['id']);
-        var curr_num   = parseInt(json_obj['order'][i]['total']);
-        var curr_price = parseInt(json_obj['order'][i]['price']);
-        var curr_weight = parseFloat(json_obj['order'][i]['weight']);
+//     var num = 0;
+//     var price = 0;
+//     for( var i=0; i<json_obj['order'].length; i++ ) {
+//         var curr_id   = (json_obj['order'][i]['id']);
+//         var curr_num   = parseInt(json_obj['order'][i]['total']);
+//         var curr_price = parseInt(json_obj['order'][i]['price']);
+//         var curr_weight = parseFloat(json_obj['order'][i]['weight']);
         
-        console.log(curr_id, data_id);
+//         console.log(curr_id, data_id);
 
-        if( curr_id == data_id && curr_weight === data_weight ) {
-            num = curr_num + 1;
-            price = curr_price * num;
+//         if( curr_id == data_id && curr_weight === data_weight ) {
+//             num = curr_num + 1;
+//             price = curr_price * num;
 
-            json_obj['order'][i]['total'] = num;
-        }
-    }
+//             json_obj['order'][i]['total'] = num;
+//         }
+//     }
 
-    var json_str = JSON.stringify(json_obj);
-    setCookie('cart',json_str, {path:'/'});
-    $parent.find('.cart_num_curr').html(num);
+//     var json_str = JSON.stringify(json_obj);
+//     setCookie('cart',json_str, {path:'/'});
+//     $parent.find('.cart_num_curr').html(num);
 
-    var dw = data_weight.toString().replace('.', '-');
-    jQuery('#cart_price_' + data_id + '_' + dw).html(price);
-
-
-    var cart_total_num   = 0;
-    var cart_total_price = 0;
-
-    for( var i=0; i<json_obj['order'].length; i++ ) {
-        var curr_num   = parseInt(json_obj['order'][i]['total']);
-        var curr_price = parseInt(json_obj['order'][i]['price']);
-
-        cart_total_num   += curr_num;
-        cart_total_price += curr_num * curr_price;
-    }
-
-    jQuery('#total_cart').html(cart_total_num + ' С€С‚.');
-    jQuery('#total_price').html(cart_total_price + ' РіСЂРЅ');
-    jQuery('.cart_totals_price').html(cart_total_price);
-});
-jQuery(document).on('click touch', '.cart_num_minus_btn', function () {
-    var $parent = jQuery(this).parents('.cart_num').first();
-
-    var data_id = ($parent.attr('data-id'));
-    var data_weight = parseFloat($parent.attr('data-weight'));
-
-    var cookieJson = getCookie('cart');
-    var json_obj = JSON.parse(cookieJson) ;
-
-    var num = 0;
-    var price = 0;
-    for( var i=0; i<json_obj['order'].length; i++ ) {
-        var curr_id   = (json_obj['order'][i]['id']);
-        var curr_num   = parseInt(json_obj['order'][i]['total']);
-        var curr_price  = parseInt(json_obj['order'][i]['price']);
-        var curr_weight = parseFloat(json_obj['order'][i]['weight']);
-
-        if( curr_id == data_id && curr_weight === data_weight ) {
-            num = curr_num - 1;
-            if( num < 1 ) {
-                num = 1
-            }
-            price = curr_price * num;
-
-            json_obj['order'][i]['total'] = num;
-        }
-    }
-
-    var json_str = JSON.stringify(json_obj);
-    setCookie('cart',json_str, {path:'/'});
-    $parent.find('.cart_num_curr').html(num);
-
-    var dw = data_weight.toString().replace('.', '-');
-    jQuery('#cart_price_' + data_id + '_' + dw).html(price);
+//     var dw = data_weight.toString().replace('.', '-');
+//     jQuery('#cart_price_' + data_id + '_' + dw).html(price);
 
 
-    var cart_total_num   = 0;
-    var cart_total_price = 0;
+//     var cart_total_num   = 0;
+//     var cart_total_price = 0;
 
-    for( var i=0; i<json_obj['order'].length; i++ ) {
-        var curr_num   = parseInt(json_obj['order'][i]['total']);
-        var curr_price = parseInt(json_obj['order'][i]['price']);
+//     for( var i=0; i<json_obj['order'].length; i++ ) {
+//         var curr_num   = parseInt(json_obj['order'][i]['total']);
+//         var curr_price = parseInt(json_obj['order'][i]['price']);
 
-        cart_total_num   += curr_num;
-        cart_total_price += curr_num * curr_price;
-    }
+//         cart_total_num   += curr_num;
+//         cart_total_price += curr_num * curr_price;
+//     }
 
-    jQuery('#total_cart').html(cart_total_num + ' С€С‚.');
-    jQuery('#total_price').html(cart_total_price + ' РіСЂРЅ');
-    jQuery('.cart_totals_price').html(cart_total_price);
-});
-jQuery(document).on('click touch', '.cart_remove_btn', function () {
-    var data_id = (jQuery(this).attr('data-id'));
-    var data_weight = parseFloat(jQuery(this).attr('data-weight'));
+//     jQuery('#total_cart').html(cart_total_num + ' С€С‚.');
+//     jQuery('#total_price').html(cart_total_price + ' РіСЂРЅ');
+//     jQuery('.cart_totals_price').html(cart_total_price);
+// });
+// jQuery(document).on('click touch', '.cart_num_minus_btn', function () {
+//     var $parent = jQuery(this).parents('.cart_num').first();
 
-    var cookieJson = getCookie('cart');
-    var json_obj = JSON.parse(cookieJson) ;
+//     var data_id = ($parent.attr('data-id'));
+//     var data_weight = parseFloat($parent.attr('data-weight'));
 
-    var index = null;
-    for( var i=0; i<json_obj['order'].length; i++ ) {
-        var curr_id   = (json_obj['order'][i]['id']);
-        var curr_weight = parseFloat(json_obj['order'][i]['weight']);
+//     var cookieJson = getCookie('cart');
+//     var json_obj = JSON.parse(cookieJson) ;
 
-        if( curr_id == data_id && curr_weight === data_weight ) {
-            index = i;
-            break;
-        }
-    }
+//     var num = 0;
+//     var price = 0;
+//     for( var i=0; i<json_obj['order'].length; i++ ) {
+//         var curr_id   = (json_obj['order'][i]['id']);
+//         var curr_num   = parseInt(json_obj['order'][i]['total']);
+//         var curr_price  = parseInt(json_obj['order'][i]['price']);
+//         var curr_weight = parseFloat(json_obj['order'][i]['weight']);
+
+//         if( curr_id == data_id && curr_weight === data_weight ) {
+//             num = curr_num - 1;
+//             if( num < 1 ) {
+//                 num = 1
+//             }
+//             price = curr_price * num;
+
+//             json_obj['order'][i]['total'] = num;
+//         }
+//     }
+
+//     var json_str = JSON.stringify(json_obj);
+//     setCookie('cart',json_str, {path:'/'});
+//     $parent.find('.cart_num_curr').html(num);
+
+//     var dw = data_weight.toString().replace('.', '-');
+//     jQuery('#cart_price_' + data_id + '_' + dw).html(price);
 
 
-    var dw = data_weight.toString().replace('.', '-');
-    json_obj['order'].splice(index, 1);
-    jQuery( '#cart_row_' + data_id + '_' + dw).remove();
+//     var cart_total_num   = 0;
+//     var cart_total_price = 0;
 
-    var json_str = JSON.stringify(json_obj);
-    setCookie('cart',json_str, {path:'/'});
+//     for( var i=0; i<json_obj['order'].length; i++ ) {
+//         var curr_num   = parseInt(json_obj['order'][i]['total']);
+//         var curr_price = parseInt(json_obj['order'][i]['price']);
 
-    var cart_total_num   = 0;
-    var cart_total_price = 0;
+//         cart_total_num   += curr_num;
+//         cart_total_price += curr_num * curr_price;
+//     }
 
-    for( var i=0; i<json_obj['order'].length; i++ ) {
-        var curr_num   = parseInt(json_obj['order'][i]['total']);
-        var curr_price = parseInt(json_obj['order'][i]['price']);
+//     jQuery('#total_cart').html(cart_total_num + ' С€С‚.');
+//     jQuery('#total_price').html(cart_total_price + ' РіСЂРЅ');
+//     jQuery('.cart_totals_price').html(cart_total_price);
+// });
+// jQuery(document).on('click touch', '.cart_remove_btn', function () {
+//     var data_id = (jQuery(this).attr('data-id'));
+//     var data_weight = parseFloat(jQuery(this).attr('data-weight'));
 
-        cart_total_num   += curr_num;
-        cart_total_price += curr_num * curr_price;
-    }
+//     var cookieJson = getCookie('cart');
+//     var json_obj = JSON.parse(cookieJson) ;
 
-    jQuery('#total_cart').html(cart_total_num + ' С€С‚.');
-    jQuery('#total_price').html(cart_total_price + ' РіСЂРЅ');
-    jQuery('.cart_totals_price').html(cart_total_price);
+//     var index = null;
+//     for( var i=0; i<json_obj['order'].length; i++ ) {
+//         var curr_id   = (json_obj['order'][i]['id']);
+//         var curr_weight = parseFloat(json_obj['order'][i]['weight']);
 
-    if( json_obj['order'].length < 1 ) {
-        jQuery('#order_process').addClass('hidden');
-        jQuery('#order_empty').removeClass('hidden');
-    }
-});
+//         if( curr_id == data_id && curr_weight === data_weight ) {
+//             index = i;
+//             break;
+//         }
+//     }
+
+
+//     var dw = data_weight.toString().replace('.', '-');
+//     json_obj['order'].splice(index, 1);
+//     jQuery( '#cart_row_' + data_id + '_' + dw).remove();
+
+//     var json_str = JSON.stringify(json_obj);
+//     setCookie('cart',json_str, {path:'/'});
+
+//     var cart_total_num   = 0;
+//     var cart_total_price = 0;
+
+//     for( var i=0; i<json_obj['order'].length; i++ ) {
+//         var curr_num   = parseInt(json_obj['order'][i]['total']);
+//         var curr_price = parseInt(json_obj['order'][i]['price']);
+
+//         cart_total_num   += curr_num;
+//         cart_total_price += curr_num * curr_price;
+//     }
+
+//     jQuery('#total_cart').html(cart_total_num + ' С€С‚.');
+//     jQuery('#total_price').html(cart_total_price + ' РіСЂРЅ');
+//     jQuery('.cart_totals_price').html(cart_total_price);
+
+//     if( json_obj['order'].length < 1 ) {
+//         jQuery('#order_process').addClass('hidden');
+//         jQuery('#order_empty').removeClass('hidden');
+//     }
+// });
 jQuery(document).on('click touch', '#order_btn', function () {
     var $btn = jQuery(this);
     $btn.addClass('hidden');

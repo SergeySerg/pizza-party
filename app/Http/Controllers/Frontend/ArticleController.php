@@ -289,50 +289,29 @@ class ArticleController extends Controller {
 			
 			$products = $order->map(function ($item, $key) {
 				$category = $item['category'];
-				$size = $item['size'];
+				$size = (isset($item['size'])) ? $item['size'] : null;
+				$res_size = json_encode($size);
 				$params = $this->getParams($category, (isset($item['size'])) ? $item['size'] : null);
 				$article = Article::where('id', $item['id'])
 					->activeAndSortArticles();
-				$res = $article->first($params);
-				$front = [
-					'id' => $res['id'],
-					'title' => $res['title'],
-					'category_id' => $res['category_id'],
-					'short_description' => $res['short_description'],
-					'img' => $res['`attributes`->"$.img"'],
-					'number_id' => $res['`attributes`->"$.number_id"'], 
-					//'price'=> $res['`attributes`->"$.price" . (isset($item['size'])) ? $item['size'] : null"'],
-
-					'price'=> $res['`attributes`->"$.price_' . $size . '"'],
-					//'weight'=> $res['`attributes`->"$.img"'],
-					//'size'=> $res['`attributes`->"$.img"'],
-
+				$article = $article->first($params);
+				$result = [
+					'id' => $article['id'],
+					'title' => $article['title'],
+					'category_id' => $article['category_id'],
+					'size' => $res_size,
+					'short_description' => $article['short_description'],
+					'img' => $article['`attributes`->"$.img"'],
+					'number_id' => $article['`attributes`->"$.number_id"'], 
+					'price'=> (isset($size)) ? $article['`attributes`->"$.price_' . $size . '"'] : $article['`attributes`->"$.price"'],
+					'weight'=> (isset($size)) ? $article['`attributes`->"$.weight_' . $size . '"'] : $article['`attributes`->"$.weight"'],
 				];
-				//dd('`attributes`->"$.price_' . $size . '"');
-				return $front;
-
-				
-				
-
+				return $result;
 			});
-			//$data_to_front = [];
-			dd($products);
-			foreach($products as $key => $v){
-				$data_to_front[] = [
-					'id' => $v['id'],
-					'title' => $v['title'],
-					'category_id' => $v['category_id'],
-					'short_description' => $v['short_description'],
-					'img' => $v['`attributes`->"$.img"'],
-					'number_id' => $v['`attributes`->"$.number_id'], 
-					'price'=> $v['`attributes`->"$.img"'],
-					'weight'=> $v['`attributes`->"$.img"'],
-					'size'=> $v['`attributes`->"$.img"'],
-				];
-
-				//Debugbar::info($key);	
-				Debugbar::info($p['`attributes`->"$.img"']);	
-			}
+			
+			Debugbar::info($products);	
+			//Debugbar::info($p['`attributes`->"$.img"']);	
+		
 			return response()->json([
 				'success' => 'true',
 				'data' => $products

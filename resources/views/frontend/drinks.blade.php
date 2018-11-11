@@ -43,7 +43,7 @@
                     </div>
                     <div class="item_button hidden" data-pos="1">
                         <div class="item_price">{{ $drink->getAttributeTranslate('price_liter')}} грн</div>
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-category = '{{ $type }}' data-size= "1" data-id="{{ $drink->id}}" data-price="{{ $drink->getAttributeTranslate('price_liter')}}" data-weight="1">Заказать</button>
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-category = '{{ $type }}' data-size= "liter" data-id="{{ $drink->id}}" data-price="{{ $drink->getAttributeTranslate('price_liter')}}" data-weight="1">Заказать</button>
                         <div class="item_button_done">
                             <div><a href="/cart">{{ trans('base.add_backet')}}</a></div>
                         </div>

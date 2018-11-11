@@ -10,28 +10,28 @@
             <div class="mdl-grid" id="order_process">
                 <div class="mdl-cell mdl-cell--4-col cart_form">
                     <form action="#" id="order_form">
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        {{--<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                             <input class="mdl-textfield__input" type="text" id="cart_code">
                             <label class="mdl-textfield__label" for="cart_code">Скидочный код</label>
-                        </div>
+                        </div>--}}
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <input class="mdl-textfield__input" type="text" id="cart_name">
+                            <input class="mdl-textfield__input" name='name' type="text" id="cart_name">
                             <label class="mdl-textfield__label" for="cart_name">Имя *</label>
                         </div>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <input class="mdl-textfield__input" type="text" id="cart_phone">
+                            <input class="mdl-textfield__input" type="text" name='phone' id="cart_phone">
                             <label class="mdl-textfield__label" for="cart_phone">Телефон *</label>
                         </div>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <input class="mdl-textfield__input" type="text" id="cart_address">
+                            <input class="mdl-textfield__input" type="text" name='address' id="cart_address">
                             <label class="mdl-textfield__label" for="cart_address">Адрес</label>
                         </div>
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        {{--<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                             <input class="mdl-textfield__input" type="text" id="cart_email">
                             <label class="mdl-textfield__label" for="cart_email">Эл. почта</label>
-                        </div>
+                        </div>--}}
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <textarea class="mdl-textfield__input" type="text" rows="3" id="cart_note"></textarea>
+                            <textarea class="mdl-textfield__input" type="text" name='short_description' rows="3" id="cart_note"></textarea>
                             <label class="mdl-textfield__label" for="cart_note">Примечание</label>
                         </div>
                         <div>
@@ -43,7 +43,7 @@
                 <div class="mdl-cell mdl-cell--8-col">
                     <table class="mdl-data-table full_width cart_table">
                         <tbody>
-                            <tr id="cart_row_117_400">
+                            {{--<tr id="cart_row_117_400">
                                 <td class="mdl-data-table__cell--non-numeric cart_img">
                                     <div class="cart_img_block" style="background: url('/images/salyami-pizza-300x300.jpg') 50% 50% no-repeat;-webkit-background-size: contain;background-size: contain;"></div>
                                 </td>
@@ -219,7 +219,7 @@
                                         <i class="material-icons">clear</i>
                                     </button>
                                 </td>
-                            </tr>
+                            </tr>--}}
                         </tbody>
                     </table>
                     <div class="cart_totals">

@@ -29,7 +29,9 @@
                             </div>
                             <h3>{{ $pizza->getTranslate('title')}}</h3>
                         </div>
-                        {!! $pizza->getTranslate('short_description')!!}
+                        <div class="composition">
+                            {!! $pizza->getTranslate('short_description') !!}
+                        </div>
                         <div class="tac item_button_size_list">
                             @if($pizza->getAttributeTranslate('size_32'))
                                 <div class="item_button_size checked" data-id="{{ $pizza->id}}" data-pos="0">

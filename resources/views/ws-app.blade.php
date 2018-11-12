@@ -1,8 +1,14 @@
 <!doctype html>
 <html lang="{{ App::getLocale() }}">
 <head>
-<link rel="shortcut icon" href="{{ asset('/img/favicon/favicon.png') }}?1" type="image/x-icon">
-
+<!-- <link rel="shortcut icon" href="{{ asset('/img/favicon/favicon.png') }}?1" type="image/x-icon"> -->
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+<link rel="manifest" href="/favicon/site.webmanifest">
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>
@@ -40,7 +46,7 @@
                         <div class="header_support">
                             <div class="phone"><a href="tel:{{ $texts->get('tel_1') }}">{{ $texts->get('tel_1') }}</a></div>
                             <div class="schedule">{{ $texts->get('get_order') }}</div>
-                            <a href="{{ route('article_list', [null, 'map', null]) }}">{{ trans('base.map_delivery')}}</a>
+                            <a href="{{ route('article_list', [null, 'map', null]) }}" class="map">{{ trans('base.map_delivery')}}</a>
                         </div>
                     </div>
                 </div>
@@ -50,7 +56,7 @@
             <div class="mdl-grid nav-grid">
                 <div class="mdl-cell mobile_menu">
                     <button id="mobile_menu_block" class="mdl-button mdl-js-button mdl-button--icon">
-                        <i class="material-icons">{{ trans('base.menu')}}</i>
+                        <i class="material-icons">menu</i>
                     </button>
                     <div class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="mobile_menu_block">
                         <div class="menu-main-container">
@@ -66,7 +72,7 @@
                     <div class="header_support">
                         <div class="phone"><a href="tel:{{ $texts->get('tel_1') }}">{{ $texts->get('tel_1') }}</a></div>
                         <div class="schedule">{{ $texts->get('get_order') }}</div>
-                        <a href="{{ route('article_list', [null, 'map', null]) }}">{{ trans('base.map_delivery')}}</a>
+                        <a href="{{ route('article_list', [null, 'map', null]) }}" class="map">{{ trans('base.map_delivery')}}</a>
                     </div>
                 </div>
                 <nav class="mdl-cell">

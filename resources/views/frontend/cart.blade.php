@@ -38,6 +38,11 @@
                             <input type="submit" value="Отправить заказ" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" disabled id="order_btn">
                             <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active hidden" id="order_loader"></div>
                         </div>
+                        {{--Custom fields--}}
+                            <input type="hidden" name='order_details' value=""/>
+                            <input type="hidden" name='sum' value=""/>   
+                        {{--/Custom fields--}}    
+
                     </form>
                 </div>
                 <div class="mdl-cell mdl-cell--8-col">

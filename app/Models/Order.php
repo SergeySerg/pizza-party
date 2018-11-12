@@ -28,4 +28,16 @@ class Order extends Model
         $query->orderBy('created_at','desc');
                 
     }
+    public function getAttributes(){
+        if (isset($this->attributes)){
+            $articleArray =  $this->toArray();
+            $attributes = json_decode($articleArray['attributes'], true);
+            $attributes = json_decode($attributes, true);
+            return $attributes;
+        }
+        else{
+            return [];
+        }
+
+    }
 }

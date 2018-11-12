@@ -95,12 +95,12 @@
                                             <a class="green" href="#modal-table-{{$order->id}}" data-toggle="modal">
                                                 <i class="icon-zoom-in bigger-130"></i>
                                             </a>    
-                                            <a class="green" href="{{ $url }}/orders/{{ $order->id }}">
+                                            {{--<a class="green" href="{{ $url }}/orders/{{ $order->id }}">
                                                 <i class="icon-pencil bigger-130"></i>
                                             </a>
                                             <a href='{{ $url }}/orders/{{ $order->id }}' data-id='{{ $order->id }}' class='resource-delete'>
                                                 <i class="icon-trash bigger-130"></i>
-                                            </a>
+                                            </a>--}}
                                         </div>
                                     </td>
                                 </tr>
@@ -114,93 +114,53 @@
             </div><!--/.span-->
         </div><!--/.row-fluid-->
     </div>
-    {{--Modal--}}
-                                    <div id="modal-table" class="modal hide fade in" tabindex="-1" aria-hidden="false">
-                                        <div class="modal-header no-padding">
-                                            <div class="table-header">
-                                                <button type="button" class="close" data-dismiss="modal">×</button>
-                                                Содержание заказа #{{ $order->id }}
-                                            </div>
-                                        </div>
+    @foreach($orders as $order)
+        {{--Modal--}}
+            <div id="modal-table-{{$order->id}}" class="modal hide fade in" tabindex="-1" aria-hidden="false">
+                <div class="modal-header no-padding">
+                    <div class="table-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        Содержание заказа #{{ $order->id }}
+                    </div>
+                </div>
 
-                                        <div class="modal-body no-padding">
-                                            <div class="row-fluid">
-                                                <table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="center">Тип товара</th>
-                                                            <th class="center">Название товара</th>
-                                                            <th class="center">Количество</th>
-                                                            <th class="center">Вес</th>
-                                                            <th class="center">Диаметр/Обьем</th>
-
-                                                            <th class="center">
-                                                                Цена
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <a href="#">ace.com</a>
-                                                            </td>
-                                                            <td>$45</td>
-                                                            <td>3,330</td>
-                                                            <td>Feb 12</td>
-                                                            <td>4,250</td>
-                                                            <td>Jan 21</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>
-                                                                <a href="#">base.com</a>
-                                                            </td>
-                                                            <td>$35</td>
-                                                            <td>2,595</td>
-                                                            <td>Feb 18</td>
-                                                            <td>4,250</td>
-                                                            <td>Jan 21</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>
-                                                                <a href="#">max.com</a>
-                                                            </td>
-                                                            <td>$60</td>
-                                                            <td>4,400</td>
-                                                            <td>Mar 11</td>
-                                                            <td>4,250</td>
-                                                            <td>Jan 21</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>
-                                                                <a href="#">best.com</a>
-                                                            </td>
-                                                            <td>$75</td>
-                                                            <td>6,500</td>
-                                                            <td>Apr 03</td>
-                                                            <td>4,250</td>
-                                                            <td>Jan 21</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>
-                                                                <a href="#">pro.com</a>
-                                                            </td>
-                                                            <td>$55</td>
-                                                            <td>4,250</td>
-                                                            <td>Jan 21</td>
-                                                            <td>4,250</td>
-                                                            <td>Jan 21</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {{--/Modal--}}
+                <div class="modal-body no-padding">
+                    <div class="row-fluid">
+                        <table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+                            <thead>
+                                <tr>
+                                    <th class="center">Номер</th>
+                                    <th class="center">Название товара</th>
+                                    <th class="center">Количество</th>
+                                    <th class="center">Параметры</th>
+                                    <th class="center">
+                                        Цена
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($order->getAttributes() as $attribute)
+                                    <tr>
+                                        <td class="center">
+                                            @if(isset($attribute['number_id']) AND $attribute['number_id']) 
+                                                {{$attribute['category_id']}}{{$attribute['number_id']}}
+                                            @endif    
+                                        </td>
+                                        <td class="center">
+                                            <a href="{{ $url }}/articles/{{$attribute['category']}}/{{$attribute['id']}}" target='_blank'>{{$attribute['title']}}</a>
+                                         </td>
+                                        <td class="center">{{$attribute['qty']}}</td>
+                                        <td class="center">{{$attribute['params']}}</td>
+                                        <td class="center">{{$attribute['price']}}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {{--/Modal--}}
+                @endforeach
     <div id="token" style="display: none">{{csrf_token()}}</div>
     {{--<script>
         $(function(){

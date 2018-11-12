@@ -3,8 +3,8 @@ jQuery(function ($) {
      /* Custom flexweb */
         var total_cart_my = localStorage.getItem("total_cart") || 0;
         var total_price_my = localStorage.getItem("total_price") || 0;
-        console.log('Локал загрузка',total_cart_my);
-        console.log('Локал загрузка', total_price_my);
+        // console.log('Локал загрузка',total_cart_my);
+        // console.log('Локал загрузка', total_price_my);
 
         
         var token = $("input[name='csrf-token']").val(); 
@@ -34,7 +34,7 @@ jQuery(function ($) {
         var check_size = $(this).attr('data-size');
         var check_weight = $(this).attr('data-weight');
         var check_category = $(this).attr('data-category');
-        console.log('Корзина',cart_my);
+        // console.log('Корзина',cart_my);
         total_cart_my ++;
         total_price_my = +total_price_my + +check_price;
         var data = {
@@ -46,17 +46,17 @@ jQuery(function ($) {
         }
         cart_my.push(data);
 
-        console.log('Корзина',cart_my);
-        console.log('total_cart', total_cart_my);
-        console.log('total_price', total_price_my);
+        // console.log('Корзина',cart_my);
+        // console.log('total_cart', total_cart_my);
+        // console.log('total_price', total_price_my);
 
         jQuery('#total_cart').text(total_cart_my);
         jQuery('#total_price').text(total_price_my);
 
-        console.log('Цена',check_price);
-        console.log('ID',check_id);
-        console.log('Size',check_size);
-        console.log('weight',check_weight);
+        // console.log('Цена',check_price);
+        // console.log('ID',check_id);
+        // console.log('Size',check_size);
+        // console.log('weight',check_weight);
 
             localStorage.setItem("total_cart", total_cart_my);
             localStorage.setItem("total_price", total_price_my);
@@ -146,7 +146,7 @@ jQuery(function ($) {
                                     '</span>'+
                                 '</td>'+
                                 '<td class="mdl-data-table__cell--non-numeric cart_delete_td">'+
-                                    '<button class="mdl-button mdl-js-button mdl-button--icon cart_remove_btn" data-size=' + JSON.parse(product.size) + ' data-id=' + JSON.parse(product.id)+ ' data-weight=' + JSON.parse(product.weight)+ '>'+
+                                    '<button class="mdl-button mdl-js-button mdl-button--icon cart_remove_btn" data-size=' + JSON.parse(product.size) + ' data-id=' + JSON.parse(product.id)+ ' data-weight=' + JSON.parse(product.weight) + ' data-category-id=' + JSON.parse(product.category_id) + ' data-number=' + JSON.parse(product.number_id) + '>'+
                                         '<i class="material-icons">clear</i>'+
                                     '</button>'+
                                 '</td>'+
@@ -160,8 +160,6 @@ jQuery(function ($) {
                         }
                            
                       });
-                    //we = JSON.parse(response.data[0].category_id);
-                    console.log("З бека", products);
                 }
                 else {
                     alert('Ошибка получения продуктов');
@@ -296,7 +294,79 @@ jQuery(function ($) {
         localStorage.setItem("total_price", JSON.stringify(+current_total_price + +current_price));
         localStorage.setItem("cart", JSON.stringify(current_cart));
     })
+    jQuery(document).on('click touch', '#order_btn', function (e) {
+        e.preventDefault();
+        var locationData = window.location.href.split('?');
+        var total_price = $('span#total_price').text();
+        console.log("Сума", total_price);
 
+        $('input[name=sum]').val(total_price);
+        var data_to_backend = [];
+        $('.cart_table tr').each(function(item, value){
+            console.log("Iter", value);
+            var id = $(this).find('.cart_remove_btn').attr('data-id');
+            var category_id = $(this).find('.cart_remove_btn').attr('data-category-id');
+            var category = $(this).find('.cart_num').attr('data-category');
+            console.log("Кат", category_id);
+            //var phone = $('#cart_phone').val();
+            var title = $(this).find('.cart_product h3').text();
+            var params = $(this).find('.cart_info_td').text();
+            var qty = $(this).find('.cart_num_curr').text();
+            var price = $(this).find('.price').text();
+            var number_id = $(this).find('.cart_remove_btn').attr('data-number');
+            console.log("Параметри", params);
+            var data = {
+                id: id,
+                title: title,
+                params: params,
+                category: category,
+                qty: qty,
+                price: price,
+                number_id: number_id,
+                category_id: category_id
+            }  
+            data_to_backend.push(data);  
+        })
+        $('input[name=order_details]').val(JSON.stringify(data_to_backend));
+        console.log("Дата на админку", data_to_backend);
+        var data_serialize = $('form#order_form').serialize();
+        $.ajax({
+            url: '/add_order',
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': token
+            },
+            data: data_serialize,
+            dataType: "json",
+            success: function (data)  {
+                if (data.success) {
+                    localStorage.removeItem("total_cart");
+                    localStorage.removeItem("total_price");
+                    localStorage.removeItem("cart");
+                    //window.location.replace(locationData[0] + '');
+
+                    $('#order_done_phone').text(data.phone);
+                    $("div#order_process").hide();
+                    $("div#order_empty").hide();
+                    $("div#order_done").removeClass('hidden');
+
+
+                        
+                    
+                }
+                else {
+                    swal(trans['base.error'], data.message, "error");
+                }
+
+
+            },
+            error: function (data) {
+                alert('Серверная ошибка');
+            }
+
+        //alert('ad');
+        });
+    });
     /* /Custom flexweb */
     delete $.jMaskGlobals['translation']['0'];
     $("#cart_phone").mask("+38 099 999-99-99");
@@ -372,6 +442,8 @@ jQuery(function ($) {
                 var params = [];
                 var id = info_json[i]['id'];
                 var price = info_json[i]['price'];
+                var size = info_json[i]['size'];
+                var category = info_json[i]['category'];
     
                 if( info_json[i]['size'] ) {
                     params.push( info_json[i]['size'] + ' см' );
@@ -379,6 +451,7 @@ jQuery(function ($) {
                 if( info_json[i]['weigth'] ) {
                     params.push( info_json[i]['weigth'] + ' г' );
                 }
+                
                 if( info_json[i]['liters'] ) {
                     params.push( info_json[i]['liters'] + ' л' );
                 }
@@ -394,11 +467,16 @@ jQuery(function ($) {
                 html += ' &mdash; ';
                 html += '<span>' + price + '</span> грн';
                 html += '<div class="item_button">';
-                html += '<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-id="' + id + '" data-price="' + price + '" data-weight="' + curr_w + '">Заказать</button>';
+
+                if(size){
+                    html += '<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-category="' + category + '"  data-size="' + size + '" data-id="' + id + '" data-price="' + price + '" data-weight="' + curr_w + '">Заказать</button>';
+                }else{
+                    html += '<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add_to_cart" data-category="' + category + '"  data-id="' + id + '" data-price="' + price + '" data-weight="' + curr_w + '">Заказать</button>';
+                }
                 html += '<div class="item_button_done"><div><a href="/cart">Добавлено в корзину</a></div></div>';
                 html += '</div>';
                 html += '</div>';
-                console.log('HTML',html);
+                //console.log('HTML',html);
             }
         }
     

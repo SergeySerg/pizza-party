@@ -9,7 +9,7 @@
     <div class="mdl-grid">
         @foreach($articles as $key => $drink)
             <div class="mdl-cell mdl-cell--3-col tac item">
-                <div class="item_popup" data-info='[{"id":132,"size":null,"weigth":null,"liters":"0.5","persons":"1","price":"25"},{"id":132,"size":null,"weigth":null,"liters":"1","persons":"2","price":"50"}]' data-img="{{ asset($drink->getAttributeTranslate('img'))}}" data-title='{{ $drink->getTranslate("title")}}' data-description='{{ $drink->getTranslate("short_description")}}'>
+                <div class="item_popup" data-info='[{"id":{{ $drink->id}},"size":"pint","weigth":null,"category":"{{ $type }}","liters":"0.5","persons":null,"price":"{{ $drink->getAttributeTranslate("price_pint")}}"},{"id":{{ $drink->id}},"size":"liter","weigth":null,"category":"{{ $type }}","liters":"1","persons":null,"price":"{{ $drink->getAttributeTranslate("price_liter")}}"}]' data-img="{{ asset($drink->getAttributeTranslate('img'))}}" data-title='{{ $drink->getTranslate("title")}}' data-description='{{ $drink->getTranslate("short_description")}}'>
                     <div class="item_img">
                         <img width="60" height="160" src="{{ asset($drink->getAttributeTranslate('img'))}}" class="attachment-200x200 size-200x200 wp-post-image" alt="{{ $drink->getTranslate('title')}}" />
                     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Frontend;
+use App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Category;
@@ -379,4 +380,40 @@ class ArticleController extends Controller {
 		return $config[$category];
 
 	}
+	public function add_order(Request $request){
+		if ($request ->isMethod('post')){
+			/*get [] from request*/
+			$all = $request->all();
+			/*make rules for validation*/
+			$rules = [
+				'name' => 'required|max:50',
+				'phone' => 'required|size:17',
+				"address" => 'max:50',
+				"short_description" => 'max:70',
+			];
+			$validator = Validator::make($all, $rules);
+			/*send error message after validation*/
+			if ($validator->fails()) {
+				return response()->json(array(
+					'success' => false,
+					'message' => $validator->messages()->first()
+				));
+			}	
+			$data = [
+				'name' => $all['name'],
+				'phone' =>  $all['phone'],
+				'address' => $all['address'],
+				'sum' => $all['sum'],
+				'short_description' => $all['short_description'],
+				'attributes' => json_encode($all['order_details'])
+
+			];		
+			$order = Order::create($data);	
+			return response()->json([
+				'success' => 'true',
+				'phone' => $all['phone']
+			]);	
+
+		}
+}
 }

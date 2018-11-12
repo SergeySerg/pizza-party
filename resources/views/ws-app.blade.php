@@ -97,7 +97,8 @@
 
         @yield('content')
         <input type="hidden" name='csrf-token' value="{{csrf_token()}}"/>
-        <input type="hidden" name='lang' value="{{ App::getLocale() }}"/>        <footer>
+        <input type="hidden" name='lang' value="{{ App::getLocale() }}"/>       
+         <footer>
             <div class="reducer">
                 <div class="mdl-grid">
                     <div class="mdl-cell mdl-cell--12-col">

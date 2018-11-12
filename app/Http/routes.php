@@ -110,6 +110,8 @@ Route::post('/{lang}/callback', ['uses' => 'Frontend\ArticleController@callback'
 Route::post('/{lang}/add_review', ['uses' => 'Frontend\ArticleController@add_review','as' => 'add_review']);//Обработчик добавления отзыва
 Route::post('/{lang}/reserved', ['uses' => 'Frontend\ArticleController@reserved','as' => 'reserved']);//Обработчик Обратной связи при заказе номера
 Route::post('/get_articles', ['uses' => 'Frontend\ArticleController@get_articles','as' => 'get_articles']);//Обработчик товаров
+Route::post('/add_order', ['uses' => 'Frontend\ArticleController@add_order','as' => 'add_order']);//Добавление заказа
+
 
 /*/Modal routes*/
 /*/Frontend group routes*/

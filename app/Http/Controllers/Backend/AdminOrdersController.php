@@ -11,9 +11,9 @@ use App\Models\Order;
 class AdminOrdersController extends Controller
 {
     public function index(){			
-        $orders = Order::getOrders()->paginate(2);
+        $orders = Order::getOrders()->paginate(10);
 		return view('backend.orders.list',[
-			'orders' => $orders
+            'orders' => $orders,
 		]);
 
     }

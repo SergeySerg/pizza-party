@@ -3,20 +3,27 @@ jQuery(function ($) {
      /* Custom flexweb */
         var total_cart_my = localStorage.getItem("total_cart") || 0;
         var total_price_my = localStorage.getItem("total_price") || 0;
+        console.log('Локал загрузка',total_cart_my);
+        console.log('Локал загрузка', total_price_my);
+
+        
         var token = $("input[name='csrf-token']").val(); 
         var lang =  $("input[name='lang']").val();
 
      var cart_my = JSON.parse(localStorage.getItem("cart")) || [];
+     
      if(cart_my.length == 0){
-        $("div#order_process").hide();
-        $("div#order_empty").removeClass('hidden');
+        //alert('nen');
         localStorage.removeItem("total_cart");
         localStorage.removeItem("total_price");
-
+        $("div#order_process").hide();
+        $("div#order_empty").removeClass('hidden');
+        $('#total_cart').text(0);
+        $('#total_price').text(0);
+    }else{
+        $('#total_cart').text(total_cart_my);
+        $('#total_price').text(total_price_my);
     }
-    var tc = jQuery('#total_cart').text(total_cart_my);
-    var tp = jQuery('#total_price').text(total_price_my);
-
     //Add product to cart and write to localStorage 
     $('.add_to_cart').click(function(e){
         //alert('Nen');
@@ -50,9 +57,9 @@ jQuery(function ($) {
         console.log('Size',check_size);
         console.log('weight',check_weight);
 
-        localStorage.setItem("total_cart", total_cart_my);
-        localStorage.setItem("total_price", total_price_my);
-        localStorage.setItem("cart", JSON.stringify(cart_my));
+            localStorage.setItem("total_cart", total_cart_my);
+            localStorage.setItem("total_price", total_price_my);
+            localStorage.setItem("cart", JSON.stringify(cart_my));
         
 
 
@@ -69,9 +76,7 @@ jQuery(function ($) {
     
     //write to localStorage cart
     if(window.location.href.indexOf("cart") > -1  && cart_my.length >= 1) {
-       
-
-        console.log('В корзини', cart_my);
+       console.log('В корзини', cart_my);
         var data_to_server = {
             order: cart_my
         }
@@ -92,7 +97,7 @@ jQuery(function ($) {
 
                     $.each( products, function( key, product ) {
                         if(JSON.parse(product.id)){
-                            html = '<tr id="cart_row_' + JSON.parse(product.id) + '">' +
+                            html = '<tr id="cart_row_' + JSON.parse(product.id) + '" >' +
                             '<td class="mdl-data-table__cell--non-numeric cart_img">' +
                                 '<div class="cart_img_block" style="background: url(' + JSON.parse(product.img) + ') 50% 50% no-repeat;-webkit-background-size: contain;background-size: contain;"></div>' +
                             '</td>' +
@@ -120,7 +125,7 @@ jQuery(function ($) {
                                 html += '<td data-id=' + JSON.parse(product.id)+ ' class="mdl-data-table__cell--non-numeric cart_info_td"><span>' + JSON.parse(product.weight) + ' гр</span> </td>';
                             }
                             html += '<td class="mdl-data-table__cell--non-numeric cart_num_td">'+
-                                    '<div class="cart_num" data-id=' + JSON.parse(product.id)+ ' data-weight=' + JSON.parse(product.weight)+ '>'+
+                                    '<div class="cart_num" data-size=' + JSON.parse(product.size) + ' data-id=' + JSON.parse(product.id)+ ' data-weight=' + JSON.parse(product.weight)+ ' data-price=' + JSON.parse(product.price) + ' data-category=' + JSON.parse(product.category)+ '>'+
                                         '<div class="cart_num_plus">'+
                                             '<button class="mdl-button mdl-js-button mdl-button--icon cart_num_plus_btn">'+
                                                 '<i class="material-icons">add</i>'+
@@ -140,7 +145,7 @@ jQuery(function ($) {
                                     '</span>'+
                                 '</td>'+
                                 '<td class="mdl-data-table__cell--non-numeric cart_delete_td">'+
-                                    '<button class="mdl-button mdl-js-button mdl-button--icon cart_remove_btn" data-size=' + JSON.parse(product.size)+ ' data-id=' + JSON.parse(product.id)+ ' data-weight=' + JSON.parse(product.weight)+ '>'+
+                                    '<button class="mdl-button mdl-js-button mdl-button--icon cart_remove_btn" data-size=' + JSON.parse(product.size) + ' data-id=' + JSON.parse(product.id)+ ' data-weight=' + JSON.parse(product.weight)+ '>'+
                                         '<i class="material-icons">clear</i>'+
                                     '</button>'+
                                 '</td>'+
@@ -170,15 +175,12 @@ jQuery(function ($) {
     jQuery(document).on('click touch', '.cart_remove_btn', function () {
         var current_id = $(this).attr('data-id');
         var current_size = $(this).attr('data-size');
+        var current_weight = $(this).attr('data-weight');
         var current_qty = $(this).parents('tr').find('.cart_num_curr').text();
         var current_sum = $(this).parents('tr').find('.price').text();
         var current_total_sum_bottom = $('.cart_totals_price').text();
         var current_total_sum_top = $('#total_price').text();
         var current_total_qty = $('#total_cart').text();
-        // if(current_total_sum_top <= 0 || current_total_qty <= 0){
-        //     alert('sd');
-        //     clearCart();
-        // }
 
         $('.cart_totals_price').text(current_total_sum_bottom - current_sum);
         $('#total_price').text(current_total_sum_top - current_sum);
@@ -187,29 +189,19 @@ jQuery(function ($) {
         //$('#total_price').text()
         $(this).parents('tr').hide();
         var current_cart = JSON.parse(localStorage.getItem("cart"));
-        // $.each(current_cart, function( key, product ) {
-        //     if(product.id == current_id && product.size == current_size){
-        //         delete cart_my[key];
-        //         console.log('tttt', current_cart);
-        //     }
-        // })
-        var result = current_cart.filter(function(product){
-            console.log('444',current_id);
-            return product.id != current_id && product.id != current_size; 
-         });            
+        var current_total_cart_qty = JSON.parse(localStorage.getItem("total_cart"));
+        var current_total_price = JSON.parse(localStorage.getItem("total_price"));
+        for(var i = current_cart.length - 1; i >= 0; i--) {
+            if(current_cart[i].id === current_id && (current_cart[i].size === current_size || current_cart[i].weight === current_weight)) {
+                current_cart.splice(i, 1);
+            }
+        }      
+            
           
-        // current_cart.filter(function(product){
-        //     console.log(product);
-        //     return (product.id !== current_id && product.size == current_size)
-
-        // })
-        console.log('ДО запису', result);
-        localStorage.setItem("cart", JSON.stringify(result));
-        
-
-
-
-
+        console.log('ДО запису', current_cart);
+        localStorage.setItem("cart", JSON.stringify(current_cart));
+        localStorage.setItem("total_cart", JSON.stringify(current_total_cart_qty - current_qty));
+        localStorage.setItem("total_price", JSON.stringify(current_total_price - current_sum));
 
         console.log('Сумма удаления', current_sum);
         console.log('ID====', current_id);
@@ -222,6 +214,87 @@ jQuery(function ($) {
     //  jQuery(this).    
     
     });
+    jQuery(document).on('click touch', '.cart_num_minus_btn', function () {
+        var current_id = $(this).parents('div.cart_num').attr('data-id');
+        var current_weight = $(this).parents('div.cart_num').attr('data-weight');
+        var current_size = $(this).parents('div.cart_num').attr('data-size');
+        var current_price = $(this).parents('div.cart_num').attr('data-price');
+        var current_qty = $(this).parents('div.cart_num').find('.cart_num_curr').text();
+        var current_cart = JSON.parse(localStorage.getItem("cart"));
+        var current_total_cart_qty = JSON.parse(localStorage.getItem("total_cart"));
+        var current_total_price = JSON.parse(localStorage.getItem("total_price"));
+
+        
+        console.log('Количество текущ', current_qty);
+        var current_total_sum_bottom = $('.cart_totals_price').text();
+        
+        var current_total_sum_top = $('#total_price').text();
+        var current_total_sum_line = $(this).parents('tr').find('#cart_price_' + current_id).text();
+        var current_total_qty = $('#total_cart').text();
+        $(this).parents('div.cart_num').find('.cart_num_curr').text(current_qty -1);
+        $('.cart_totals_price').text(current_total_sum_bottom - current_price);
+        $('#total_price').text(current_total_sum_top - current_price);
+        $('#total_cart').text(current_total_qty - 1);
+        var current_total_sum_line = $(this).parents('tr').find('#cart_price_' + current_id).text(current_total_sum_line - current_price);
+        
+        
+        for(var i = current_cart.length - 1; i >= 0; i--) {
+            if(current_cart[i].id === current_id && (current_cart[i].size === current_size || current_cart[i].weight === current_weight)) {
+                console.log('nen',current_cart);
+                current_cart.splice(i, 1);
+                break;
+            }
+        }      
+        localStorage.setItem("cart", JSON.stringify(current_cart));
+        localStorage.setItem("total_cart", JSON.stringify(current_total_cart_qty - 1));
+        localStorage.setItem("total_price", JSON.stringify(current_total_price - current_price));
+        if(current_qty == 1){
+            $(this).parents('tr').hide();
+        }
+        console.log('Сумма удаления', current_price);
+        console.log('ID====', current_id);
+        console.log('Количество закал', current_total_qty);
+        
+        console.log('Общ цена в линии текущ', current_total_sum_line);
+        console.log('Розмер', current_size);
+
+        
+    })
+    jQuery(document).on('click touch', '.cart_num_plus_btn', function () {
+        var current_id = $(this).parents('div.cart_num').attr('data-id');
+        var current_weight = $(this).parents('div.cart_num').attr('data-weight');
+        var current_category = $(this).parents('div.cart_num').attr('data-category');
+        var current_size = $(this).parents('div.cart_num').attr('data-size');
+        var current_price = $(this).parents('div.cart_num').attr('data-price');
+        var current_qty = $(this).parents('div.cart_num').find('.cart_num_curr').text();
+
+        var current_cart = JSON.parse(localStorage.getItem("cart"));
+        var current_total_cart_qty = JSON.parse(localStorage.getItem("total_cart"));
+        var current_total_price = JSON.parse(localStorage.getItem("total_price"));
+
+        var current_total_sum_bottom = $('.cart_totals_price').text();
+        var current_total_sum_top = $('#total_price').text();
+        var current_total_sum_line = $(this).parents('tr').find('#cart_price_' + current_id).text();
+        var current_total_qty = $('#total_cart').text();
+
+
+        $(this).parents('div.cart_num').find('.cart_num_curr').text(+current_qty + 1);
+        $('.cart_totals_price').text(+current_total_sum_bottom + +current_price);
+        var total_price_my = $('#total_price').text(+current_total_sum_top + +current_price);
+        var total_cart_my = $('#total_cart').text(+current_total_qty + 1);
+        var current_total_sum_line = $(this).parents('tr').find('#cart_price_' + current_id).text(+current_total_sum_line + +current_price);
+        var data = {
+            id: current_id,
+            size: current_size,
+            weight: current_weight,
+            price: current_price,
+            category: current_category
+        }
+        current_cart.push(data);
+        localStorage.setItem("total_cart", JSON.stringify(+current_total_cart_qty + 1));
+        localStorage.setItem("total_price", JSON.stringify(+current_total_price + +current_price));
+        localStorage.setItem("cart", JSON.stringify(current_cart));
+    })
 
     /* /Custom flexweb */
     delete $.jMaskGlobals['translation']['0'];
@@ -618,47 +691,47 @@ function makeid(num) {
 //     }
 
 // });
-// jQuery(document).on('click touch', '.mdl-switch__input', function () {
+jQuery(document).on('click touch', '.mdl-switch__input', function () {
 
-//     var pos = jQuery(this)[0].checked === false ? 0 : 1;
-//     var $item = jQuery(this).parents('.item').first();
-//     $item.find('.item_button').addClass('hidden');
-//     $item.find('.item_button').eq(pos).removeClass('hidden');
+    var pos = jQuery(this)[0].checked === false ? 0 : 1;
+    var $item = jQuery(this).parents('.item').first();
+    $item.find('.item_button').addClass('hidden');
+    $item.find('.item_button').eq(pos).removeClass('hidden');
 
-//     if( jQuery(this).parents('.ingredient_size').length > 0 ) {
-//         var price = jQuery(this).parents('.ingredient_size').first().find('.item_button_size').eq(pos).data('price');
-//         var weight = jQuery(this).parents('.ingredient_size').first().find('.item_button_size').eq(pos).data('weight');
-//         var size = jQuery(this).parents('.ingredient_size').first().find('.item_button_size').eq(pos).data('size');
+    if( jQuery(this).parents('.ingredient_size').length > 0 ) {
+        var price = jQuery(this).parents('.ingredient_size').first().find('.item_button_size').eq(pos).data('price');
+        var weight = jQuery(this).parents('.ingredient_size').first().find('.item_button_size').eq(pos).data('weight');
+        var size = jQuery(this).parents('.ingredient_size').first().find('.item_button_size').eq(pos).data('size');
 
-//         jQuery(this).parents('.ingredient_size').first().find('.item_price_span').html(price);
-//         jQuery(this).parents('.ingredient_size').first().find('.item_price_span').attr('data-weight', weight);
+        jQuery(this).parents('.ingredient_size').first().find('.item_price_span').html(price);
+        jQuery(this).parents('.ingredient_size').first().find('.item_price_span').attr('data-weight', weight);
 
-//         if( size ) {
-//             jQuery(this).parents('.ingredient_size').first().find('.item_price_span').attr('data-size', size);
-//         }
+        if( size ) {
+            jQuery(this).parents('.ingredient_size').first().find('.item_price_span').attr('data-size', size);
+        }
 
-//         var $constr_list_val = jQuery('#constructor_list li[data-id="' + jQuery(this).parents('.ingredient').first().data('id') + '"]');
-//         if( $constr_list_val.length > 0 ) {
-//             var html = '';
-//             if( size ) {
-//                 $constr_list_val.attr('data-size', size);
-//                 size =  size + ' СЃРј, ';
-//             }
-//             else {
-//                 size = '';
-//             }
-//             html += '<div>' + size + weight + ' Рі, ' + price + ' РіСЂРЅ</div>';
+        var $constr_list_val = jQuery('#constructor_list li[data-id="' + jQuery(this).parents('.ingredient').first().data('id') + '"]');
+        if( $constr_list_val.length > 0 ) {
+            var html = '';
+            if( size ) {
+                $constr_list_val.attr('data-size', size);
+                size =  size + ' СЃРј, ';
+            }
+            else {
+                size = '';
+            }
+            html += '<div>' + size + weight + ' Рі, ' + price + ' РіСЂРЅ</div>';
 
-//             $constr_list_val.attr('data-weight', weight);
-//             $constr_list_val.attr('data-price', price);
+            $constr_list_val.attr('data-weight', weight);
+            $constr_list_val.attr('data-price', price);
 
-//             $constr_list_val.find('.mdl-list__item-sub-title').html(html);
-//         }
+            $constr_list_val.find('.mdl-list__item-sub-title').html(html);
+        }
 
-//         setTimeout(IngrTotal, 0);
-//     }
+        setTimeout(IngrTotal, 0);
+    }
 
-// });
+});
 
 
 

@@ -223,7 +223,7 @@
                         </tbody>
                     </table>
                     <div class="cart_totals">
-                        Всего <span class="cart_totals_price">337</span> грн
+                        Всего <span class="cart_totals_price"></span> грн
                         <p>Доставка бесплатно</p>
                     </div>
                 </div>

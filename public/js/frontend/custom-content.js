@@ -5,11 +5,18 @@ jQuery(function ($) {
         var total_price_my = localStorage.getItem("total_price") || 0;
         var token = $("input[name='csrf-token']").val(); 
         var lang =  $("input[name='lang']").val();
-        console.log('zpsr', lang);
 
-     var tc = jQuery('#total_cart').text(total_cart_my);
-     var tp = jQuery('#total_price').text(total_price_my);
      var cart_my = JSON.parse(localStorage.getItem("cart")) || [];
+     if(cart_my.length == 0){
+        $("div#order_process").hide();
+        $("div#order_empty").removeClass('hidden');
+        localStorage.removeItem("total_cart");
+        localStorage.removeItem("total_price");
+
+    }
+    var tc = jQuery('#total_cart').text(total_cart_my);
+    var tp = jQuery('#total_price').text(total_price_my);
+
     //Add product to cart and write to localStorage 
     $('.add_to_cart').click(function(e){
         //alert('Nen');
@@ -59,10 +66,7 @@ jQuery(function ($) {
         //addToCart( jQuery(this) );
         return false;
     });
-    if(cart_my.length == 0){
-        $("div#order_process").hide();
-        $("div#order_empty").removeClass('hidden');
-    }
+    
     //write to localStorage cart
     if(window.location.href.indexOf("cart") > -1  && cart_my.length >= 1) {
        
@@ -81,69 +85,74 @@ jQuery(function ($) {
             dataType: "json",
             success: function (response) {
                 if (response.success) {
+            
                     var products = response.data;
+                    $('.cart_totals_price, #total_price').text(response.total_sum);
+                    $('#total_cart').text(response.total_count);
 
                     $.each( products, function( key, product ) {
-                    html = '<tr id="cart_row_117_400">' +
-                        '<td class="mdl-data-table__cell--non-numeric cart_img">' +
-                            '<div class="cart_img_block" style="background: url(' + JSON.parse(product.img) + ') 50% 50% no-repeat;-webkit-background-size: contain;background-size: contain;"></div>' +
-                        '</td>' +
-                        '<td class="mdl-data-table__cell--non-numeric cart_product">'+
-                            '<h3>' + JSON.parse(product.title).ru + '</h3>'+
-                            JSON.parse(product.short_description).ru +
-                        '</td>'+
-                        '<td class="cart_break"></td>';
+                        if(JSON.parse(product.id)){
+                            html = '<tr id="cart_row_' + JSON.parse(product.id) + '">' +
+                            '<td class="mdl-data-table__cell--non-numeric cart_img">' +
+                                '<div class="cart_img_block" style="background: url(' + JSON.parse(product.img) + ') 50% 50% no-repeat;-webkit-background-size: contain;background-size: contain;"></div>' +
+                            '</td>' +
+                            '<td class="mdl-data-table__cell--non-numeric cart_product">'+
+                                '<h3>' + JSON.parse(product.title)[lang] + '</h3>'+
+                                JSON.parse(product.short_description)[lang] +
+                            '</td>'+
+                            '<td class="cart_break"></td>';
+    
+                            if(JSON.parse(product.size) && JSON.parse(product.category_id) == 1 ){
+                                html += '<td data-id=' + JSON.parse(product.id)+ ' class="mdl-data-table__cell--non-numeric cart_info_td"><span>' + JSON.parse(product.size) + ' см</span> <span>' + JSON.parse(product.weight) + ' гр</span> </td>';
+        
+                            }
+                            else if(JSON.parse(product.size) && JSON.parse(product.category_id) == 4 ){
+                                switch(JSON.parse(product.size)){
+                                    case ('pint'): 
+                                        html += '<td data-id=' + JSON.parse(product.id)+ ' class="mdl-data-table__cell--non-numeric cart_info_td"><span> 0.5 л</span></td>';
+                                    break;
+                                    case ('liter'): 
+                                        html += '<td data-id=' + JSON.parse(product.id)+ ' class="mdl-data-table__cell--non-numeric cart_info_td"><span> 1 л</span></td>';
+                                    break;
+                                }
+                            }
+                            else{
+                                html += '<td data-id=' + JSON.parse(product.id)+ ' class="mdl-data-table__cell--non-numeric cart_info_td"><span>' + JSON.parse(product.weight) + ' гр</span> </td>';
+                            }
+                            html += '<td class="mdl-data-table__cell--non-numeric cart_num_td">'+
+                                    '<div class="cart_num" data-id=' + JSON.parse(product.id)+ ' data-weight=' + JSON.parse(product.weight)+ '>'+
+                                        '<div class="cart_num_plus">'+
+                                            '<button class="mdl-button mdl-js-button mdl-button--icon cart_num_plus_btn">'+
+                                                '<i class="material-icons">add</i>'+
+                                            '</button>'+
+                                        '</div>'+
+                                        '<div class="cart_num_curr">' + JSON.parse(product.qty) +'</div>'+
+                                        '<div class="cart_num_minus">'+
+                                            '<button class="mdl-button mdl-js-button mdl-button--icon cart_num_minus_btn">'+
+                                                '<i class="material-icons">remove</i>'+
+                                            '</button>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</td>'+
+                                '<td class="mdl-data-table__cell--non-numeric cart_price_td">'+
+                                    '<span>'+
+                                        '<span class="price" id="cart_price_' + JSON.parse(product.id)+ '">' + JSON.parse(product.qty) * JSON.parse(product.price) + '</span> грн'+
+                                    '</span>'+
+                                '</td>'+
+                                '<td class="mdl-data-table__cell--non-numeric cart_delete_td">'+
+                                    '<button class="mdl-button mdl-js-button mdl-button--icon cart_remove_btn" data-size=' + JSON.parse(product.size)+ ' data-id=' + JSON.parse(product.id)+ ' data-weight=' + JSON.parse(product.weight)+ '>'+
+                                        '<i class="material-icons">clear</i>'+
+                                    '</button>'+
+                                '</td>'+
+                            '</tr>'
+                                $('tbody').append(html);
+                                //console.log('язик', JSON.parse(product.title)[lang] );
+                                
+                            //};
+                   
 
-                    if(JSON.parse(product.size) && JSON.parse(product.category_id) == 1 ){
-                        html += '<td data-id=' + JSON.parse(product.id)+ ' class="mdl-data-table__cell--non-numeric cart_info_td"><span>' + JSON.parse(product.size) + ' см</span> <span>' + JSON.parse(product.weight) + ' гр</span> </td>';
-
-                    }
-                    else if(JSON.parse(product.size) && JSON.parse(product.category_id) == 4 ){
-                        switch(JSON.parse(product.size)){
-                            case ('pint'): 
-                                html += '<td data-id=' + JSON.parse(product.id)+ ' class="mdl-data-table__cell--non-numeric cart_info_td"><span> 0.5 л</span></td>';
-                            break;
-                            case ('liter'): 
-                                html += '<td data-id=' + JSON.parse(product.id)+ ' class="mdl-data-table__cell--non-numeric cart_info_td"><span> 1 л</span></td>';
-                            break;
                         }
-                    }
-                    else{
-                        html += '<td data-id=' + JSON.parse(product.id)+ ' class="mdl-data-table__cell--non-numeric cart_info_td"><span>' + JSON.parse(product.weight) + ' гр</span> </td>';
-                    }    
-                    
-                    
-                    
-                    
-                    
-                    html += '<td class="mdl-data-table__cell--non-numeric cart_num_td">'+
-                            '<div class="cart_num" data-id=' + JSON.parse(product.id)+ ' data-weight=' + JSON.parse(product.weight)+ '>'+
-                                '<div class="cart_num_plus">'+
-                                    '<button class="mdl-button mdl-js-button mdl-button--icon cart_num_plus_btn">'+
-                                        '<i class="material-icons">add</i>'+
-                                    '</button>'+
-                                '</div>'+
-                                '<div class="cart_num_curr">1</div>'+
-                                '<div class="cart_num_minus">'+
-                                    '<button class="mdl-button mdl-js-button mdl-button--icon cart_num_minus_btn">'+
-                                        '<i class="material-icons">remove</i>'+
-                                    '</button>'+
-                                '</div>'+
-                            '</div>'+
-                        '</td>'+
-                        '<td class="mdl-data-table__cell--non-numeric cart_price_td">'+
-                            '<span>'+
-                                '<span class="price" id="cart_price_' + JSON.parse(product.id)+ '">' + JSON.parse(product.price) + '</span> грн'+
-                            '</span>'+
-                        '</td>'+
-                        '<td class="mdl-data-table__cell--non-numeric cart_delete_td">'+
-                            '<button class="mdl-button mdl-js-button mdl-button--icon cart_remove_btn" data-id=' + JSON.parse(product.id)+ ' data-weight=' + JSON.parse(product.weight)+ '>'+
-                                '<i class="material-icons">clear</i>'+
-                            '</button>'+
-                        '</td>'+
-                    '</tr>'
-                        $('tbody').append(html);
-                        console.log( JSON.parse(product.title).ru );
+                           
                       });
                     //we = JSON.parse(response.data[0].category_id);
                     console.log("З бека", products);
@@ -158,6 +167,61 @@ jQuery(function ($) {
 
         });  
     }
+    jQuery(document).on('click touch', '.cart_remove_btn', function () {
+        var current_id = $(this).attr('data-id');
+        var current_size = $(this).attr('data-size');
+        var current_qty = $(this).parents('tr').find('.cart_num_curr').text();
+        var current_sum = $(this).parents('tr').find('.price').text();
+        var current_total_sum_bottom = $('.cart_totals_price').text();
+        var current_total_sum_top = $('#total_price').text();
+        var current_total_qty = $('#total_cart').text();
+        // if(current_total_sum_top <= 0 || current_total_qty <= 0){
+        //     alert('sd');
+        //     clearCart();
+        // }
+
+        $('.cart_totals_price').text(current_total_sum_bottom - current_sum);
+        $('#total_price').text(current_total_sum_top - current_sum);
+        $('#total_cart').text(current_total_qty - current_qty);
+
+        //$('#total_price').text()
+        $(this).parents('tr').hide();
+        var current_cart = JSON.parse(localStorage.getItem("cart"));
+        // $.each(current_cart, function( key, product ) {
+        //     if(product.id == current_id && product.size == current_size){
+        //         delete cart_my[key];
+        //         console.log('tttt', current_cart);
+        //     }
+        // })
+        var result = current_cart.filter(function(product){
+            console.log('444',current_id);
+            return product.id != current_id && product.id != current_size; 
+         });            
+          
+        // current_cart.filter(function(product){
+        //     console.log(product);
+        //     return (product.id !== current_id && product.size == current_size)
+
+        // })
+        console.log('ДО запису', result);
+        localStorage.setItem("cart", JSON.stringify(result));
+        
+
+
+
+
+
+        console.log('Сумма удаления', current_sum);
+        console.log('ID====', current_id);
+        console.log('CART====', current_cart);
+        console.log('Количество', current_qty);
+        console.log('Розмер', current_size);
+
+
+
+    //  jQuery(this).    
+    
+    });
 
     /* /Custom flexweb */
     delete $.jMaskGlobals['translation']['0'];
@@ -286,6 +350,14 @@ jQuery(function ($) {
 
 });
 
+/* Custom flexweb */
+function clearCart(){
+    $("div#order_process").hide();
+    $("div#order_empty").removeClass('hidden');
+
+}
+
+/* Custom flexweb */
 function inArray(val, arr) {
     var in_array = false;
     for( var i=0; i<arr.length; i++ ) {
@@ -455,138 +527,138 @@ function makeid(num) {
 //         jQuery('#order_empty').removeClass('hidden');
 //     }
 // });
-jQuery(document).on('click touch', '#order_btn', function () {
-    var $btn = jQuery(this);
-    $btn.addClass('hidden');
-    jQuery('#order_loader').removeClass('hidden');
+// jQuery(document).on('click touch', '#order_btn', function () {
+//     var $btn = jQuery(this);
+//     $btn.addClass('hidden');
+//     jQuery('#order_loader').removeClass('hidden');
 
-    var data = {
-        action: 'cart_order',
-        nonce: cart_order.nonce,
-    };
+//     var data = {
+//         action: 'cart_order',
+//         nonce: cart_order.nonce,
+//     };
 
-    var data_info = {};
-    jQuery('#order_form input, #order_form textarea').each(function () {
-        var curr_data_val = jQuery.trim(jQuery(this).val());
-        data_info[jQuery(this).attr('id')] = curr_data_val;
-    });
-    data['info'] = JSON.stringify(data_info);
+//     var data_info = {};
+//     jQuery('#order_form input, #order_form textarea').each(function () {
+//         var curr_data_val = jQuery.trim(jQuery(this).val());
+//         data_info[jQuery(this).attr('id')] = curr_data_val;
+//     });
+//     data['info'] = JSON.stringify(data_info);
 
-    jQuery.post( cart_order.url, data, function(response) {
+//     jQuery.post( cart_order.url, data, function(response) {
 
-        var res = JSON.parse(response);
-        var done = parseInt(res['done']);
+//         var res = JSON.parse(response);
+//         var done = parseInt(res['done']);
 
-        if( done === 1 ) {
-            jQuery('#order_process').addClass('hidden');
-            jQuery('#order_done').removeClass('hidden');
-            deleteCookie('cart');
+//         if( done === 1 ) {
+//             jQuery('#order_process').addClass('hidden');
+//             jQuery('#order_done').removeClass('hidden');
+//             deleteCookie('cart');
 
-            jQuery('#total_cart').html('0 С€С‚.');
-            jQuery('#total_price').html('0 РіСЂРЅ');
-        }
-        else {
-            $btn.removeClass('hidden');
-            jQuery('#order_loader').addClass('hidden');
-        }
+//             jQuery('#total_cart').html('0 С€С‚.');
+//             jQuery('#total_price').html('0 РіСЂРЅ');
+//         }
+//         else {
+//             $btn.removeClass('hidden');
+//             jQuery('#order_loader').addClass('hidden');
+//         }
 
-    });
+//     });
 
-    return false;
-});
-jQuery(document).on('click touch', '.item_button_size', function () {
-    var $checkbox = jQuery('#' + jQuery(this).attr('data-id'));
-    var $parent = $checkbox.parents('.mdl-switch').first();
+//     return false;
+// });
+// jQuery(document).on('click touch', '.item_button_size', function () {
+//     var $checkbox = jQuery('#' + jQuery(this).attr('data-id'));
+//     var $parent = $checkbox.parents('.mdl-switch').first();
 
-    var pos = parseInt(jQuery(this).attr('data-pos'));
-    var chk = pos === 0 ? false : true;
+//     var pos = parseInt(jQuery(this).attr('data-pos'));
+//     var chk = pos === 0 ? false : true;
 
-    $checkbox[0].checked = chk;
+//     $checkbox[0].checked = chk;
 
-    if( chk ) {
-        $parent.addClass('is-checked');
-    }
-    else {
-        $parent.removeClass('is-checked');
-    }
+//     if( chk ) {
+//         $parent.addClass('is-checked');
+//     }
+//     else {
+//         $parent.removeClass('is-checked');
+//     }
 
-    componentHandler.upgradeElement($parent[0]);
+//     componentHandler.upgradeElement($parent[0]);
 
-    var $item = jQuery(this).parents('.item').first();
-    $item.find('.item_button').addClass('hidden');
-    $item.find('.item_button').eq(pos).removeClass('hidden');
+//     var $item = jQuery(this).parents('.item').first();
+//     $item.find('.item_button').addClass('hidden');
+//     $item.find('.item_button').eq(pos).removeClass('hidden');
 
-    if( $checkbox.parents('.ingredient_size').length > 0 ) {
-        $checkbox.parents('.ingredient_size').first().find('.item_price_span').html(jQuery(this).data('price'));
-        $checkbox.parents('.ingredient_size').first().find('.item_price_span').attr('data-weight',jQuery(this).data('weight'));
+//     if( $checkbox.parents('.ingredient_size').length > 0 ) {
+//         $checkbox.parents('.ingredient_size').first().find('.item_price_span').html(jQuery(this).data('price'));
+//         $checkbox.parents('.ingredient_size').first().find('.item_price_span').attr('data-weight',jQuery(this).data('weight'));
 
-        if( jQuery(this).data('size') ) {
-            $checkbox.parents('.ingredient_size').first().find('.item_price_span').attr('data-size',jQuery(this).data('size'));
-        }
+//         if( jQuery(this).data('size') ) {
+//             $checkbox.parents('.ingredient_size').first().find('.item_price_span').attr('data-size',jQuery(this).data('size'));
+//         }
 
-        var $constr_list_val = jQuery('#constructor_list li[data-id="' + $checkbox.parents('.ingredient').first().data('id') + '"]');
-        if( $constr_list_val.length > 0 ) {
-            var html = '';
-            if( jQuery(this).data('size') ) {
-                $constr_list_val.attr('data-size', jQuery(this).data('size'));
-                var size =  jQuery(this).data('size') + ' СЃРј, ';
-            }
-            else {
-                var size = '';
-            }
-            html += '<div>' + size + jQuery(this).data('weight') + ' Рі, ' + jQuery(this).data('price') + ' РіСЂРЅ</div>';
+//         var $constr_list_val = jQuery('#constructor_list li[data-id="' + $checkbox.parents('.ingredient').first().data('id') + '"]');
+//         if( $constr_list_val.length > 0 ) {
+//             var html = '';
+//             if( jQuery(this).data('size') ) {
+//                 $constr_list_val.attr('data-size', jQuery(this).data('size'));
+//                 var size =  jQuery(this).data('size') + ' СЃРј, ';
+//             }
+//             else {
+//                 var size = '';
+//             }
+//             html += '<div>' + size + jQuery(this).data('weight') + ' Рі, ' + jQuery(this).data('price') + ' РіСЂРЅ</div>';
 
-            $constr_list_val.attr('data-weight', jQuery(this).data('weight'));
-            $constr_list_val.attr('data-price', jQuery(this).data('price'));
+//             $constr_list_val.attr('data-weight', jQuery(this).data('weight'));
+//             $constr_list_val.attr('data-price', jQuery(this).data('price'));
 
-            $constr_list_val.find('.mdl-list__item-sub-title').html(html);
-        }
+//             $constr_list_val.find('.mdl-list__item-sub-title').html(html);
+//         }
 
-        setTimeout(IngrTotal, 0);
-    }
+//         setTimeout(IngrTotal, 0);
+//     }
 
-});
-jQuery(document).on('click touch', '.mdl-switch__input', function () {
+// });
+// jQuery(document).on('click touch', '.mdl-switch__input', function () {
 
-    var pos = jQuery(this)[0].checked === false ? 0 : 1;
-    var $item = jQuery(this).parents('.item').first();
-    $item.find('.item_button').addClass('hidden');
-    $item.find('.item_button').eq(pos).removeClass('hidden');
+//     var pos = jQuery(this)[0].checked === false ? 0 : 1;
+//     var $item = jQuery(this).parents('.item').first();
+//     $item.find('.item_button').addClass('hidden');
+//     $item.find('.item_button').eq(pos).removeClass('hidden');
 
-    if( jQuery(this).parents('.ingredient_size').length > 0 ) {
-        var price = jQuery(this).parents('.ingredient_size').first().find('.item_button_size').eq(pos).data('price');
-        var weight = jQuery(this).parents('.ingredient_size').first().find('.item_button_size').eq(pos).data('weight');
-        var size = jQuery(this).parents('.ingredient_size').first().find('.item_button_size').eq(pos).data('size');
+//     if( jQuery(this).parents('.ingredient_size').length > 0 ) {
+//         var price = jQuery(this).parents('.ingredient_size').first().find('.item_button_size').eq(pos).data('price');
+//         var weight = jQuery(this).parents('.ingredient_size').first().find('.item_button_size').eq(pos).data('weight');
+//         var size = jQuery(this).parents('.ingredient_size').first().find('.item_button_size').eq(pos).data('size');
 
-        jQuery(this).parents('.ingredient_size').first().find('.item_price_span').html(price);
-        jQuery(this).parents('.ingredient_size').first().find('.item_price_span').attr('data-weight', weight);
+//         jQuery(this).parents('.ingredient_size').first().find('.item_price_span').html(price);
+//         jQuery(this).parents('.ingredient_size').first().find('.item_price_span').attr('data-weight', weight);
 
-        if( size ) {
-            jQuery(this).parents('.ingredient_size').first().find('.item_price_span').attr('data-size', size);
-        }
+//         if( size ) {
+//             jQuery(this).parents('.ingredient_size').first().find('.item_price_span').attr('data-size', size);
+//         }
 
-        var $constr_list_val = jQuery('#constructor_list li[data-id="' + jQuery(this).parents('.ingredient').first().data('id') + '"]');
-        if( $constr_list_val.length > 0 ) {
-            var html = '';
-            if( size ) {
-                $constr_list_val.attr('data-size', size);
-                size =  size + ' СЃРј, ';
-            }
-            else {
-                size = '';
-            }
-            html += '<div>' + size + weight + ' Рі, ' + price + ' РіСЂРЅ</div>';
+//         var $constr_list_val = jQuery('#constructor_list li[data-id="' + jQuery(this).parents('.ingredient').first().data('id') + '"]');
+//         if( $constr_list_val.length > 0 ) {
+//             var html = '';
+//             if( size ) {
+//                 $constr_list_val.attr('data-size', size);
+//                 size =  size + ' СЃРј, ';
+//             }
+//             else {
+//                 size = '';
+//             }
+//             html += '<div>' + size + weight + ' Рі, ' + price + ' РіСЂРЅ</div>';
 
-            $constr_list_val.attr('data-weight', weight);
-            $constr_list_val.attr('data-price', price);
+//             $constr_list_val.attr('data-weight', weight);
+//             $constr_list_val.attr('data-price', price);
 
-            $constr_list_val.find('.mdl-list__item-sub-title').html(html);
-        }
+//             $constr_list_val.find('.mdl-list__item-sub-title').html(html);
+//         }
 
-        setTimeout(IngrTotal, 0);
-    }
+//         setTimeout(IngrTotal, 0);
+//     }
 
-});
+// });
 
 
 

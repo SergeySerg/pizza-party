@@ -291,15 +291,18 @@ class ArticleController extends Controller {
 				$category = $item['category'];
 				$size = (isset($item['size'])) ? $item['size'] : null;
 				$res_size = json_encode($size);
+				$res_category = json_encode($item['category']);
 				$params = $this->getParams($category, (isset($item['size'])) ? $item['size'] : null);
-				$article = Article::where('id', $item['id'])
-					->activeAndSortArticles();
+				$article = Article::where('id', $item['id'])->where ('active',1);
 				$article = $article->first($params);
+				Debugbar::info($article);
 				$result = [
 					'id' => $article['id'],
 					'title' => $article['title'],
 					'category_id' => $article['category_id'],
+					'category' => $res_category,
 					'size' => $res_size,
+					'qty' => 1,
 					'short_description' => $article['short_description'],
 					'img' => $article['`attributes`->"$.img"'],
 					'number_id' => $article['`attributes`->"$.number_id"'], 
@@ -308,13 +311,25 @@ class ArticleController extends Controller {
 				];
 				return $result;
 			});
-			
-			Debugbar::info($products);	
-			//Debugbar::info($p['`attributes`->"$.img"']);	
-		
+			$total_sum = $products->pluck('price')->sum(function ($product) {
+				return (json_decode($product)) ? json_decode($product) : 0;
+			});
+			$unic = $products->unique();
+			$products_to_front = $unic->map(function($item) use ($products){
+				$qty = $products
+					->where('id', $item['id'])
+					->where('category_id', $item['category_id'])
+					->where('size', $item['size'])
+					->count();
+				$item['qty'] = $qty;
+				return $item;
+
+			});
 			return response()->json([
 				'success' => 'true',
-				'data' => $products
+				'total_sum' => $total_sum,
+				'total_count' => $products->count(),
+				'data' => $products_to_front
 			]);
 		}
 	}

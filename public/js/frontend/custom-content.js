@@ -18,8 +18,9 @@ jQuery(function ($) {
     var tp = jQuery('#total_price').text(total_price_my);
 
     //Add product to cart and write to localStorage 
-    $('.add_to_cart').click(function(e){
-        //alert('Nen');
+    // $('.add_to_cart').click(function(e){
+    jQuery(document).on('click touch', '.add_to_cart', function () {
+        // alert('Nen');
         //var button_add_cart = $('.item_button_done').addClass('done')
         var check_price = $(this).attr('data-price');
         var check_id = $(this).attr('data-id');

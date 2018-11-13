@@ -186,7 +186,7 @@ jQuery(function ($) {
         $('#total_cart').text(current_total_qty - current_qty);
 
         //$('#total_price').text()
-        $(this).parents('tr').hide();
+        $(this).parents('tr').remove();
         var current_cart = JSON.parse(localStorage.getItem("cart"));
         var current_total_cart_qty = JSON.parse(localStorage.getItem("total_cart"));
         var current_total_price = JSON.parse(localStorage.getItem("total_price"));

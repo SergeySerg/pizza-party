@@ -8,8 +8,10 @@
                     <div>
                         <a href="@if($slide->getAttributeTranslate('link')) {{ $slide->getAttributeTranslate('link')}} @else # @endif">
                             <img src="{{ asset( $slide->getAttributeTranslate('img')) }}" alt="">
-                            <span class="sp_home_slider_title">{{ $slide->getTranslate('short_description')}}</span>
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">{{ trans('base.more')}}</button>
+                            <span class="sp_home_slider_title">{!! $slide->getTranslate('short_description')!!}</span>
+                            @if($slide->getAttributeTranslate('link'))
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">{{ trans('base.more')}}</button>
+                            @endif
                         </a>
                     </div>
                 @endforeach    

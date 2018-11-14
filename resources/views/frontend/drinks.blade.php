@@ -22,6 +22,7 @@
                         </div>
                     @endif
                     @if($drink->getAttributeTranslate('size_liter'))
+                    
                         <div class="item_button_size_toggle">
                             <label class="mdl-switch mdl-js-switch" for="{{ $drink->id}}">
                                 <input type="checkbox" id="{{ $drink->id}}" class="mdl-switch__input">

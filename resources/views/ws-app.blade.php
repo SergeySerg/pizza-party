@@ -31,6 +31,14 @@
     <link rel='stylesheet' id='gallery-css-css' href="{{ asset('/css/frontend/magnific-popup.css') }}?ver={{ $version }}" type='text/css' media='' />
     <link rel='stylesheet' id='main-css-css' href="{{ asset('/css/frontend/style.css') }}?ver={{ $version }}" type='text/css' media='' />
     <link href="{{ asset('/css/plugins/sweetalert.css') }}" rel="stylesheet">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-WF6MM32');
+    </script>
+    <!-- End Google Tag Manager -->
 </head>
 <body class="home page-template-default page page-id-2">
     <div class="layout">
@@ -112,6 +120,12 @@
     <!-- file_translate -->
         @include('frontend.sections.i18n')
     <!--  END file_translate-->
+    
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WF6MM32"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
 {{-- JS --}}
 {{--Binotel--}}
     <script type="text/javascript">

@@ -343,12 +343,13 @@ jQuery(function ($) {
                     localStorage.removeItem("total_cart");
                     localStorage.removeItem("total_price");
                     localStorage.removeItem("cart");
-                    //window.location.replace(locationData[0] + '');
+                    //window.location.replace(locationData[0] + '?status=success');
 
+                    
+                    $("div#order_process").remove();
+                    $("div#order_empty").remove();
+                    $("div#order_done").show();
                     $('#order_done_phone').text(data.phone);
-                    $("div#order_process").hide();
-                    $("div#order_empty").hide();
-                    $("div#order_done").removeClass('hidden');
 
 
                         
@@ -363,8 +364,6 @@ jQuery(function ($) {
             error: function (data) {
                 alert('Серверная ошибка');
             }
-
-        //alert('ad');
         });
     });
     /* /Custom flexweb */

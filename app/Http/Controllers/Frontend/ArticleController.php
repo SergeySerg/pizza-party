@@ -409,6 +409,16 @@ class ArticleController extends Controller {
 
 			];		
 			$order = Order::create($data);	
+			$order_array = $order->toArray();
+			$order_array['attributes'] = json_decode(json_decode($order_array['attributes'], true), true);
+			//dd($order_array);
+			//Send item on admin email address
+			Mail::send('emails.order',$order_array , function($message){
+				$email = getSetting('config.email');
+				$message->to($email, 'PIzza-party')->subject('Новый заказ');
+			});
+			
+
 			return response()->json([
 				'success' => 'true',
 				'phone' => $all['phone']

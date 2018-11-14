@@ -1,1 +1,1 @@
-Добавлен новый отзыв который вы можете посмотреть по <a href="/{{ getSetting('admin.prefix')}}/articles/feadback/{{ $review_id }}"> ссылке </a>. 
+Добавлен новый отзыв который вы можете посмотреть по <a href="http://www.http://pizza-party.ua/{{ getSetting('admin.prefix')}}/articles/feadback/{{ $review_id }}"> ссылке </a>. 

@@ -242,7 +242,7 @@
                 </div>
             </div>
 
-            <div class="mdl-grid hidden" id="order_done">
+            <div class="mdl-grid" id="order_done" style="display:none">
                 <div class="mdl-cell mdl-cell--12-col">
                     <h1>Ваш заказ принят!</h1>
                     <h3>И уже почти отправлен.</h3>

@@ -106,18 +106,12 @@
 		body,#bodyTable{
 			/*@editable*/background-color:#FAFAFA;
 		}
-	/*
-	*/
 		#bodyCell{
 			/*@editable*/border-top:0;
 		}
-	/*
-	*/
 		.templateContainer{
 			/*@editable*/border:0;
 		}
-	/*
-	*/
 		h1{
 			/*@editable*/color:#202020;
 			/*@editable*/font-family:Helvetica;
@@ -128,8 +122,6 @@
 			/*@editable*/letter-spacing:normal;
 			/*@editable*/text-align:left;
 		}
-	/*
-	*/
 		h2{
 			/*@editable*/color:#202020;
 			/*@editable*/font-family:Helvetica;
@@ -140,8 +132,6 @@
 			/*@editable*/letter-spacing:normal;
 			/*@editable*/text-align:left;
 		}
-	/*
-	*/
 		h3{
 			/*@editable*/color:#202020;
 			/*@editable*/font-family:Helvetica;
@@ -152,8 +142,6 @@
 			/*@editable*/letter-spacing:normal;
 			/*@editable*/text-align:left;
 		}
-	/*
-	*/
 		h4{
 			/*@editable*/color:#202020;
 			/*@editable*/font-family:Helvetica;
@@ -164,8 +152,6 @@
 			/*@editable*/letter-spacing:normal;
 			/*@editable*/text-align:left;
 		}
-	/*
-	*/
 		#templatePreheader{
 			/*@editable*/background-color:#FAFAFA;
 			/*@editable*/background-image:none;
@@ -177,8 +163,6 @@
 			/*@editable*/padding-top:9px;
 			/*@editable*/padding-bottom:9px;
 		}
-	/*
-	*/
 		#templatePreheader .mcnTextContent,#templatePreheader .mcnTextContent p{
 			/*@editable*/color:#656565;
 			/*@editable*/font-family:Helvetica;
@@ -186,15 +170,11 @@
 			/*@editable*/line-height:150%;
 			/*@editable*/text-align:left;
 		}
-	/*
-	*/
 		#templatePreheader .mcnTextContent a,#templatePreheader .mcnTextContent p a{
 			/*@editable*/color:#656565;
 			/*@editable*/font-weight:normal;
 			/*@editable*/text-decoration:underline;
 		}
-	/*
-	*/
 		#templateHeader{
 			/*@editable*/background-color:#FFFFFF;
 			/*@editable*/background-image:none;
@@ -206,8 +186,6 @@
 			/*@editable*/padding-top:9px;
 			/*@editable*/padding-bottom:0;
 		}
-	/*
-	*/
 		#templateHeader .mcnTextContent,#templateHeader .mcnTextContent p{
 			/*@editable*/color:#202020;
 			/*@editable*/font-family:Helvetica;
@@ -215,15 +193,11 @@
 			/*@editable*/line-height:150%;
 			/*@editable*/text-align:left;
 		}
-	/*
-	*/
 		#templateHeader .mcnTextContent a,#templateHeader .mcnTextContent p a{
 			/*@editable*/color:#2BAADF;
 			/*@editable*/font-weight:normal;
 			/*@editable*/text-decoration:underline;
 		}
-	/*
-	*/
 		#templateBody{
 			/*@editable*/background-color:#FFFFFF;
 			/*@editable*/background-image:none;
@@ -235,8 +209,6 @@
 			/*@editable*/padding-top:0;
 			/*@editable*/padding-bottom:9px;
 		}
-	/*
-	*/
 		#templateBody .mcnTextContent,#templateBody .mcnTextContent p{
 			/*@editable*/color:#202020;
 			/*@editable*/font-family:Helvetica;
@@ -244,15 +216,11 @@
 			/*@editable*/line-height:150%;
 			/*@editable*/text-align:left;
 		}
-	/*
-	*/
 		#templateBody .mcnTextContent a,#templateBody .mcnTextContent p a{
 			/*@editable*/color:#2BAADF;
 			/*@editable*/font-weight:normal;
 			/*@editable*/text-decoration:underline;
 		}
-	/*
-	*/
 		#templateFooter{
 			/*@editable*/background-color:#FAFAFA;
 			/*@editable*/background-image:none;
@@ -264,8 +232,6 @@
 			/*@editable*/padding-top:9px;
 			/*@editable*/padding-bottom:9px;
 		}
-	/*
-	*/
 		#templateFooter .mcnTextContent,#templateFooter .mcnTextContent p{
 			/*@editable*/color:#656565;
 			/*@editable*/font-family:Helvetica;
@@ -273,8 +239,6 @@
 			/*@editable*/line-height:150%;
 			/*@editable*/text-align:center;
 		}
-	/*
-	*/
 		#templateFooter .mcnTextContent a,#templateFooter .mcnTextContent p a{
 			/*@editable*/color:#656565;
 			/*@editable*/font-weight:normal;
@@ -374,79 +338,59 @@
 		}
 
 }	@media only screen and (max-width: 480px){
-	/*
-	*/
 		h1{
 			/*@editable*/font-size:22px !important;
 			/*@editable*/line-height:125% !important;
 		}
 
 }	@media only screen and (max-width: 480px){
-	/*
-	*/
 		h2{
 			/*@editable*/font-size:20px !important;
 			/*@editable*/line-height:125% !important;
 		}
 
 }	@media only screen and (max-width: 480px){
-	/*
-	*/
 		h3{
 			/*@editable*/font-size:18px !important;
 			/*@editable*/line-height:125% !important;
 		}
 
 }	@media only screen and (max-width: 480px){
-	/*
-	*/
 		h4{
 			/*@editable*/font-size:16px !important;
 			/*@editable*/line-height:150% !important;
 		}
 
 }	@media only screen and (max-width: 480px){
-	/*
-	*/
 		.mcnBoxedTextContentContainer .mcnTextContent,.mcnBoxedTextContentContainer .mcnTextContent p{
 			/*@editable*/font-size:14px !important;
 			/*@editable*/line-height:150% !important;
 		}
 
 }	@media only screen and (max-width: 480px){
-	/*
-	*/
 		#templatePreheader{
 			/*@editable*/display:block !important;
 		}
 
 }	@media only screen and (max-width: 480px){
-	/*
-	*/
 		#templatePreheader .mcnTextContent,#templatePreheader .mcnTextContent p{
 			/*@editable*/font-size:14px !important;
 			/*@editable*/line-height:150% !important;
 		}
 
 }	@media only screen and (max-width: 480px){
-	/*
-	*/
 		#templateHeader .mcnTextContent,#templateHeader .mcnTextContent p{
 			/*@editable*/font-size:16px !important;
 			/*@editable*/line-height:150% !important;
 		}
 
 }	@media only screen and (max-width: 480px){
-	/*
-	*/
 		#templateBody .mcnTextContent,#templateBody .mcnTextContent p{
 			/*@editable*/font-size:16px !important;
 			/*@editable*/line-height:150% !important;
 		}
 
 }	@media only screen and (max-width: 480px){
-	/*
-	*/
 		#templateFooter .mcnTextContent,#templateFooter .mcnTextContent p{
 			/*@editable*/font-size:14px !important;
 			/*@editable*/line-height:150% !important;
@@ -455,7 +399,7 @@
 }</style></head>
     <body>
         <!--*|IF:MC_PREVIEW_TEXT|*-->
-        <!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->
+        <!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">Pizza-party.ua</span><!--<![endif]-->
         <!--*|END:IF|*-->
         <center>
             <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
@@ -522,10 +466,6 @@
 <table class="tg" style="text-align: center; width: 100%;margin: 0 auto;">
 	<tbody>
 		<tr>
-			<th class="tg-qnp3">ID заказ</th>
-			<th class="tg-o45t">{{$id}}</th>
-		</tr>
-		<tr>
 			<td class="tg-qnp3">Имя клиента</td>
 			<td class="tg-ynlj">{{$name}}</td>
 		</tr>
@@ -535,7 +475,7 @@
 		</tr>
 		<tr>
 			<td class="tg-qnp3">Общая сумма</td>
-			<td class="tg-ynlj">{{$sum}}</td>
+			<td class="tg-ynlj">{{$sum}} грн</td>
 		</tr>
 		<tr>
 			<td class="tg-qnp3">Примечание</td>
@@ -574,13 +514,13 @@
                 <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
                     <tbody><tr>
                         
-                        <td valign="top" class="mcnTextContent" style="padding: 0px 18px 9px; text-align: center;">
+                        <td valign="top" class="mcnTextContent" style="padding: 0px 18px 9px; font-size: 12px; text-align: center;">
                         
-                            <h1 style="text-align: center;">Содержание заказа.</h1>
+                            <h1 style="text-align: center;"><span style="font-size:18px">Содержание заказа.</span></h1>
 
 <div style="text-align: center;">&nbsp; &nbsp; &nbsp;</div>
 
-<div style="text-align: center; width: 100%;margin: 0 auto;">
+<div style="text-align: center;font-size:10px; width: 100%;margin: 0 auto;">
 <style type="text/css">.tg  {border-collapse:collapse;border-spacing:0;}
 .tg td{font-family:Arial, sans-serif;font-size:14px;padding:9px 20px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
 .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:9px 20px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
@@ -588,8 +528,7 @@
 .tg .tg-qnp3{font-weight:bold;font-size:14px;background-color:#efefef;border-color:inherit;text-align:center;vertical-align:top}
 .tg .tg-o45t{font-size:14px;background-color:#ffffff;border-color:#333333;text-align:center;vertical-align:top}
 </style>
-
-<table class="tg" style="text-align: center; width: 100%;margin: 0 auto;">
+<table class="tg" style="text-align: center; width: 100%;">
 	<tbody>
 		<tr>
 			<th class="tg-qnp3">Номер</th>
@@ -597,14 +536,14 @@
 			<th class="tg-qnp3">Количeство</th>
 			<th class="tg-qnp3">Параметры</th>
 			<th class="tg-qnp3">Цена</th>
-        </tr>
-        @foreach($attributes as $attribute)
+		</tr>
+		@foreach($attributes as $attribute)
 		<tr>
 			<th class="tg-o45t">@if(isset($attribute['number_id']) AND $attribute['number_id']) {{$attribute['category_id']}}{{$attribute['number_id']}} @endif</th>
 			<th class="tg-o45t">{{$attribute['title']}}</th>
 			<th class="tg-o45t">{{$attribute['qty']}}</th>
 			<th class="tg-o45t">{{$attribute['params']}}</th>
-			<th class="tg-o45t">{{$attribute['price']}}</th>
+			<th class="tg-o45t">{{$attribute['price']}} грн</th>
         </tr>
         @endforeach
 	</tbody>

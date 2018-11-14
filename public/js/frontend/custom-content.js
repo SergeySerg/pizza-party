@@ -346,9 +346,9 @@ jQuery(function ($) {
                     //window.location.replace(locationData[0] + '?status=success');
 
                     
-                    $("div#order_process").remove();
-                    $("div#order_empty").remove();
-                    $("div#order_done").show();
+                    $("div#order_process").hide();
+                    $("div#order_empty").hide();
+                    $("div#order_done").removeClass('hidden');
                     $('#order_done_phone').text(data.phone);
 
 

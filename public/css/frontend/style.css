@@ -635,7 +635,7 @@ footer ul.mdl-navigation li {
 .sp_home_slider img {
 	display: inline-block !important;
 	vertical-align: top;
-	height: 300px;
+	max-height: 300px;
 }
 .sp_home_slider span {
 	display: block;
@@ -1307,7 +1307,7 @@ footer {
 	.sp_home_slider img {
 		display: inline-block !important;
 		vertical-align: top;
-		height: 200px;
+		max-height: 200px;
 	}
 
 	.ingredients {

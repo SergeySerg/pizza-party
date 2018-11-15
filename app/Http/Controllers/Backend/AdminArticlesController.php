@@ -28,7 +28,7 @@ class AdminArticlesController extends Controller {
 		$admin_category_children = $admin_category->category_children()->get();
 		//$admin_articles = $admin_category->articles;
 		$admin_articles = Article::with('article_parent')->with('article_parent_price')->where('category_id', $admin_category->id)->get();
-		if($type == 'feedback'){
+		if($type == 'complaints'){
 			$admin_articles = Article::with('article_parent')->where('category_id', $admin_category->id)->orderBy('date','desc')->paginate(10);
 		}else{
 			$admin_articles = Article::with('article_parent')->with('article_parent_price')->where('category_id', $admin_category->id)->paginate(10);

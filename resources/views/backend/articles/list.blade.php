@@ -97,7 +97,7 @@
                                     </label>
                                 </td>
                                 <td>
-                                @if($type == 'feedback')
+                                @if($type == 'complaints')
                                 <a href="{{ $url }}/articles/{{$type}}/{{$admin_article->id}}">{!! str_limit($admin_article->getAttributeTranslate('review'), 50) !!}</a>
 
                                 @else

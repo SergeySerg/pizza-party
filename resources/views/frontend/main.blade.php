@@ -120,9 +120,9 @@
 
                 </div>
                 <div class="mdl-cell mdl-cell--6-col">
-                    <h3 class="tac">{{$categories->where('link','feedback')->first()->getTranslate('title')}}</h3>
+                    <h3 class="tac">{{$categories->where('link','complaints')->first()->getTranslate('title')}}</h3>
                     <ul class="mdl-list files_list">
-                        @foreach($categories->where('link','feedback')->first()->articles()->activeAndSortArticles()->get()->take(2) as $item_feedback)
+                        @foreach($categories->where('link','complaints')->first()->articles()->activeAndSortArticles()->get()->take(2) as $item_feedback)
                             <li class="mdl-list__item mdl-list__item--two-line">
                                 <span class="mdl-list__item-primary-content">
                                     <i class="material-icons mdl-list__item-avatar"></i>
@@ -139,7 +139,7 @@
                         @endforeach
                     </ul>
                     <div class="tac">
-                    <a href="{{ route('article_list', [null, $categories->where('link','feedback')->first()->link]) }}" class="more_link">{{ trans('base.show_all')}} {{ mb_strtolower($categories->where('link','feedback')->first()->getTranslate('title'))}}</a>
+                    <a href="{{ route('article_list', [null, $categories->where('link','complaints')->first()->link]) }}" class="more_link">{{ trans('base.show_all')}} {{ mb_strtolower($categories->where('link','complaints')->first()->getTranslate('title'))}}</a>
                     </div>
                 </div>
             </div>

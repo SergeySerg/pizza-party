@@ -99,8 +99,8 @@ Route::group(['prefix'=> getSetting('admin.prefix'), 'middleware' => ['auth', 'b
 
 /*Frontend group routes*/
 Route::get('/{lang?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@index', 'as' => 'article_index'])->where('lang', 'ua|ru|en');
-Route::get('/{type}/{url?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@render_list', 'as' => 'article_list'])->where('type', 'pizza|salad|desserts|drinks|feedback|cart|articles|map')->where('url', 'index.htm');
-Route::get('/{lang?}/{type}/{url?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@render_list', 'as' => 'article_list'])->where('type', 'pizza|salad|desserts|drinks|feedback|cart|articles|map')->where('url', 'index.htm');
+Route::get('/{type}/{url?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@render_list', 'as' => 'article_list'])->where('type', 'pizza|salad|desserts|drinks|complaints|cart|articles|map')->where('url', 'index.htm');
+Route::get('/{lang?}/{type}/{url?}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@render_list', 'as' => 'article_list'])->where('type', 'pizza|salad|desserts|drinks|complaints|cart|articles|map')->where('url', 'index.htm');
 Route::get('/{type}/{url}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show', 'as' => 'article_url'])->where('type', 'articles');
 Route::get('/{lang?}/{type}/{url}', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show', 'as' => 'article_url'])->where('type', 'articles');
 //Route::get('/map', ['middleware' => 'frontend.init', 'uses' => 'Frontend\ArticleController@show_map', 'as' => 'article_map']);

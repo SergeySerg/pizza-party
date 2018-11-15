@@ -35,7 +35,7 @@ class ArticleController extends Controller {
 		if($type != 'map' AND $type != 'cart'){
 			$categories = $request->instance()->query('categories');
 			$category = $categories->where('link', $type)->first();
-			if($type != 'feedback'){
+			if($type != 'complaints'){
 				$articles = $category->articles()->activeAndSortArticles()->get();
 			}else{
 				$articles = $category->articles()->where ('active',1)->orderBy('date','desc')->simplepaginate(10);
@@ -252,7 +252,7 @@ class ArticleController extends Controller {
 			//dd($all);
 			//$all = $this->prepareArticleData($all);
 			
-			$category = Category::where('link', 'feedback')->first();
+			$category = Category::where('link', 'complaints')->first();
 			
 			$data = [
 				'category_id' => $category->id,

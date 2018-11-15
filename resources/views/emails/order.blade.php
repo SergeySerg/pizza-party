@@ -470,6 +470,10 @@
 			<td class="tg-ynlj">{{$name}}</td>
 		</tr>
 		<tr>
+			<td class="tg-qnp3">Телефон</td>
+			<td class="tg-ynlj">{{$phone}}</td>
+		</tr>
+		<tr>
 			<td class="tg-qnp3">Адрес доставки</td>
 			<td class="tg-ynlj">{{$address}}</td>
 		</tr>

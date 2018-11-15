@@ -51,7 +51,7 @@ return [
 	"min"                  => [
 		"numeric" => "The :attribute must be at least :min.",
 		"file"    => "The :attribute must be at least :min kilobytes.",
-		"string"  => "The :attribute must be at least :min characters.",
+		"string"  => "Формат :attribute должен быть не менее :min символов.",
 		"array"   => "The :attribute must have at least :min items.",
 	],
 	"not_in"               => "The selected :attribute is invalid.",
@@ -67,7 +67,7 @@ return [
 	"size"                 => [
 		"numeric" => "The :attribute must be :size.",
 		"file"    => "The :attribute must be :size kilobytes.",
-		"string"  => "The :attribute must be :size characters.",
+		"string"  => "Неверный формат номера телефона",
 		"array"   => "The :attribute must contain :size items.",
 	],
 	"unique"               => "The :attribute has already been taken.",
@@ -104,6 +104,7 @@ return [
 
 	'attributes' => [
 		'name' => 'Имя',
+		'phone' => 'Телефон',
 		'email' => 'E-mail',
 		'text' => 'Ваши вопросы и предложения'
 	],

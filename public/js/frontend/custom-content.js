@@ -9,6 +9,7 @@ jQuery(function ($) {
         
         var token = $("input[name='csrf-token']").val(); 
         var lang =  $("input[name='lang']").val();
+        var phone;
 
      var cart_my = JSON.parse(localStorage.getItem("cart")) || [];
      
@@ -24,6 +25,17 @@ jQuery(function ($) {
         $('#total_cart').text(total_cart_my);
         $('#total_price').text(total_price_my);
     }
+
+    if(getUrlParameter('status_cart') && getUrlParameter('status_cart') === 'success'){
+        $("div#order_process").hide();
+        $("div#order_empty").hide();
+        $("div#order_done").removeClass('hidden');
+        console.log('Телефон',phone);
+        $('#order_done_phone').text(phone);
+
+    }
+    
+
     //Add product to cart and write to localStorage 
     // $('.add_to_cart').click(function(e){
     jQuery(document).on('click touch', '.add_to_cart', function () {
@@ -77,7 +89,7 @@ jQuery(function ($) {
     
     //write to localStorage cart
     if(window.location.href.indexOf("cart") > -1  && cart_my.length >= 1) {
-       console.log('В корзини', cart_my);
+       //console.log('В корзини', cart_my);
         var data_to_server = {
             order: cart_my
         }
@@ -197,16 +209,16 @@ jQuery(function ($) {
         }      
             
           
-        console.log('ДО запису', current_cart);
+        //console.log('ДО запису', current_cart);
         localStorage.setItem("cart", JSON.stringify(current_cart));
         localStorage.setItem("total_cart", JSON.stringify(current_total_cart_qty - current_qty));
         localStorage.setItem("total_price", JSON.stringify(current_total_price - current_sum));
 
-        console.log('Сумма удаления', current_sum);
-        console.log('ID====', current_id);
-        console.log('CART====', current_cart);
-        console.log('Количество', current_qty);
-        console.log('Розмер', current_size);
+        // console.log('Сумма удаления', current_sum);
+        // console.log('ID====', current_id);
+        // console.log('CART====', current_cart);
+        // console.log('Количество', current_qty);
+        // console.log('Розмер', current_size);
 
 
 
@@ -250,12 +262,12 @@ jQuery(function ($) {
         if(current_qty == 1){
             $(this).parents('tr').hide();
         }
-        console.log('Сумма удаления', current_price);
-        console.log('ID====', current_id);
-        console.log('Количество закал', current_total_qty);
+        // console.log('Сумма удаления', current_price);
+        // console.log('ID====', current_id);
+        // console.log('Количество закал', current_total_qty);
         
-        console.log('Общ цена в линии текущ', current_total_sum_line);
-        console.log('Розмер', current_size);
+        // console.log('Общ цена в линии текущ', current_total_sum_line);
+        // console.log('Розмер', current_size);
 
         
     })
@@ -298,7 +310,7 @@ jQuery(function ($) {
         e.preventDefault();
         var locationData = window.location.href.split('?');
         var total_price = $('span#total_price').text();
-        console.log("Сума", total_price);
+        //console.log("Сума", total_price);
 
         $('input[name=sum]').val(total_price);
         var data_to_backend = [];
@@ -307,14 +319,14 @@ jQuery(function ($) {
             var id = $(this).find('.cart_remove_btn').attr('data-id');
             var category_id = $(this).find('.cart_remove_btn').attr('data-category-id');
             var category = $(this).find('.cart_num').attr('data-category');
-            console.log("Кат", category_id);
+            //console.log("Кат", category_id);
             //var phone = $('#cart_phone').val();
             var title = $(this).find('.cart_product h3').text();
             var params = $(this).find('.cart_info_td').text();
             var qty = $(this).find('.cart_num_curr').text();
             var price = $(this).find('.price').text();
             var number_id = $(this).find('.cart_remove_btn').attr('data-number');
-            console.log("Параметри", params);
+            // console.log("Параметри", params);
             var data = {
                 id: id,
                 title: title,
@@ -328,7 +340,7 @@ jQuery(function ($) {
             data_to_backend.push(data);  
         })
         $('input[name=order_details]').val(JSON.stringify(data_to_backend));
-        console.log("Дата на админку", data_to_backend);
+        //console.log("Дата на админку", data_to_backend);
         var data_serialize = $('form#order_form').serialize();
         $.ajax({
             url: '/add_order',
@@ -340,20 +352,17 @@ jQuery(function ($) {
             dataType: "json",
             success: function (data)  {
                 if (data.success) {
+                    console.log('Ntktajy', data.phone);
                     localStorage.removeItem("total_cart");
                     localStorage.removeItem("total_price");
                     localStorage.removeItem("cart");
-                    //window.location.replace(locationData[0] + '?status=success');
-
+                    phone  = data.phone;
+                    //$('#order_done_phone').text(data.phone);
+                    window.location.replace(locationData[0] + '?status_cart=success');
+                  
                     
-                    $("div#order_process").hide();
-                    $("div#order_empty").hide();
-                    $("div#order_done").removeClass('hidden');
-                    $('#order_done_phone').text(data.phone);
+                    //alert('SA');
 
-
-                        
-                    
                 }
                 else {
                     swal(trans['base.error'], data.message, "error");
@@ -500,6 +509,20 @@ jQuery(function ($) {
     });
 
 });
+function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
 
 /* Custom flexweb */
 function clearCart(){

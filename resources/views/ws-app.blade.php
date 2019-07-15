@@ -105,13 +105,15 @@
 
         @yield('content')
         <input type="hidden" name='csrf-token' value="{{csrf_token()}}"/>
-        <input type="hidden" name='lang' value="{{ App::getLocale() }}"/>       
-         <footer>
+        <input type="hidden" name='lang' value="{{ App::getLocale() }}"/>  
+          <footer>
             <div class="reducer">
                 <div class="mdl-grid">
                     <div class="mdl-cell mdl-cell--12-col">
                         <div>© 2009—<?php echo date("Y");?> {{trans('base.pizza_network')}} <b>Pizza Party</b>™.</div>
                         <div>{{trans('base.contact_tel')}}: +38{{ $texts->get('tel_1') }}, email <a href="mailto:{{ $texts->get('email') }}">{{ $texts->get('email') }}</a></div>
+                        <div>Разработано <a href="http://flexweb.pro">FLEXWEB</a></div>
+
                     </div>
                 </div>
             </div>
@@ -136,6 +138,13 @@
         })(document, window, 'script');
       </script> 
 {{--/Binotel--}}
+<script type="text/javascript">
+  (function(d, w, s) {
+	var widgetHash = 's2jtafdff0yoyx27goru', ctw = d.createElement(s); ctw.type = 'text/javascript'; ctw.async = true;
+	ctw.src = '//widgets.binotel.com/calltracking/widgets/'+ widgetHash +'.js';
+	var sn = d.getElementsByTagName(s)[0]; sn.parentNode.insertBefore(ctw, sn);
+  })(document, window, 'script');
+</script>
 <script type='text/javascript' src="{{ asset('/js/frontend/jquery.js') }}"></script>
     <script type='text/javascript' src="{{ asset('/js/frontend/jquery-migrate.min.js') }}"></script>
     <script type='text/javascript' src="{{ asset('/js/frontend/maskedinput.js') }}"></script>

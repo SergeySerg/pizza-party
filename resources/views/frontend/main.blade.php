@@ -142,6 +142,7 @@
                     <a href="{{ route('article_list', [null, $categories->where('link','complaints')->first()->link]) }}" class="more_link">{{ trans('base.show_all')}} {{ mb_strtolower($categories->where('link','complaints')->first()->getTranslate('title'))}}</a>
                     </div>
                 </div>
+                <div>{!! $texts->get('main_text')!!}</div>
             </div>
         </div>
 @endsection
